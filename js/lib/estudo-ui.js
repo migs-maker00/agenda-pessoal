@@ -17,7 +17,7 @@ import {
   removerLink,
   resumoSessao,
   salvarNotaMidia,
-} from "./estudo-hub.js?v=2.9.0";
+} from "./estudo-hub.js?v=2.10.0";
 import {
   escutarPronuncia,
   pararEscuta,
@@ -40,14 +40,14 @@ import {
   progressoGeral,
   registrarResposta,
   selecionarLivro,
-} from "./livros-pratica.js?v=2.9.0";
-import { trechosDoLivro } from "./livros-trechos.js?v=2.9.0";
-import { CATEGORIAS_LIVRO, TEMAS_LIVRO } from "./livros-dados.js?v=2.9.0";
+} from "./livros-pratica.js?v=2.10.0";
+import { trechosDoLivro } from "./livros-trechos.js?v=2.10.0";
+import { CATEGORIAS_LIVRO, TEMAS_LIVRO } from "./livros-dados.js?v=2.10.0";
 import {
   linkSugeridoPorId,
   linksSugeridosPorTipo,
   urlJaSalva,
-} from "./estudo-links-sugeridos.js?v=2.9.0";
+} from "./estudo-links-sugeridos.js?v=2.10.0";
 
 function esc(s) {
   return String(s)

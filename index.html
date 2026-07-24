@@ -20,7 +20,7 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=2.9.0" />
+  <link rel="stylesheet" href="style.css?v=2.10.0" />
 </head>
 <body>
   <div class="ambiente">
@@ -205,6 +205,31 @@
         </section>
 
         <div id="agenda-resumo" class="agenda-resumo" aria-live="polite"></div>
+
+        <section class="bloco bloco-avisos" aria-label="Avisos do dia">
+          <h2 class="bloco-titulo">Avisos</h2>
+          <p class="bloco-apoio">
+            Lembretes com data e hora — como no calendário. Ative notificações em <strong>Ajustes</strong>.
+          </p>
+          <form id="form-aviso" class="aviso-form">
+            <input
+              type="text"
+              id="aviso-titulo"
+              class="campo-opcao aviso-titulo"
+              placeholder="Ex.: Entregar trabalho, consulta médica..."
+              maxlength="120"
+              required
+            />
+            <div class="aviso-form-linha">
+              <input type="date" id="aviso-data" class="campo-opcao" aria-label="Data do aviso" required />
+              <input type="time" id="aviso-hora" class="campo-opcao" aria-label="Hora do aviso" required />
+            </div>
+            <button type="submit" class="botao-secundario">Adicionar aviso</button>
+          </form>
+          <ul id="lista-avisos" class="lista-avisos"></ul>
+          <p id="avisos-vazio" class="mensagem-vazia avisos-vazio" hidden>Nenhum aviso para hoje.</p>
+        </section>
+
         <blockquote id="filosofia-dia" class="filosofia-dia" aria-label="Citação do dia"></blockquote>
 
         <section class="resumo">
@@ -459,7 +484,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
-  <script type="module" src="js/main.js?v=2.9.0"></script>
+  <script type="module" src="js/main.js?v=2.10.0"></script>
   <script defer src="sync.js?v=4"></script>
 </body>
 </html>

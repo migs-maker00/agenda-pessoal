@@ -39,7 +39,7 @@ function textoLembrete(habito, tipo, ignorados) {
 export function montarAgendaNotificacoes(
   habitos,
   chave,
-  { estaPendente, horariosDoHabito, prioridades = [], prioridadesVida = [] }
+  { estaPendente, horariosDoHabito, prioridades = [], prioridadesVida = [], avisos = [] }
 ) {
   const agenda = [];
   const ignorados = carregarIgnorados();
@@ -66,6 +66,29 @@ export function montarAgendaNotificacoes(
           habitoId: habito.id,
           importante: tipo === "reforco" && (ignorados[habito.id] || 0) >= 2,
         });
+      });
+    });
+  });
+
+  (avisos || []).forEach((aviso) => {
+    if (aviso.feito || aviso.data !== chave) return;
+    [
+      { hhmm: aviso.hora, tipo: "normal", sufixo: "" },
+      { hhmm: somarMinutos(aviso.hora, 15), tipo: "reforco", sufixo: "-reforco" },
+      { hhmm: somarMinutos(aviso.hora, -10), tipo: "transicao", sufixo: "-transicao" },
+    ].forEach(({ hhmm, tipo, sufixo }) => {
+      agenda.push({
+        tag: `${chave}-aviso-${aviso.id}-${aviso.hora}${sufixo}`,
+        title: tipo === "transicao" ? "⏰ Aviso em 10 min" : `📌 ${aviso.titulo}`,
+        body:
+          tipo === "transicao"
+            ? `Em 10 min: ${aviso.titulo}`
+            : tipo === "reforco"
+              ? `Ainda dá tempo — ${aviso.titulo}`
+              : aviso.titulo,
+        timestamp: hhmmParaTimestamp(hhmm, hoje),
+        url: baseUrl,
+        importante: tipo === "reforco",
       });
     });
   });

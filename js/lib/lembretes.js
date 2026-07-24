@@ -109,6 +109,28 @@ export function verificarLembretes(habitos, chave, { estaPendente, horariosDoHab
   });
 }
 
+export function verificarAvisosAgenda(avisos, chave) {
+  if (!lembretesAtivos() || Notification.permission !== "granted") return;
+
+  const hhmm = horaAtual();
+  const enviados = carregarEnviados(chave);
+
+  (avisos || []).forEach((aviso) => {
+    if (aviso.feito || aviso.data !== chave) return;
+
+    [
+      { hora: aviso.hora, sufixo: "", prefixo: "" },
+      { hora: somarMinutos(aviso.hora, 15), sufixo: "-reforco", prefixo: "Ainda dá tempo — " },
+    ].forEach(({ hora, sufixo, prefixo }) => {
+      if (hora !== hhmm) return;
+      const id = `aviso-${aviso.id}-${aviso.hora}${sufixo}`;
+      if (enviados.includes(id)) return;
+      marcarEnviado(chave, id);
+      dispararNotificacao(`📌 ${aviso.titulo}`, `${prefixo}${aviso.titulo}`, id);
+    });
+  });
+}
+
 let intervaloLembretes = null;
 
 export function iniciarVerificacaoLembretes(callback) {

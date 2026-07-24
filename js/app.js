@@ -1,7 +1,19 @@
-import { APP_VERSION } from "./config.js?v=2.9.0";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.9.0";
+import { APP_VERSION } from "./config.js?v=2.10.0";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.10.0";
+import {
+  adicionarAviso,
+  alternarAvisoFeito,
+  avisosDoDia,
+  avisosPendentes,
+  carregarAvisos,
+  proximoAvisoHoje,
+  proximosAvisos,
+  removerAviso,
+  salvarAvisosStorage,
+} from "./lib/avisos-agenda.js?v=2.10.0";
 import {
   criarHabitoAgua,
+  criarSelectImportancia,
   criarSelectMetaSemanal,
   detectarTextoAgua,
   ehHabitoAgua,
@@ -27,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.9.0";
+} from "./lib/habitos.js?v=2.10.0";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.9.0";
+} from "./lib/perfil.js?v=2.10.0";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -42,44 +54,45 @@ import {
   PRIORIDADES_PRESET,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.9.0";
+} from "./lib/rotina-preset.js?v=2.10.0";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.9.0";
+} from "./lib/aprender.js?v=2.10.0";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.9.0";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.9.0";
+} from "./lib/estudo-hub.js?v=2.10.0";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.10.0";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.9.0";
+} from "./lib/estudo-ui.js?v=2.10.0";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.9.0";
+} from "./lib/tarde.js?v=2.10.0";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.9.0";
+} from "./lib/inteligencia.js?v=2.10.0";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
+  verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.9.0";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.9.0";
+} from "./lib/lembretes.js?v=2.10.0";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.10.0";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -94,12 +107,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.9.0";
+} from "./lib/foco.js?v=2.10.0";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.9.0";
+} from "./lib/rotina-local.js?v=2.10.0";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -132,7 +145,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.9.0";
+} from "./lib/tdah.js?v=2.10.0";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -211,6 +224,12 @@ const revisaoFicou = document.getElementById("revisao-ficou");
 const revisaoAmanha = document.getElementById("revisao-amanha");
 const botaoLembretes = document.getElementById("botao-lembretes");
 const lembretesStatus = document.getElementById("lembretes-status");
+const formAviso = document.getElementById("form-aviso");
+const avisoTitulo = document.getElementById("aviso-titulo");
+const avisoData = document.getElementById("aviso-data");
+const avisoHora = document.getElementById("aviso-hora");
+const listaAvisos = document.getElementById("lista-avisos");
+const avisosVazio = document.getElementById("avisos-vazio");
 const relogioAtual = document.getElementById("relogio-atual");
 const countdownProximo = document.getElementById("countdown-proximo");
 const botaoArquivarInbox = document.getElementById("botao-arquivar-inbox");
@@ -229,6 +248,7 @@ const botaoRotinaPersonalizada = document.getElementById("botao-rotina-personali
 // ---- Estado (a "fonte da verdade" do app) ----
 let habitos = [];
 let notas = {};
+let avisos = [];
 let filtroCategoria = "Todas";
 let idArrastando = null;
 let painelAtivo = "hoje";
@@ -306,6 +326,14 @@ function alternarTema() {
 }
 
 // ============ PERSISTÊNCIA (salvar/carregar) ============
+function salvarAvisos() {
+  salvarAvisosStorage(avisos);
+  if (!window.syncEstaAplicandoRemoto || !window.syncEstaAplicandoRemoto()) {
+    if (typeof window.agendarSyncNuvem === "function") window.agendarSyncNuvem();
+  }
+  rodarLembretes();
+}
+
 function salvar() {
   localStorage.setItem("meus-habitos", JSON.stringify(habitos));
   if (!window.syncEstaAplicandoRemoto || !window.syncEstaAplicandoRemoto()) {
@@ -323,6 +351,7 @@ function sincronizarLembretesSW() {
     horariosDoHabito: horariosParaLembrete,
     prioridades: prioridadesDoDia(chave),
     prioridadesVida: perfil.prioridadesVida || [],
+    avisos: avisosPendentes(avisos, chave),
   });
 }
 
@@ -501,6 +530,132 @@ function carregar() {
 
   const notasSalvas = localStorage.getItem("notas-diarias");
   if (notasSalvas) notas = JSON.parse(notasSalvas);
+
+  avisos = carregarAvisos();
+}
+
+function formatarDataAviso(dataStr) {
+  const [ano, mes, dia] = dataStr.split("-").map(Number);
+  return new Date(ano, mes - 1, dia).toLocaleDateString("pt-BR", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+  });
+}
+
+function criarItemAviso(aviso, { proximo = false } = {}) {
+  const item = document.createElement("li");
+  item.className = "item-aviso" + (aviso.feito ? " feito" : "") + (proximo ? " proximo" : "");
+
+  const check = document.createElement("input");
+  check.type = "checkbox";
+  check.className = "checkbox-aviso";
+  check.checked = aviso.feito;
+  check.setAttribute("aria-label", `Marcar aviso: ${aviso.titulo}`);
+  check.addEventListener("change", () => {
+    avisos = alternarAvisoFeito(avisos, aviso.id);
+    salvarAvisos();
+    desenharAvisos();
+    desenharResumoAgenda();
+  });
+
+  const corpo = document.createElement("div");
+  corpo.className = "aviso-corpo";
+
+  const hora = document.createElement("span");
+  hora.className = "aviso-hora";
+  hora.textContent = aviso.hora;
+
+  const titulo = document.createElement("span");
+  titulo.className = "aviso-titulo";
+  titulo.textContent = aviso.titulo;
+
+  corpo.appendChild(hora);
+  corpo.appendChild(titulo);
+
+  if (aviso.data !== hojeStr()) {
+    const dataEl = document.createElement("span");
+    dataEl.className = "aviso-data";
+    dataEl.textContent = formatarDataAviso(aviso.data);
+    corpo.appendChild(dataEl);
+  }
+
+  const remover = document.createElement("button");
+  remover.type = "button";
+  remover.className = "botao-remover aviso-remover";
+  remover.textContent = "×";
+  remover.setAttribute("aria-label", "Remover aviso");
+  remover.addEventListener("click", () => {
+    avisos = removerAviso(avisos, aviso.id);
+    salvarAvisos();
+    desenharAvisos();
+    desenharResumoAgenda();
+  });
+
+  item.appendChild(check);
+  item.appendChild(corpo);
+  item.appendChild(remover);
+  return item;
+}
+
+function desenharAvisos() {
+  if (!listaAvisos) return;
+  const hoje = hojeStr();
+  if (avisoData && !avisoData.value) avisoData.value = hoje;
+
+  const doDia = avisosDoDia(avisos, hoje);
+  const futuros = proximosAvisos(avisos, hoje, 5);
+  const proximo = proximoAvisoHoje(avisos, hoje);
+
+  listaAvisos.innerHTML = "";
+
+  if (!doDia.length && !futuros.length) {
+    if (avisosVazio) {
+      avisosVazio.hidden = false;
+      avisosVazio.textContent = "Nenhum aviso agendado. Adicione acima.";
+    }
+    return;
+  }
+
+  if (avisosVazio) avisosVazio.hidden = true;
+
+  if (doDia.length) {
+    const secao = document.createElement("li");
+    secao.className = "avisos-secao-titulo";
+    secao.textContent = "Hoje";
+    listaAvisos.appendChild(secao);
+    doDia.forEach((a) => {
+      listaAvisos.appendChild(criarItemAviso(a, { proximo: proximo?.id === a.id }));
+    });
+  }
+
+  if (futuros.length) {
+    const secao = document.createElement("li");
+    secao.className = "avisos-secao-titulo";
+    secao.textContent = "Próximos";
+    listaAvisos.appendChild(secao);
+    futuros.forEach((a) => listaAvisos.appendChild(criarItemAviso(a)));
+  }
+}
+
+function adicionarAvisoForm(evento) {
+  evento.preventDefault();
+  const titulo = avisoTitulo?.value?.trim();
+  const data = avisoData?.value;
+  const hora = avisoHora?.value;
+  if (!titulo || !data || !hora) return;
+  const resultado = adicionarAviso(avisos, { titulo, data, hora });
+  if (resultado.erro) {
+    mostrarFeedback(resultado.erro, "aviso");
+    return;
+  }
+  avisos = resultado.lista;
+  salvarAvisos();
+  formAviso?.reset();
+  if (avisoData) avisoData.value = hojeStr();
+  desenharAvisos();
+  desenharResumoAgenda();
+  mostrarFeedback("Aviso adicionado!");
 }
 
 // ============ CÁLCULOS ============
@@ -790,7 +945,7 @@ function renomearHabito(id, novoNome) {
   salvarHabitoEdicao(id, { nome: novoNome });
 }
 
-function salvarHabitoEdicao(id, { nome, metaSemanal } = {}) {
+function salvarHabitoEdicao(id, { nome, metaSemanal, importancia, horario } = {}) {
   habitos = habitos.map((habito) => {
     if (habito.id !== id) return habito;
     const atualizado = { ...habito };
@@ -799,6 +954,14 @@ function salvarHabitoEdicao(id, { nome, metaSemanal } = {}) {
     }
     if (metaSemanal !== undefined) {
       atualizado.metaSemanal = normalizarMetaSemanal(metaSemanal);
+    }
+    if (importancia !== undefined) {
+      atualizado.importancia = normalizarImportancia(importancia);
+    }
+    if (horario !== undefined) {
+      const h = String(horario || "").trim();
+      if (h && /^\d{2}:\d{2}$/.test(h)) atualizado.horario = h;
+      else delete atualizado.horario;
     }
     return atualizado;
   });
@@ -833,9 +996,29 @@ function iniciarEdicao(habito, linha) {
 
   const select = criarSelectMetaSemanal(habito.metaSemanal);
 
+  const rotuloImp = document.createElement("label");
+  rotuloImp.className = "editar-meta-rotulo";
+  rotuloImp.textContent = "Importância";
+
+  const selectImp = criarSelectImportancia(habito.importancia);
+
+  const rotuloHora = document.createElement("label");
+  rotuloHora.className = "editar-meta-rotulo";
+  rotuloHora.textContent = "Horário";
+
+  const inputHora = document.createElement("input");
+  inputHora.type = "time";
+  inputHora.className = "editar-horario campo-opcao";
+  inputHora.value = habito.horario || "";
+  inputHora.setAttribute("aria-label", "Horário do hábito");
+
   form.appendChild(input);
   form.appendChild(rotuloMeta);
   form.appendChild(select);
+  form.appendChild(rotuloImp);
+  form.appendChild(selectImp);
+  form.appendChild(rotuloHora);
+  form.appendChild(inputHora);
 
   const botaoSalvar = document.createElement("button");
   botaoSalvar.type = "button";
@@ -852,6 +1035,8 @@ function iniciarEdicao(habito, linha) {
       salvarHabitoEdicao(habito.id, {
         nome: novoNome,
         metaSemanal: Number(select.value),
+        importancia: Number(selectImp.value),
+        horario: inputHora.value,
       });
       mostrarFeedback("Hábito atualizado.");
     } else {
@@ -927,9 +1112,10 @@ function impedirArrasteNoBotao(botao) {
 // ============ EXPORTAR / IMPORTAR ============
 function exportarDados() {
   const dados = {
-    versao: 3,
+    versao: 4,
     habitos,
     notas,
+    avisos,
     inbox: carregarInbox(),
     prioridades: carregarPrioridades(),
     revisao: carregarRevisaoNoturna(),
@@ -966,6 +1152,10 @@ function importarDados(evento) {
       }
       if (dados.revisao && typeof dados.revisao === "object") {
         localStorage.setItem("revisao-noturna", JSON.stringify(dados.revisao));
+      }
+      if (Array.isArray(dados.avisos)) {
+        avisos = dados.avisos;
+        salvarAvisosStorage(avisos);
       }
       salvar();
       salvarNotas();
@@ -1654,10 +1844,12 @@ function horariosParaLembrete(habito) {
 }
 
 function rodarLembretes() {
-  verificarLembretes(habitos, hojeStr(), {
+  const chave = hojeStr();
+  verificarLembretes(habitos, chave, {
     estaPendente: (h) => ehAtivoHoje(h) && !estaFeitoHoje(h),
     horariosDoHabito: horariosParaLembrete,
   });
+  verificarAvisosAgenda(avisos, chave);
   sincronizarLembretesSW();
 }
 
@@ -2213,17 +2405,34 @@ function desenharResumoAgenda() {
   const total = habitos.length;
   const feitos = habitos.filter((h) => estaFeitoHoje(h)).length;
   const pendente = total - feitos;
-  const proximo = proximoCompromisso();
+  const proximoHabito = proximoCompromisso();
+  const proximoAv = proximoAvisoHoje(avisos);
+  let proximo = null;
+  if (proximoHabito?.horario && proximoAv?.hora) {
+    proximo =
+      proximoHabito.horario <= proximoAv.hora
+        ? { horario: proximoHabito.horario, nome: proximoHabito.nome }
+        : { horario: proximoAv.hora, nome: proximoAv.titulo };
+  } else if (proximoHabito?.horario) {
+    proximo = { horario: proximoHabito.horario, nome: proximoHabito.nome };
+  } else if (proximoAv) {
+    proximo = { horario: proximoAv.hora, nome: proximoAv.titulo };
+  }
+
+  const avisosHoje = avisosPendentes(avisos, hojeStr()).length;
 
   let texto = "";
-  if (total === 0) {
-    texto = "Sua agenda está livre. Adicione um compromisso abaixo.";
-  } else if (pendente === 0) {
+  if (total === 0 && avisosHoje === 0) {
+    texto = "Sua agenda está livre. Adicione hábitos ou avisos abaixo.";
+  } else if (pendente === 0 && avisosHoje === 0) {
     texto = "Tudo concluído por hoje.";
   } else if (proximo) {
     texto = `Próximo: <strong>${proximo.horario}</strong> — ${proximo.nome}`;
   } else {
-    texto = `${pendente} compromisso${pendente > 1 ? "s" : ""} ainda hoje.`;
+    const partes = [];
+    if (pendente > 0) partes.push(`${pendente} hábito${pendente > 1 ? "s" : ""}`);
+    if (avisosHoje > 0) partes.push(`${avisosHoje} aviso${avisosHoje > 1 ? "s" : ""}`);
+    texto = `${partes.join(" · ")} ainda hoje.`;
   }
 
   agendaResumo.innerHTML = `<p class="agenda-resumo-texto">${texto}</p>`;
@@ -2303,7 +2512,7 @@ function criarItem(habito) {
   badgeImp.type = "button";
   badgeImp.className = "badge-importancia imp-" + imp;
   badgeImp.textContent = rotuloImportancia(habito);
-  badgeImp.title = "Toque para mudar importância (Essencial → Importante → Normal)";
+  badgeImp.title = "Toque para mudar rápido — ou use ✎ para editar tudo";
   badgeImp.addEventListener("click", () => ciclarImportancia(habito.id));
   linha.appendChild(badgeImp);
 
@@ -2533,6 +2742,7 @@ function desenhar() {
   visiveis.forEach((habito) => listaHabitos.appendChild(criarItem(habito)));
 
   desenharResumoAgenda();
+  desenharAvisos();
   desenharRelogio();
   atualizarResumo();
   desenharGrafico();
@@ -2632,6 +2842,7 @@ function ligarTodosEventos() {
     definirRevisaoCampo(hojeStr(), "amanha", revisaoAmanha.value);
   });
   botaoLembretes?.addEventListener("click", ativarLembretes);
+  formAviso?.addEventListener("submit", adicionarAvisoForm);
   botaoAtualizarApp?.addEventListener("click", buscarAtualizacaoApp);
   botaoArquivarInbox?.addEventListener("click", arquivarInbox);
   toggleCabecaLeve?.addEventListener("click", () => {
@@ -2681,6 +2892,7 @@ export function initApp() {
   aplicarTema(localStorage.getItem("tema") || "claro");
   mostrarData();
   carregar();
+  if (avisoData) avisoData.value = hojeStr();
   carregarCamposRotina();
   carregarNotaHoje();
   carregarNotaDiario(hojeStr());
@@ -2738,6 +2950,7 @@ export function getEstadoExportavel() {
   return {
     habitos,
     notas,
+    avisos,
     tema: localStorage.getItem("tema") || "claro",
   };
 }
@@ -2748,8 +2961,10 @@ export function aplicarEstadoRemoto(dados) {
     hojeStr()
   );
   notas = dados.notas && typeof dados.notas === "object" ? dados.notas : {};
+  avisos = Array.isArray(dados.avisos) ? dados.avisos : carregarAvisos();
   localStorage.setItem("meus-habitos", JSON.stringify(habitos));
   localStorage.setItem("notas-diarias", JSON.stringify(notas));
+  salvarAvisosStorage(avisos);
   if (dados.tema) aplicarTema(dados.tema);
   carregarNotaHoje();
   carregarNotaDiario(dataDiarioSelecionada || hojeStr());

@@ -311,6 +311,113 @@ body {
   color: var(--marca);
 }
 
+.bloco-avisos {
+  margin-bottom: 16px;
+}
+
+.aviso-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.aviso-form-linha {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.aviso-form-linha .campo-opcao {
+  flex: 1 1 120px;
+}
+
+.lista-avisos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.avisos-secao-titulo {
+  margin: 10px 0 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--texto-suave);
+}
+
+.item-aviso {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  background: var(--superficie-elevada);
+}
+
+.item-aviso.proximo {
+  border-color: color-mix(in srgb, var(--marca) 45%, var(--borda));
+  background: color-mix(in srgb, var(--bege) 20%, var(--superficie-elevada));
+}
+
+.item-aviso.feito {
+  opacity: 0.55;
+}
+
+.item-aviso.feito .aviso-titulo {
+  text-decoration: line-through;
+}
+
+.checkbox-aviso {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+}
+
+.aviso-corpo {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+  min-width: 0;
+}
+
+.aviso-hora {
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--marca);
+}
+
+.aviso-titulo {
+  font-size: 0.92rem;
+  color: var(--texto);
+}
+
+.aviso-data {
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+.aviso-remover {
+  flex-shrink: 0;
+}
+
+.avisos-vazio {
+  margin-top: 4px;
+}
+
+.editar-horario {
+  min-width: 118px;
+  font-size: 0.82rem;
+}
+
 .filosofia-dia {
   margin: 0 0 16px;
   padding: 16px 18px;
