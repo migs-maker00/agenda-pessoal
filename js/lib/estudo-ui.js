@@ -17,7 +17,7 @@ import {
   removerLink,
   resumoSessao,
   salvarNotaMidia,
-} from "./estudo-hub.js?v=2.8.0";
+} from "./estudo-hub.js?v=2.9.0";
 import {
   escutarPronuncia,
   pararEscuta,
@@ -40,19 +40,47 @@ import {
   progressoGeral,
   registrarResposta,
   selecionarLivro,
-} from "./livros-pratica.js?v=2.8.0";
-import { CATEGORIAS_LIVRO, TEMAS_LIVRO } from "./livros-dados.js?v=2.8.0";
+} from "./livros-pratica.js?v=2.9.0";
+import { trechosDoLivro } from "./livros-trechos.js?v=2.9.0";
+import { CATEGORIAS_LIVRO, TEMAS_LIVRO } from "./livros-dados.js?v=2.9.0";
 import {
   linkSugeridoPorId,
   linksSugeridosPorTipo,
   urlJaSalva,
-} from "./estudo-links-sugeridos.js?v=2.8.0";
+} from "./estudo-links-sugeridos.js?v=2.9.0";
 
 function esc(s) {
   return String(s)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/"/g, "&quot;");
+}
+
+function fraseVocab(p) {
+  return (p.frase && p.frase.trim()) || `I use the word "${p.en}" today.`;
+}
+
+function renderTrechosLivro(livroId, { compacto = false, limite } = {}) {
+  let trechos = trechosDoLivro(livroId);
+  if (!trechos.length) return "";
+  if (limite) trechos = trechos.slice(0, limite);
+
+  const itens = trechos
+    .map(
+      (t) => `
+    <blockquote class="livro-trecho">
+      <p class="livro-trecho-texto">“${esc(t.texto)}”</p>
+      <p class="livro-trecho-contexto">${esc(t.contexto)}</p>
+    </blockquote>`
+    )
+    .join("");
+
+  return `
+    <div class="livro-trechos ${compacto ? "livro-trechos-compacto" : ""}">
+      <p class="livro-trechos-titulo">Trechos-chave</p>
+      <p class="livro-trechos-dica">Ideias centrais do autor — em linguagem direta, pra você entender o recado.</p>
+      ${itens}
+    </div>`;
 }
 
 /** Título + autor — exibido em todo o app de estudo */
@@ -275,6 +303,7 @@ function renderPraticar(chaveDia) {
         <button type="button" class="botao-texto" data-estudo-aba="livros">Trocar livro →</button>
       </p>
       ${cabecalhoLivro(livro, { destaque: true })}
+      ${renderTrechosLivro(livro.id, { limite: 2 })}
       <p class="pratica-modulo">${esc(mod.nome)}</p>
       <p class="pratica-ideia">${esc(mod.ideia)}</p>
       <p class="pratica-meta">Hoje: ${hojeCount}/${META_PERGUNTAS_DIA} · Livro: ${g.pct}%</p>
@@ -296,7 +325,7 @@ function renderFalar(dados) {
     return `<section class="estudo-bloco"><p class="estudo-vazio">Adicione palavras abaixo.</p></section>`;
   }
 
-  const frase = p.frase || `I use the word "${p.en}" today.`;
+  const frase = fraseVocab(p);
   const fb = dados.falaFeedback;
   let feedbackHtml = "";
   if (fb?.mensagem) {
@@ -361,7 +390,8 @@ function renderFalar(dados) {
       ${seletorVoz}
       <form class="estudo-form-vocab" data-estudo-form="vocab">
         <p class="estudo-form-rotulo">Adicionar palavra sua</p>
-        <input type="text" name="en" class="campo-opcao" placeholder="Inglês" maxlength="40" />
+        ${dados.vocabErro ? `<p class="estudo-vocab-erro" role="alert">${esc(dados.vocabErro)}</p>` : ""}
+        <input type="text" name="en" class="campo-opcao" placeholder="Inglês" maxlength="40" required />
         <input type="text" name="pt" class="campo-opcao" placeholder="Português" maxlength="40" />
         <input type="text" name="frase" class="campo-opcao" placeholder="Frase (opcional)" maxlength="120" />
         <button type="submit" class="botao-secundario">Adicionar</button>
@@ -392,6 +422,7 @@ function htmlListaLivros(dados) {
           ${cabecalhoLivro(livro)}
           <p class="estudo-livro-sub">${esc(livro.subtitulo)}</p>
           <p class="estudo-livro-tags">${(livro.tags || []).map((t) => `#${esc(t)}`).join(" ")}</p>
+          ${renderTrechosLivro(livro.id, { compacto: true, limite: 1 })}
           ${prog.pct > 0 ? `<p class="estudo-livro-prog">Progresso: ${prog.pct}%</p>` : ""}
         </div>
         <button type="button" class="botao-secundario" data-estudo-selecionar-livro="${livro.id}">
@@ -439,6 +470,7 @@ function renderLivros(dados) {
         ${cabecalhoLivro(ativo, { destaque: true })}
         <span class="estudo-lendo-pct">${g.pct}% do estudo</span>
       </div>
+      ${renderTrechosLivro(ativo.id)}
       <div class="estudo-temas" role="list" aria-label="Coleções temáticas">
         ${temas}
       </div>
@@ -615,7 +647,7 @@ export function ligarPainelEstudo(root, getState, setState, opts = {}) {
     if (alvo.dataset.estudoOuvir) {
       const p = palavraAtual(dados);
       if (!p) return;
-      const texto = alvo.dataset.estudoOuvir === "frase" ? p.frase || p.en : p.en;
+      const texto = alvo.dataset.estudoOuvir === "frase" ? fraseVocab(p) : p.en;
       if (!falarTexto(texto, { lang: "en-US", tipo: "en" })) {
         mostrarFeedback?.("Seu navegador não suporta voz sintética.");
       }
@@ -626,7 +658,7 @@ export function ligarPainelEstudo(root, getState, setState, opts = {}) {
       const p = palavraAtual(dados);
       if (!p) return;
       const ehFrase = alvo.dataset.estudoMic === "frase";
-      const esperado = ehFrase ? p.frase || p.en : p.en;
+      const esperado = ehFrase ? fraseVocab(p) : p.en;
 
       setState({
         ...dados,
@@ -724,7 +756,11 @@ export function ligarPainelEstudo(root, getState, setState, opts = {}) {
 
   root.addEventListener("submit", (evento) => {
     evento.preventDefault();
-    const form = evento.target.closest("[data-estudo-form]");
+    const alvo = evento.target;
+    const form =
+      alvo instanceof HTMLFormElement && alvo.matches("[data-estudo-form]")
+        ? alvo
+        : alvo.closest?.("[data-estudo-form]");
     if (!form) return;
 
     const dados = getState();
@@ -745,8 +781,14 @@ export function ligarPainelEstudo(root, getState, setState, opts = {}) {
     }
 
     if (form.dataset.estudoForm === "vocab") {
+      const antes = dados.vocabulario?.length || 0;
       const novo = adicionarPalavra(dados, fd.get("en"), fd.get("pt"), fd.get("frase"));
-      setState(novo);
+      if (novo.vocabErro) {
+        setState({ ...novo, abaAtiva: "falar" });
+        return;
+      }
+      if ((novo.vocabulario?.length || 0) <= antes) return;
+      setState({ ...novo, abaAtiva: "falar" });
       form.reset();
       mostrarFeedback?.("Palavra adicionada!");
     }
