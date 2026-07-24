@@ -228,12 +228,19 @@ export function avancarPalavra(dados) {
 export function adicionarPalavra(dados, en, pt, frase = "") {
   const palavra = {
     id: `w${Date.now()}`,
-    en: en.trim(),
-    pt: pt.trim(),
-    frase: frase.trim(),
+    en: String(en ?? "").trim(),
+    pt: String(pt ?? "").trim(),
+    frase: String(frase ?? "").trim(),
   };
-  if (!palavra.en) return dados;
-  return { ...dados, vocabulario: [...dados.vocabulario, palavra] };
+  if (!palavra.en) return { ...dados, vocabErro: "Digite a palavra em inglês." };
+  const vocabulario = [...dados.vocabulario, palavra];
+  return {
+    ...dados,
+    vocabulario,
+    vocabIndex: vocabulario.length - 1,
+    vocabErro: null,
+    falaFeedback: null,
+  };
 }
 
 export { falarTexto } from "./voz-sintese.js";

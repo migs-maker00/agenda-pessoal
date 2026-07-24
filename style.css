@@ -2519,6 +2519,80 @@ body {
   color: var(--texto);
 }
 
+.estudo-vocab-erro {
+  margin: 0 0 6px;
+  font-size: 0.82rem;
+  color: #b45309;
+  font-weight: 600;
+}
+
+.livro-trechos {
+  margin: 10px 0 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--bege) 45%, var(--borda));
+  background: color-mix(in srgb, var(--bege) 28%, var(--superficie));
+}
+
+.livro-trechos-compacto {
+  margin: 8px 0 0;
+  padding: 10px 12px;
+}
+
+.livro-trechos-titulo {
+  margin: 0 0 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--texto-suave);
+}
+
+.livro-trechos-dica {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+  line-height: 1.35;
+}
+
+.livro-trechos-compacto .livro-trechos-dica {
+  display: none;
+}
+
+.livro-trecho {
+  margin: 0 0 10px;
+  padding: 0;
+  border: none;
+}
+
+.livro-trecho:last-child {
+  margin-bottom: 0;
+}
+
+.livro-trecho-texto {
+  margin: 0 0 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--texto);
+}
+
+.livro-trechos-compacto .livro-trecho-texto {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.livro-trecho-contexto {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--texto-suave);
+}
+
+.livro-trechos-compacto .livro-trecho-contexto {
+  font-size: 0.75rem;
+}
+
 .estudo-btn-proxima {
   font-weight: 700;
 }
