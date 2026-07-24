@@ -50,6 +50,27 @@ export const OPCOES_META_SEMANAL = [
   { valor: 6, rotulo: "6x/semana" },
 ];
 
+export const OPCOES_IMPORTANCIA = [
+  { valor: 1, rotulo: "Essencial" },
+  { valor: 2, rotulo: "Importante" },
+  { valor: 3, rotulo: "Normal" },
+];
+
+export function criarSelectImportancia(valorAtual, classe = "editar-importancia campo-opcao") {
+  const select = document.createElement("select");
+  select.className = classe;
+  select.setAttribute("aria-label", "Importância");
+  const atual = normalizarImportancia(valorAtual);
+  OPCOES_IMPORTANCIA.forEach(({ valor, rotulo }) => {
+    const opcao = document.createElement("option");
+    opcao.value = String(valor);
+    opcao.textContent = rotulo;
+    if (valor === atual) opcao.selected = true;
+    select.appendChild(opcao);
+  });
+  return select;
+}
+
 export function criarSelectMetaSemanal(valorAtual, classe = "editar-meta campo-opcao") {
   const select = document.createElement("select");
   select.className = classe;

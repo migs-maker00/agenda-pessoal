@@ -1,6 +1,6 @@
 // Catálogo de livros — metadados + módulos de estudo (texto original, sem copiar obras)
 
-import { LIVROS_EXTRAS } from "./livros-extras.js?v=2.9.0";
+import { LIVROS_EXTRAS } from "./livros-extras.js?v=2.10.0";
 
 export const LIVRO_8_HABITOS = {
   id: "8-habitos-sharma",
