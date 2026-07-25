@@ -1,5 +1,5 @@
-import { APP_VERSION, hostAtual } from "./config.js?v=2.20.0";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.20.0";
+import { APP_VERSION, hostAtual } from "./config.js?v=2.21.0";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.21.0";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.20.0";
+} from "./lib/avisos-agenda.js?v=2.21.0";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,64 +39,64 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.20.0";
+} from "./lib/habitos.js?v=2.21.0";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.20.0";
+} from "./lib/perfil.js?v=2.21.0";
 import {
   correspondePreset,
   habitosRotinaCompleta,
-  HORARIOS_AGUA_ROTINA,
   marcarRotinaMontada,
-  PRIORIDADES_PRESET,
+  previewRotinaDoPerfil,
+  prioridadesRotina,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.20.0";
+} from "./lib/rotina-preset.js?v=2.21.0";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.20.0";
+} from "./lib/aprender.js?v=2.21.0";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.20.0";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.20.0";
+} from "./lib/estudo-hub.js?v=2.21.0";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.21.0";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.20.0";
+} from "./lib/estudo-ui.js?v=2.21.0";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.20.0";
+} from "./lib/cheguei.js?v=2.21.0";
 import {
   aplicarSugestaoIa,
   montarPayloadContextoIa,
   pedirOpcoesContexto,
-} from "./lib/contexto-ia.js?v=2.20.0";
-import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.20.0";
-import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.20.0";
+} from "./lib/contexto-ia.js?v=2.21.0";
+import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.21.0";
+import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.21.0";
 import {
   mensagemStreakGlobal,
   mensagemStreakHabito,
   rotuloStreakInsights,
-} from "./lib/streak-gentil.js?v=2.20.0";
-import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.20.0";
-import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.20.0";
-import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.20.0";
-import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.20.0";
-import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.20.0";
+} from "./lib/streak-gentil.js?v=2.21.0";
+import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.21.0";
+import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.21.0";
+import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.21.0";
+import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.21.0";
+import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.21.0";
 import {
   carregarSessaoParceiro,
   iniciarSessaoParceiro,
@@ -104,8 +104,8 @@ import {
   finalizarSessaoParceiro,
   limparSessaoParceiro,
   renderPainelParceiro,
-} from "./lib/estudo-parceiro.js?v=2.20.0";
-import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.20.0";
+} from "./lib/estudo-parceiro.js?v=2.21.0";
+import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.21.0";
 import {
   arquivarVersaoNota,
   carregarHistoricoCompleto,
@@ -115,13 +115,13 @@ import {
   mesclarNotasDoHistorico,
   restaurarVersaoHistorico,
   rotuloMotivoVersao,
-} from "./lib/diario-historico.js?v=2.20.0";
+} from "./lib/diario-historico.js?v=2.21.0";
 import {
   aplicarExplicacoesNeuro,
   carregarExplicacoesNeuro,
   mesclarExplicacoesNeuro,
-} from "./lib/neuro-explicar.js?v=2.20.0";
-import { sondarIaNeuro, iaNeuroDisponivel } from "./lib/neuro-ia.js?v=2.20.0";
+} from "./lib/neuro-explicar.js?v=2.21.0";
+import { sondarIaNeuro, iaNeuroDisponivel } from "./lib/neuro-ia.js?v=2.21.0";
 import {
   marcarGuiaVisto,
   marcarPassoGuia,
@@ -131,34 +131,34 @@ import {
   renderPainelGuia,
   resetarProgressoGuia,
   ROTEIRO_DEMO,
-} from "./lib/guia-app.js?v=2.20.0";
-import { aplicarIdiomaHtml, definirCallbackIdioma, localeTag, setLocale, t } from "./lib/i18n.js?v=2.20.0";
+} from "./lib/guia-app.js?v=2.21.0";
+import { aplicarIdiomaHtml, definirCallbackIdioma, localeTag, setLocale, t } from "./lib/i18n.js?v=2.21.0";
 import {
   esconderBannerMigracaoHost,
   ligarMigracaoHost,
   mostrarAvisoGithubParaVercel,
   mostrarBannerMigracaoHost,
   precisaConectarSyncNesteHost,
-} from "./lib/migracao-host.js?v=2.20.0";
+} from "./lib/migracao-host.js?v=2.21.0";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.20.0";
+} from "./lib/tarde.js?v=2.21.0";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.20.0";
+} from "./lib/inteligencia.js?v=2.21.0";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.20.0";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.20.0";
+} from "./lib/lembretes.js?v=2.21.0";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.21.0";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -173,12 +173,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.20.0";
+} from "./lib/foco.js?v=2.21.0";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.20.0";
+} from "./lib/rotina-local.js?v=2.21.0";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -211,7 +211,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.20.0";
+} from "./lib/tdah.js?v=2.21.0";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -320,6 +320,13 @@ const manhaFoco3 = document.getElementById("manha-foco3");
 const resumoNaoEsqueci = document.getElementById("resumo-nao-esqueci");
 const entradaTemaSemana = document.getElementById("entrada-tema-semana");
 const perfilResumo = document.getElementById("perfil-resumo");
+const formPerfilRotina = document.getElementById("form-perfil-rotina");
+const perfilAcordar = document.getElementById("perfil-acordar");
+const perfilDormir = document.getElementById("perfil-dormir");
+const perfilChegada = document.getElementById("perfil-chegada");
+const perfilTardeFim = document.getElementById("perfil-tarde-fim");
+const perfilPraia = document.getElementById("perfil-praia");
+const rotinaPreview = document.getElementById("rotina-preview");
 const botaoRotinaPersonalizada = document.getElementById("botao-rotina-personalizada");
 const rotinaAjustesStatus = document.getElementById("rotina-ajustes-status");
 const diarioResumoIa = document.getElementById("diario-resumo-ia");
@@ -3216,15 +3223,67 @@ function desenharBannerTarde() {
   }
 }
 
-function desenharPerfilAjustes() {
-  if (!perfilResumo) return;
-  const perfil = carregarPerfil();
-  perfilResumo.textContent = t("ajustes.rotina.perfil", {
-    acordar: perfil.acordar,
-    tardeIni: perfil.tardeDificilInicio,
-    tardeFim: perfil.tardeDificilFim,
-    prioridades: (perfil.prioridadesVida || []).join(", "),
+function lerPerfilDoFormulario() {
+  const base = carregarPerfil();
+  return {
+    ...base,
+    acordar: perfilAcordar?.value || base.acordar,
+    dormir: perfilDormir?.value || base.dormir,
+    chegadaCasa: perfilChegada?.value || base.chegadaCasa,
+    tardeDificilFim: perfilTardeFim?.value || base.tardeDificilFim,
+    trabalhoPraiaFimSemana: perfilPraia?.checked ?? base.trabalhoPraiaFimSemana,
+  };
+}
+
+function preencherFormularioPerfil(perfil = carregarPerfil()) {
+  if (perfilAcordar) perfilAcordar.value = perfil.acordar || "05:45";
+  if (perfilDormir) perfilDormir.value = perfil.dormir || "23:30";
+  if (perfilChegada) perfilChegada.value = perfil.chegadaCasa || "17:00";
+  if (perfilTardeFim) perfilTardeFim.value = perfil.tardeDificilFim || "20:00";
+  if (perfilPraia) perfilPraia.checked = perfil.trabalhoPraiaFimSemana !== false;
+}
+
+function salvarPerfilDoFormulario() {
+  const perfil = lerPerfilDoFormulario();
+  salvarPerfil(perfil);
+  return perfil;
+}
+
+function desenharPreviewRotina() {
+  if (!rotinaPreview) return;
+  const perfil = lerPerfilDoFormulario();
+  const itens = previewRotinaDoPerfil(perfil);
+  const titulo = document.createElement("p");
+  titulo.className = "rotina-preview-titulo";
+  titulo.textContent = t("ajustes.rotina.preview");
+  const lista = document.createElement("ul");
+  lista.className = "rotina-preview-lista";
+  itens.forEach((item) => {
+    const li = document.createElement("li");
+    const nome = document.createElement("span");
+    nome.textContent = `${item.nome} · ${item.dias}`;
+    const hora = document.createElement("span");
+    hora.className = "rotina-preview-hora";
+    hora.textContent = item.horario;
+    li.appendChild(nome);
+    li.appendChild(hora);
+    lista.appendChild(li);
   });
+  rotinaPreview.replaceChildren(titulo, lista);
+}
+
+function desenharPerfilAjustes() {
+  preencherFormularioPerfil();
+  if (perfilResumo) {
+    const perfil = lerPerfilDoFormulario();
+    perfilResumo.textContent = t("ajustes.rotina.perfil", {
+      acordar: perfil.acordar,
+      tardeIni: perfil.tardeDificilInicio || "17:00",
+      tardeFim: perfil.tardeDificilFim,
+      prioridades: (perfil.prioridadesVida || []).join(", "),
+    });
+  }
+  desenharPreviewRotina();
 }
 
 function mostrarStatusRotinaAjustes(texto, tipo = "ok") {
@@ -3234,8 +3293,9 @@ function mostrarStatusRotinaAjustes(texto, tipo = "ok") {
   rotinaAjustesStatus.hidden = !texto;
 }
 
-function aplicarRotinaCompleta(silencioso = false) {
-  const modelos = habitosRotinaCompleta();
+function aplicarRotinaCompleta(silencioso = false, perfilArg) {
+  const perfil = perfilArg || carregarPerfil();
+  const modelos = habitosRotinaCompleta(perfil);
   let adicionados = 0;
   let atualizados = 0;
 
@@ -3244,21 +3304,22 @@ function aplicarRotinaCompleta(silencioso = false) {
     const existente = habitos.find((h) => correspondePreset(h, presetId));
 
     if (presetId === "agua") {
+      const horariosAgua = campos.horariosLembretes || [];
       if (existente) {
         habitos = habitos.map((h) => {
           if (!correspondePreset(h, "agua")) return h;
           return normalizarHabito({
             ...h,
-            horariosLembretes: HORARIOS_AGUA_ROTINA,
-            lembretes: 6,
-            horario: "06:15",
+            horariosLembretes: horariosAgua,
+            lembretes: horariosAgua.length || 6,
+            horario: horariosAgua[0] || campos.horario,
             importancia: 1,
             contextoLembrete: campos.contextoLembrete,
           });
         });
         atualizados++;
       } else {
-        const agua = criarHabitoAgua(novoIdHabito(), HORARIOS_AGUA_ROTINA);
+        const agua = criarHabitoAgua(novoIdHabito(), horariosAgua);
         agua.importancia = 1;
         agua.contextoLembrete = campos.contextoLembrete;
         habitos.push(normalizarHabito(agua));
@@ -3289,9 +3350,8 @@ function aplicarRotinaCompleta(silencioso = false) {
   });
 
   const chave = hojeStr();
-  const idsPrioridade = PRIORIDADES_PRESET.map((pid) =>
-    habitos.find((h) => correspondePreset(h, pid))?.id
-  )
+  const idsPrioridade = prioridadesRotina(perfil)
+    .map((pid) => habitos.find((h) => correspondePreset(h, pid))?.id)
     .filter((id) => Number.isFinite(id))
     .slice(0, MAX_PRIORIDADES);
 
@@ -3315,11 +3375,11 @@ function aplicarRotinaCompleta(silencioso = false) {
     salvarTemaSemana("Conhecimento, organização e rotina");
   }
 
-  salvarPerfilRotina(textosPlanejadorRotina());
+  salvarPerfilRotina(textosPlanejadorRotina(perfil));
   habitos = migrarHabitosAprendizado(habitos).map(normalizarHabito);
   marcarRotinaMontada();
   marcarPerfilInicializado();
-  salvarPerfil(carregarPerfil());
+  salvarPerfil(perfil);
   salvar();
   carregarCamposRotina();
   desenhar();
@@ -3342,13 +3402,20 @@ function aplicarRotinaCompleta(silencioso = false) {
 }
 
 function aplicarRotinaPersonalizada() {
-  if (!confirm(t("ajustes.rotina.confirmar"))) return;
+  const perfil = salvarPerfilDoFormulario();
+  const preview = previewRotinaDoPerfil(perfil);
+  const estudo = preview.find((p) => p.presetId === "aprender");
+  const msgConfirm = t("ajustes.rotina.confirmar", {
+    total: preview.length,
+    estudo: estudo?.horario || "—",
+  });
+  if (!confirm(msgConfirm)) return;
 
   const botao = botaoRotinaPersonalizada;
   if (botao) botao.disabled = true;
 
   try {
-    const { adicionados, atualizados } = aplicarRotinaCompleta(false);
+    const { adicionados, atualizados } = aplicarRotinaCompleta(false, perfil);
     desenharPerfilAjustes();
     ativarPainel("hoje");
     if (adicionados === 0 && atualizados === 0) {
@@ -4034,6 +4101,22 @@ function ligarTodosEventos() {
     salvarTemaSemana(entradaTemaSemana.value);
   });
   botaoRotinaPersonalizada?.addEventListener("click", aplicarRotinaPersonalizada);
+  formPerfilRotina?.addEventListener("change", () => {
+    salvarPerfilDoFormulario();
+    desenharPerfilAjustes();
+  });
+  formPerfilRotina?.addEventListener("input", () => {
+    desenharPreviewRotina();
+    if (perfilResumo) {
+      const perfil = lerPerfilDoFormulario();
+      perfilResumo.textContent = t("ajustes.rotina.perfil", {
+        acordar: perfil.acordar,
+        tardeIni: perfil.tardeDificilInicio || "17:00",
+        tardeFim: perfil.tardeDificilFim,
+        prioridades: (perfil.prioridadesVida || []).join(", "),
+      });
+    }
+  });
 }
 
 // ============ INICIALIZAÇÃO ============
