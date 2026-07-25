@@ -73,11 +73,13 @@ Regras:
 - Máximo 4 itens em acertos e faltou`;
 }
 
-async function chamarGemini(prompt) {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) throw new Error("GEMINI_API_KEY não configurada no Vercel");
+const MODELOS_GEMINI = [
+  "gemini-2.0-flash-lite",
+  "gemini-1.5-flash",
+  "gemini-2.0-flash",
+];
 
-  const modelo = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+async function chamarGeminiModelo(apiKey, modelo, prompt) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${apiKey}`;
 
   const resposta = await fetch(url, {
@@ -94,15 +96,49 @@ async function chamarGemini(prompt) {
 
   if (!resposta.ok) {
     const erro = await resposta.text();
-    console.error("Gemini erro:", resposta.status, erro);
-    throw new Error("Falha ao consultar a IA");
+    const err = new Error(`Gemini ${modelo}: ${resposta.status}`);
+    err.status = resposta.status;
+    err.detalhe = erro;
+    throw err;
   }
 
   const dados = await resposta.json();
   const texto = dados?.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!texto) throw new Error("Resposta vazia da IA");
+  if (!texto) throw new Error(`Resposta vazia (${modelo})`);
 
   return JSON.parse(texto);
+}
+
+async function chamarGemini(prompt) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) throw new Error("GEMINI_API_KEY não configurada no Vercel");
+
+  const preferido = (process.env.GEMINI_MODEL || "").trim();
+  const modelos = preferido
+    ? [preferido, ...MODELOS_GEMINI.filter((m) => m !== preferido)]
+    : MODELOS_GEMINI;
+
+  let ultimoErro = null;
+
+  for (const modelo of modelos) {
+    try {
+      return await chamarGeminiModelo(apiKey, modelo, prompt);
+    } catch (erro) {
+      ultimoErro = erro;
+      const status = erro.status || 0;
+      // 429 = limite; 404/400 = modelo indisponível — tenta o próximo
+      if (status === 429 || status === 404 || status === 400 || status >= 500) {
+        console.warn(`neuro-feedback: ${modelo} falhou (${status}), tentando próximo…`);
+        continue;
+      }
+      throw erro;
+    }
+  }
+
+  console.error("neuro-feedback: todos os modelos falharam", ultimoErro?.detalhe || ultimoErro);
+  const err = new Error("Limite ou indisponibilidade do Gemini");
+  err.status = ultimoErro?.status || 503;
+  throw err;
 }
 
 function normalizarFeedback(raw) {
@@ -157,8 +193,12 @@ export default async function handler(request) {
   } catch (erro) {
     console.error("neuro-feedback:", erro);
     return jsonResponse(
-      { erro: "Não foi possível gerar feedback agora. Tente de novo em instantes." },
-      500,
+      {
+        erro:
+          "IA temporariamente indisponível (limite do Google). O app usa correção local automaticamente.",
+        codigo: "gemini_indisponivel",
+      },
+      503,
       origin
     );
   }
