@@ -1,5 +1,5 @@
-import { APP_VERSION } from "./config.js?v=2.11.0";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.11.0";
+import { APP_VERSION } from "./config.js?v=2.11.3";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.11.3";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.11.0";
+} from "./lib/avisos-agenda.js?v=2.11.3";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.11.0";
+} from "./lib/habitos.js?v=2.11.3";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.11.0";
+} from "./lib/perfil.js?v=2.11.3";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,51 +54,51 @@ import {
   PRIORIDADES_PRESET,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.11.0";
+} from "./lib/rotina-preset.js?v=2.11.3";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.11.0";
+} from "./lib/aprender.js?v=2.11.3";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.11.0";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.11.0";
+} from "./lib/estudo-hub.js?v=2.11.3";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.11.3";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.11.0";
+} from "./lib/estudo-ui.js?v=2.11.3";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.11.0";
+} from "./lib/cheguei.js?v=2.11.3";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.11.0";
+} from "./lib/tarde.js?v=2.11.3";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.11.0";
+} from "./lib/inteligencia.js?v=2.11.3";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.11.0";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.11.0";
+} from "./lib/lembretes.js?v=2.11.3";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.11.3";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -113,12 +113,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.11.0";
+} from "./lib/foco.js?v=2.11.3";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.11.0";
+} from "./lib/rotina-local.js?v=2.11.3";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -151,7 +151,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.11.0";
+} from "./lib/tdah.js?v=2.11.3";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -192,6 +192,7 @@ const diarioSalvar = document.getElementById("diario-salvar");
 const diarioStatus = document.getElementById("diario-status");
 const diarioLegenda = document.getElementById("diario-data-legenda");
 const diarioHojeBotao = document.getElementById("diario-hoje");
+const diarioOntemBotao = document.getElementById("diario-ontem");
 const listaDiario = document.getElementById("lista-diario");
 const diarioVazio = document.getElementById("diario-vazio");
 const resumoSemana = document.getElementById("resumo-semana");
@@ -365,7 +366,127 @@ function sincronizarLembretesSW() {
   });
 }
 
-function salvarNotas() {
+function chaveNotaValida(chave) {
+  return typeof chave === "string" && /^\d{4}-\d{2}-\d{2}$/.test(chave);
+}
+
+function mesclarNotasDiario(local = {}, remoto = {}) {
+  const resultado = { ...(local && typeof local === "object" ? local : {}) };
+  if (!remoto || typeof remoto !== "object") return resultado;
+
+  for (const [chave, texto] of Object.entries(remoto)) {
+    if (!chaveNotaValida(chave)) continue;
+    const remotoTxt = String(texto ?? "").trim();
+    if (!remotoTxt) continue;
+    const localTxt = String(resultado[chave] ?? "").trim();
+    if (!localTxt || remotoTxt.length > localTxt.length) {
+      resultado[chave] = texto;
+    }
+  }
+  return resultado;
+}
+
+function migrarNotasDiario(mapa = {}) {
+  const limpo = { ...(mapa && typeof mapa === "object" ? mapa : {}) };
+  const orfa = limpo.undefined;
+  if (orfa) {
+    const hoje = hojeStr();
+    limpo[hoje] = limpo[hoje] ? `${limpo[hoje]}\n${orfa}` : orfa;
+    delete limpo.undefined;
+  }
+  Object.keys(limpo).forEach((chave) => {
+    if (!chaveNotaValida(chave)) delete limpo[chave];
+  });
+  return limpo;
+}
+
+function garantirDataDiario() {
+  if (!chaveNotaValida(dataDiarioSelecionada)) {
+    dataDiarioSelecionada = hojeStr();
+  }
+  if (diarioData && !diarioData.value) {
+    diarioData.value = dataDiarioSelecionada;
+  }
+  return dataDiarioSelecionada;
+}
+
+function contarNotasComTexto(mapa = {}) {
+  return Object.keys(mapa).filter(
+    (chave) => chaveNotaValida(chave) && String(mapa[chave] ?? "").trim()
+  ).length;
+}
+
+function textoRevisaoParaDiario(dados) {
+  if (!dados || typeof dados !== "object") return "";
+  return [dados.feito, dados.ficou, dados.amanha]
+    .map((t) => String(t ?? "").trim())
+    .filter(Boolean)
+    .join("\n");
+}
+
+function restaurarNotasPerdidas() {
+  let recuperou = false;
+
+  try {
+    const backupRaw = localStorage.getItem("notas-diarias-backup");
+    if (backupRaw) {
+      const payload = JSON.parse(backupRaw);
+      const backup = migrarNotasDiario(payload.notas || payload);
+      if (contarNotasComTexto(backup) > contarNotasComTexto(notas)) {
+        notas = mesclarNotasDiario(notas, backup);
+        recuperou = true;
+      }
+    }
+  } catch {
+    /* ignora backup inválido */
+  }
+
+  try {
+    const prev = migrarNotasDiario(JSON.parse(localStorage.getItem("notas-diarias-prev") || "{}"));
+    const antes = contarNotasComTexto(notas);
+    notas = mesclarNotasDiario(notas, prev);
+    if (contarNotasComTexto(notas) > antes) recuperou = true;
+  } catch {
+    /* ignora */
+  }
+
+  const revisao = carregarRevisaoNoturna();
+  for (const [chave, dados] of Object.entries(revisao)) {
+    if (!chaveNotaValida(chave) || (notas[chave] || "").trim()) continue;
+    const texto = textoRevisaoParaDiario(dados);
+    if (texto) {
+      notas[chave] = texto;
+      recuperou = true;
+    }
+  }
+
+  if (recuperou) salvarNotas({ pularBackup: true });
+  return recuperou;
+}
+
+function salvarNotas(opcoes = {}) {
+  const { pularBackup = false } = opcoes;
+  if (!pularBackup) {
+    try {
+      const rawAtual = localStorage.getItem("notas-diarias");
+      if (rawAtual) {
+        const atualParse = migrarNotasDiario(JSON.parse(rawAtual));
+        const novoContagem = contarNotasComTexto(notas);
+        const atualContagem = contarNotasComTexto(atualParse);
+        if (atualContagem > novoContagem || (atualContagem > 0 && novoContagem === 0)) {
+          localStorage.setItem("notas-diarias-prev", rawAtual);
+        }
+      }
+      if (contarNotasComTexto(notas) > 0) {
+        localStorage.setItem(
+          "notas-diarias-backup",
+          JSON.stringify({ salvoEm: Date.now(), notas })
+        );
+      }
+    } catch {
+      /* ignora falha de backup */
+    }
+  }
   localStorage.setItem("notas-diarias", JSON.stringify(notas));
   if (!window.syncEstaAplicandoRemoto || !window.syncEstaAplicandoRemoto()) {
     if (typeof window.agendarSyncNuvem === "function") window.agendarSyncNuvem();
@@ -422,6 +543,7 @@ function salvarDiarioExplicito() {
 }
 
 function definirNota(chave, texto, opcoes = {}) {
+  if (!chaveNotaValida(chave)) return;
   const { silencioso = false } = opcoes;
   const limpo = texto.trim();
   if (limpo) {
@@ -473,6 +595,8 @@ function formatarDataCurtaBR(chave) {
 }
 
 function carregarNotaDiario(chave) {
+  if (!chaveNotaValida(chave)) chave = hojeStr();
+
   const trocandoData =
     dataDiarioSelecionada && chave !== dataDiarioSelecionada && diarioTexto;
 
@@ -481,23 +605,84 @@ function carregarNotaDiario(chave) {
   }
 
   dataDiarioSelecionada = chave;
-  diarioData.value = chave;
-  diarioTexto.value = notas[chave] || "";
+  if (diarioData) diarioData.value = chave;
+  if (diarioTexto) diarioTexto.value = notas[chave] || "";
   const ehHoje = chave === hojeStr();
-  diarioLegenda.textContent = ehHoje
-    ? `Hoje — ${formatarDataBR(chave)}`
-    : formatarDataBR(chave);
+  if (diarioLegenda) {
+    diarioLegenda.textContent = ehHoje
+      ? `Hoje — ${formatarDataBR(chave)}`
+      : formatarDataBR(chave);
+  }
   desenharListaDiario();
 }
 
+function dataInicialDiario() {
+  const hoje = hojeStr();
+  if ((notas[hoje] || "").trim()) return hoje;
+
+  const ontem = ontemStr();
+  if ((notas[ontem] || "").trim()) return ontem;
+
+  const chaves = Object.keys(notas)
+    .filter((chave) => chaveNotaValida(chave) && (notas[chave] || "").trim())
+    .sort()
+    .reverse();
+  return chaves[0] || hoje;
+}
+
+function desenharRecuperacaoDiario() {
+  const banner = document.getElementById("diario-recuperar");
+  if (!banner) return;
+
+  const ontem = ontemStr();
+  const temOntem = Boolean((notas[ontem] || "").trim());
+  const temAlguma = contarNotasComTexto(notas) > 0;
+  const temPrev = contarNotasComTexto(
+    migrarNotasDiario(JSON.parse(localStorage.getItem("notas-diarias-prev") || "{}"))
+  ) > contarNotasComTexto(notas);
+
+  if (!temAlguma && temPrev) {
+    banner.hidden = false;
+    banner.innerHTML = `
+      <p>Encontramos um backup local com entradas que sumiram. Toque para restaurar.</p>
+      <button type="button" id="diario-recuperar-btn" class="botao-secundario">Restaurar anotações</button>`;
+    banner.querySelector("#diario-recuperar-btn")?.addEventListener("click", () => {
+      if (restaurarNotasPerdidas()) {
+        mostrarFeedback("Anotações restauradas do backup local.");
+        carregarNotaDiario(dataInicialDiario());
+        desenharListaDiario();
+        desenharRecuperacaoDiario();
+      } else {
+        mostrarFeedback("Não havia nada para restaurar.");
+      }
+    });
+    return;
+  }
+
+  if (temOntem && dataDiarioSelecionada === hojeStr() && !(notas[hojeStr()] || "").trim()) {
+    banner.hidden = false;
+    banner.innerHTML = `
+      <p>Sua entrada de <strong>ontem</strong> está salva. Toque para abrir.</p>
+      <button type="button" id="diario-ir-ontem-btn" class="botao-secundario">Abrir nota de ontem</button>`;
+    banner.querySelector("#diario-ir-ontem-btn")?.addEventListener("click", () => {
+      carregarNotaDiario(ontem);
+    });
+    return;
+  }
+
+  banner.hidden = true;
+  banner.innerHTML = "";
+}
+
 function desenharListaDiario() {
+  if (!listaDiario) return;
   const chaves = Object.keys(notas)
     .filter((chave) => (notas[chave] || "").trim())
     .sort()
     .reverse();
 
   listaDiario.innerHTML = "";
-  diarioVazio.hidden = chaves.length > 0;
+  if (diarioVazio) diarioVazio.hidden = chaves.length > 0;
 
   chaves.forEach((chave) => {
     const botao = document.createElement("button");
@@ -519,6 +704,8 @@ function desenharListaDiario() {
     botao.addEventListener("click", () => carregarNotaDiario(chave));
     listaDiario.appendChild(botao);
   });
+
+  desenharRecuperacaoDiario();
 }
 
 function carregar() {
@@ -539,7 +726,14 @@ function carregar() {
   }
 
   const notasSalvas = localStorage.getItem("notas-diarias");
-  if (notasSalvas) notas = JSON.parse(notasSalvas);
+  if (notasSalvas) {
+    try {
+      notas = migrarNotasDiario(JSON.parse(notasSalvas));
+    } catch {
+      notas = {};
+    }
+  }
+  restaurarNotasPerdidas();
 
   avisos = carregarAvisos();
 }
@@ -1170,7 +1364,7 @@ function importarDados(evento) {
       salvar();
       salvarNotas();
       carregarNotaHoje();
-      carregarNotaDiario(hojeStr());
+      carregarNotaDiario(dataInicialDiario());
       desenhar();
     } catch (erro) {
       alert("Arquivo inválido. Escolha um backup exportado por este app.");
@@ -1812,7 +2006,8 @@ function ativarPainel(nome) {
     desenharCheguei();
   }
   if (nome === "diario") {
-    carregarNotaDiario(dataDiarioSelecionada || hojeStr());
+    restaurarNotasPerdidas();
+    carregarNotaDiario(dataInicialDiario());
   }
 }
 
@@ -2899,7 +3094,8 @@ function ligarTodosEventos() {
   notaHoje?.addEventListener("blur", persistirNotaHojeAtual);
   notaHojeSalvar?.addEventListener("click", salvarNotaHojeExplicito);
   diarioTexto?.addEventListener("input", () => {
-    definirNota(dataDiarioSelecionada, diarioTexto.value);
+    const chave = garantirDataDiario();
+    definirNota(chave, diarioTexto.value);
   });
   diarioTexto?.addEventListener("blur", persistirNotaDiarioAtual);
   diarioSalvar?.addEventListener("click", salvarDiarioExplicito);
@@ -2908,6 +3104,9 @@ function ligarTodosEventos() {
   });
   diarioHojeBotao?.addEventListener("click", () => {
     carregarNotaDiario(hojeStr());
+  });
+  diarioOntemBotao?.addEventListener("click", () => {
+    carregarNotaDiario(ontemStr());
   });
   navPaineis?.addEventListener("click", (evento) => {
     const botao = evento.target.closest(".nav-item");
@@ -3002,7 +3201,7 @@ export function initApp() {
   if (avisoData) avisoData.value = hojeStr();
   carregarCamposRotina();
   carregarNotaHoje();
-  carregarNotaDiario(hojeStr());
+  carregarNotaDiario(dataInicialDiario());
   ligarTodosEventos();
   iniciarVozes(() => {
     if (painelAtivo === "estudo") desenharPainelEstudo();
@@ -3063,11 +3262,20 @@ export function getEstadoExportavel() {
 }
 
 export function aplicarEstadoRemoto(dados) {
+  try {
+    if (contarNotasComTexto(notas) > 0) {
+      localStorage.setItem("notas-diarias-prev", JSON.stringify(notas));
+    }
+  } catch {
+    /* ignora */
+  }
+
   habitos = migrarHabitosAgua(
     Array.isArray(dados.habitos) ? dados.habitos.map(normalizarHabito) : [],
     hojeStr()
   );
-  notas = dados.notas && typeof dados.notas === "object" ? dados.notas : {};
+  notas = mesclarNotasDiario(notas, dados.notas);
+  notas = migrarNotasDiario(notas);
   avisos = Array.isArray(dados.avisos) ? dados.avisos : carregarAvisos();
   localStorage.setItem("meus-habitos", JSON.stringify(habitos));
   localStorage.setItem("notas-diarias", JSON.stringify(notas));

@@ -20,7 +20,7 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=2.11.0" />
+  <link rel="stylesheet" href="style.css?v=2.11.3" />
 </head>
 <body>
   <div class="ambiente">
@@ -311,8 +311,8 @@
         <section class="bloco bloco-primeiro">
           <h2 class="bloco-titulo">Diário</h2>
           <p class="bloco-apoio">
-            Cada dia guarda uma entrada. Escolha uma data para ler ou editar. Salva sozinho enquanto
-            você escreve — use <strong>Salvar entrada</strong> para garantir.
+            Cada dia guarda uma entrada. É o <strong>mesmo texto</strong> de
+            <strong>Hoje → Anotações do dia</strong>. Abra sempre em <strong>Ir para hoje</strong> se não achar.
           </p>
 
           <div class="diario-controles">
@@ -321,7 +321,10 @@
               <input type="date" id="diario-data" class="campo-opcao diario-data" />
             </label>
             <button type="button" id="diario-hoje" class="botao-secundario">Ir para hoje</button>
+            <button type="button" id="diario-ontem" class="botao-secundario">Ver ontem</button>
           </div>
+
+          <div id="diario-recuperar" class="diario-recuperar" hidden></div>
 
           <p id="diario-data-legenda" class="diario-legenda"></p>
           <textarea
@@ -342,6 +345,8 @@
           <div id="lista-diario" class="lista-diario"></div>
           <p id="diario-vazio" class="mensagem-vazia" hidden>
             Nenhuma entrada ainda. Escreva na aba Hoje ou aqui — elas aparecem automaticamente.
+            Se você escreveu ontem e sumiu, toque em <strong>Ver ontem</strong> ou use
+            <strong>Restaurar anotações</strong> se aparecer acima.
           </p>
         </section>
       </section>
@@ -490,7 +495,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
-  <script type="module" src="js/main.js?v=2.11.0"></script>
+  <script type="module" src="js/main.js?v=2.11.3"></script>
   <script defer src="sync.js?v=4"></script>
 </body>
 </html>
