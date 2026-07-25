@@ -72,9 +72,10 @@
     return {
       habitos: estado.habitos || [],
       notas: estado.notas || {},
+      neuroExplicacoes: estado.neuroExplicacoes || {},
       tema: estado.tema || "claro",
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      versao: 1,
+      versao: 2,
     };
   }
 
