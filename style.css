@@ -450,6 +450,51 @@ body {
   border-radius: 14px;
 }
 
+.cheguei-gatilhos {
+  display: grid;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.cheguei-gatilho {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  background: var(--fundo-card, var(--fundo));
+  color: var(--texto);
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.1s;
+}
+
+.cheguei-gatilho:hover {
+  border-color: var(--destaque, #7c6cf0);
+  transform: translateY(-1px);
+}
+
+.cheguei-gatilho-emoji {
+  font-size: 1.35rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.cheguei-gatilho-rotulo {
+  font-weight: 600;
+}
+
+.cheguei-intro-ia {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 0.72rem;
+  color: var(--destaque, #7c6cf0);
+  vertical-align: middle;
+}
+
 .cheguei-dupla {
   display: flex;
   flex-direction: column;
