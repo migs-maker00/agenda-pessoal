@@ -1,7 +1,7 @@
 /**
  * Ponto de entrada do app — expõe API para sync.js e inicializa a UI.
  */
-import { APP_VERSION } from "./config.js?v=2.18.0";
+import { APP_VERSION } from "./config.js?v=2.19.0";
 
 const CHAVE_VERSAO_LOCAL = "app-versao-carregada";
 const CHAVE_TENTOU_RECUPERAR = "app-tentou-recuperar-cache";

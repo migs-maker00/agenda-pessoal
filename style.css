@@ -3799,3 +3799,328 @@ body.modo-barulho-ativo .bloco-revisao {
   color: var(--destaque, #7c6cf0);
 }
 
+/* ---- Guia integrado ---- */
+.guia-root {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.guia-painel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.guia-hero {
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--marca) 25%, var(--borda));
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--marca) 10%, var(--superficie)),
+    var(--superficie)
+  );
+}
+
+.guia-hero-kicker {
+  margin: 0 0 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--marca);
+}
+
+.guia-hero-titulo {
+  margin: 0 0 8px;
+  font-family: var(--fonte-titulo, "Fraunces", serif);
+  font-size: 1.35rem;
+  line-height: 1.25;
+}
+
+.guia-hero-apoio {
+  margin: 0 0 14px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--texto-suave);
+}
+
+.guia-hero-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.guia-cta-demo {
+  flex: 1 1 auto;
+}
+
+.guia-bloco {
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--borda);
+  background: var(--superficie);
+}
+
+.guia-bloco-titulo {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.guia-bloco-apoio {
+  margin: 0 0 12px;
+  font-size: 0.82rem;
+  color: var(--texto-suave);
+  line-height: 1.4;
+}
+
+.guia-progresso-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.guia-progresso-barra {
+  height: 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--preto) 8%, var(--superficie));
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.guia-progresso-preenchido {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--marca), color-mix(in srgb, var(--marca) 70%, #6b4ce6));
+  transition: width 0.35s ease;
+}
+
+.guia-roteiro-passos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.guia-passo {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--borda);
+  background: var(--superficie-elevada, var(--superficie));
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.guia-passo.feito {
+  border-color: color-mix(in srgb, #2d8a4e 35%, var(--borda));
+  background: color-mix(in srgb, #2d8a4e 6%, var(--superficie));
+}
+
+.guia-passo.ativo-demo {
+  border-color: color-mix(in srgb, var(--marca) 45%, var(--borda));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--marca) 15%, transparent);
+}
+
+.guia-passo-num {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.82rem;
+  font-weight: 800;
+  background: var(--marca);
+  color: var(--bege-claro, #fff);
+}
+
+.guia-passo.feito .guia-passo-num {
+  background: #2d8a4e;
+}
+
+.guia-passo-corpo {
+  flex: 1;
+  min-width: 0;
+}
+
+.guia-passo-cab {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.guia-passo-emoji {
+  font-size: 1.1rem;
+}
+
+.guia-passo-titulo {
+  margin: 0;
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.guia-passo-tempo {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--texto-suave);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--preto) 6%, transparent);
+}
+
+.guia-passo-falar {
+  margin: 0 0 10px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--texto-suave);
+}
+
+.guia-passo-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.guia-reset {
+  margin-top: 10px;
+}
+
+.guia-ref-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.guia-ref-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  background: var(--superficie-elevada, var(--superficie));
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: border-color 0.18s, transform 0.18s;
+}
+
+.guia-ref-card:hover {
+  border-color: color-mix(in srgb, var(--marca) 40%, var(--borda));
+  transform: translateY(-1px);
+}
+
+.guia-ref-emoji {
+  font-size: 1.2rem;
+}
+
+.guia-ref-rotulo {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--preto, inherit);
+}
+
+.guia-ref-texto {
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: var(--texto-suave);
+}
+
+.guia-dicas-lista {
+  margin: 0 0 12px;
+  padding-left: 1.1rem;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--texto-suave);
+}
+
+.guia-dicas-lista li + li {
+  margin-top: 6px;
+}
+
+.guia-ia-status {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  background: color-mix(in srgb, var(--preto) 5%, var(--superficie));
+  border: 1px dashed var(--borda);
+}
+
+.guia-ia-status.ativa {
+  border-style: solid;
+  border-color: color-mix(in srgb, #6b4ce6 35%, var(--borda));
+  background: color-mix(in srgb, #6b4ce6 8%, var(--superficie));
+}
+
+.guia-demo-banner {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--marca) 35%, var(--borda));
+  background: color-mix(in srgb, var(--marca) 8%, var(--superficie));
+}
+
+.guia-demo-banner p {
+  margin: 0 0 8px;
+  font-size: 0.88rem;
+}
+
+.guia-demo-banner-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.guia-chamada {
+  margin-bottom: 14px;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--marca) 30%, var(--borda));
+  background: color-mix(in srgb, var(--marca) 8%, var(--superficie));
+}
+
+.guia-chamada-texto {
+  margin: 0 0 10px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.guia-chamada-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.guia-voltar {
+  margin: 0 0 12px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--marca);
+  cursor: pointer;
+}
+
+.agora-cheguei-wrap {
+  margin: 10px 0 0;
+  text-align: center;
+}
+
+.agora-link-cheguei {
+  font-size: 0.84rem;
+}
+
