@@ -1,5 +1,5 @@
-import { APP_VERSION } from "./config.js?v=2.11.3";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.11.3";
+import { APP_VERSION } from "./config.js?v=2.11.4";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.11.4";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.11.3";
+} from "./lib/avisos-agenda.js?v=2.11.4";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.11.3";
+} from "./lib/habitos.js?v=2.11.4";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.11.3";
+} from "./lib/perfil.js?v=2.11.4";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,51 +54,51 @@ import {
   PRIORIDADES_PRESET,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.11.3";
+} from "./lib/rotina-preset.js?v=2.11.4";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.11.3";
+} from "./lib/aprender.js?v=2.11.4";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.11.3";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.11.3";
+} from "./lib/estudo-hub.js?v=2.11.4";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.11.4";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.11.3";
+} from "./lib/estudo-ui.js?v=2.11.4";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.11.3";
+} from "./lib/cheguei.js?v=2.11.4";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.11.3";
+} from "./lib/tarde.js?v=2.11.4";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.11.3";
+} from "./lib/inteligencia.js?v=2.11.4";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.11.3";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.11.3";
+} from "./lib/lembretes.js?v=2.11.4";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.11.4";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -113,12 +113,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.11.3";
+} from "./lib/foco.js?v=2.11.4";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.11.3";
+} from "./lib/rotina-local.js?v=2.11.4";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -151,7 +151,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.11.3";
+} from "./lib/tdah.js?v=2.11.4";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -189,6 +189,7 @@ const navPaineis = document.querySelector(".nav-paineis");
 const diarioData = document.getElementById("diario-data");
 const diarioTexto = document.getElementById("diario-texto");
 const diarioSalvar = document.getElementById("diario-salvar");
+const diarioBuscarAntiga = document.getElementById("diario-buscar-antiga");
 const diarioStatus = document.getElementById("diario-status");
 const diarioLegenda = document.getElementById("diario-data-legenda");
 const diarioHojeBotao = document.getElementById("diario-hoje");
@@ -424,8 +425,97 @@ function textoRevisaoParaDiario(dados) {
     .join("\n");
 }
 
+const CHAVE_HISTORICO_NOTAS = "notas-diarias-historico";
+const MAX_HISTORICO_NOTAS = 80;
+
+function arquivarHistoricoNota(chave, texto) {
+  if (!chaveNotaValida(chave)) return;
+  const limpo = String(texto ?? "").trim();
+  if (!limpo) return;
+  try {
+    const lista = JSON.parse(localStorage.getItem(CHAVE_HISTORICO_NOTAS) || "[]");
+    if (!Array.isArray(lista)) return;
+    const ultimo = lista[lista.length - 1];
+    if (ultimo?.chave === chave && ultimo?.texto === texto) return;
+    lista.push({ chave, texto, em: Date.now() });
+    localStorage.setItem(CHAVE_HISTORICO_NOTAS, JSON.stringify(lista.slice(-MAX_HISTORICO_NOTAS)));
+  } catch {
+    /* ignora */
+  }
+}
+
+function notasDoHistorico() {
+  const mapa = {};
+  try {
+    const lista = JSON.parse(localStorage.getItem(CHAVE_HISTORICO_NOTAS) || "[]");
+    if (!Array.isArray(lista)) return mapa;
+    lista.forEach((item) => {
+      if (!item?.chave || !chaveNotaValida(item.chave)) return;
+      const txt = String(item.texto ?? "").trim();
+      if (!txt) return;
+      const atual = String(mapa[item.chave] ?? "").trim();
+      if (!atual || txt.length > atual.length) mapa[item.chave] = item.texto;
+    });
+  } catch {
+    /* ignora */
+  }
+  return mapa;
+}
+
+function buscarTextosEmValor(valor, caminho, achados) {
+  if (typeof valor === "string") {
+    const texto = valor.trim();
+    if (texto.length >= 120) achados.push({ caminho, texto, tamanho: texto.length });
+    return;
+  }
+  if (Array.isArray(valor)) {
+    valor.forEach((item, indice) => buscarTextosEmValor(item, `${caminho}[${indice}]`, achados));
+    return;
+  }
+  if (valor && typeof valor === "object") {
+    Object.entries(valor).forEach(([chave, item]) =>
+      buscarTextosEmValor(item, `${caminho}.${chave}`, achados)
+    );
+  }
+}
+
+function buscarTextosLongosNoNavegador() {
+  const achados = [];
+  for (let indice = 0; indice < localStorage.length; indice++) {
+    const chave = localStorage.key(indice);
+    if (!chave) continue;
+    const raw = localStorage.getItem(chave);
+    if (!raw) continue;
+    if (raw.length >= 120 && !raw.startsWith("{") && !raw.startsWith("[")) {
+      achados.push({ caminho: `localStorage.${chave}`, texto: raw, tamanho: raw.length });
+      continue;
+    }
+    try {
+      buscarTextosEmValor(JSON.parse(raw), `localStorage.${chave}`, achados);
+    } catch {
+      if (raw.trim().length >= 120) {
+        achados.push({ caminho: `localStorage.${chave}`, texto: raw, tamanho: raw.length });
+      }
+    }
+  }
+  return achados.sort((a, b) => b.tamanho - a.tamanho);
+}
+
 function restaurarNotasPerdidas() {
   let recuperou = false;
+
+  const historico = notasDoHistorico();
+  const antesHistorico = contarNotasComTexto(notas);
+  notas = mesclarNotasDiario(notas, historico);
+  if (contarNotasComTexto(notas) > antesHistorico) recuperou = true;
+  Object.keys(historico).forEach((chave) => {
+    const txtHist = String(historico[chave] ?? "").trim();
+    const txtAtual = String(notas[chave] ?? "").trim();
+    if (txtHist.length > txtAtual.length) {
+      notas[chave] = historico[chave];
+      recuperou = true;
+    }
+  });
 
   try {
     const backupRaw = localStorage.getItem("notas-diarias-backup");
@@ -452,16 +542,43 @@ function restaurarNotasPerdidas() {
 
   const revisao = carregarRevisaoNoturna();
   for (const [chave, dados] of Object.entries(revisao)) {
-    if (!chaveNotaValida(chave) || (notas[chave] || "").trim()) continue;
-    const texto = textoRevisaoParaDiario(dados);
-    if (texto) {
-      notas[chave] = texto;
+    if (!chaveNotaValida(chave)) continue;
+    const textoRevisao = textoRevisaoParaDiario(dados);
+    if (!textoRevisao) continue;
+    const atual = String(notas[chave] ?? "").trim();
+    if (!atual) {
+      notas[chave] = textoRevisao;
       recuperou = true;
     }
   }
 
   if (recuperou) salvarNotas({ pularBackup: true });
   return recuperou;
+}
+
+function procurarTextoAntigoDiario() {
+  const chave = dataDiarioSelecionada || ontemStr();
+  const achados = buscarTextosLongosNoNavegador().filter((item) => item.tamanho >= 200);
+  if (!achados.length) {
+    mostrarFeedback("Não achei nenhum texto longo guardado neste navegador.");
+    return;
+  }
+
+  const melhor =
+    achados.find((item) => item.caminho.includes("notas-diarias")) ||
+    achados.find((item) => item.caminho.includes("2026-07-23")) ||
+    achados[0];
+
+  const confirmar = confirm(
+    `Encontrei um texto com ${melhor.tamanho} caracteres.\n\nPrévia:\n${melhor.texto.slice(0, 220)}${
+      melhor.texto.length > 220 ? "…" : ""
+    }\n\nRestaurar no diário de ${formatarDataCurtaBR(chave)}?`
+  );
+  if (!confirmar) return;
+
+  definirNota(chave, melhor.texto);
+  carregarNotaDiario(chave);
+  mostrarFeedback("Texto antigo restaurado no diário.");
 }
 
 function salvarNotas(opcoes = {}) {
@@ -547,6 +664,7 @@ function definirNota(chave, texto, opcoes = {}) {
   const { silencioso = false } = opcoes;
   const limpo = texto.trim();
   if (limpo) {
+    arquivarHistoricoNota(chave, texto);
     notas[chave] = texto;
   } else {
     delete notas[chave];
@@ -3099,6 +3217,7 @@ function ligarTodosEventos() {
   });
   diarioTexto?.addEventListener("blur", persistirNotaDiarioAtual);
   diarioSalvar?.addEventListener("click", salvarDiarioExplicito);
+  diarioBuscarAntiga?.addEventListener("click", procurarTextoAntigoDiario);
   diarioData?.addEventListener("change", () => {
     if (diarioData.value) carregarNotaDiario(diarioData.value);
   });

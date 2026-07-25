@@ -20,7 +20,7 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=2.11.3" />
+  <link rel="stylesheet" href="style.css?v=2.11.4" />
 </head>
 <body>
   <div class="ambiente">
@@ -335,6 +335,9 @@
           ></textarea>
           <div class="diario-acoes">
             <button type="button" id="diario-salvar" class="botao-secundario">Salvar entrada</button>
+            <button type="button" id="diario-buscar-antiga" class="botao-secundario">
+              Procurar texto antigo
+            </button>
             <p id="diario-status" class="diario-status" aria-live="polite"></p>
           </div>
         </section>
@@ -495,7 +498,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
-  <script type="module" src="js/main.js?v=2.11.3"></script>
+  <script type="module" src="js/main.js?v=2.11.4"></script>
   <script defer src="sync.js?v=4"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 /* Service worker — lembretes agendados + cache do app (PWA) */
 
-const CACHE = "agenda-v2.11.3";
+const CACHE = "agenda-v2.11.4";
 const alarmes = new Map();
 
 const ARQUIVOS_CACHE = [
