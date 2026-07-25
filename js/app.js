@@ -1,5 +1,5 @@
-import { APP_VERSION, hostAtual } from "./config.js?v=2.15.2";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.15.2";
+import { APP_VERSION, hostAtual } from "./config.js?v=2.16.0";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.16.0";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.15.2";
+} from "./lib/avisos-agenda.js?v=2.16.0";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.15.2";
+} from "./lib/habitos.js?v=2.16.0";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.15.2";
+} from "./lib/perfil.js?v=2.16.0";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,32 +54,38 @@ import {
   PRIORIDADES_PRESET,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.15.2";
+} from "./lib/rotina-preset.js?v=2.16.0";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.15.2";
+} from "./lib/aprender.js?v=2.16.0";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.15.2";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.15.2";
+} from "./lib/estudo-hub.js?v=2.16.0";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.16.0";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.15.2";
+} from "./lib/estudo-ui.js?v=2.16.0";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.15.2";
+} from "./lib/cheguei.js?v=2.16.0";
+import {
+  aplicarSugestaoIa,
+  montarPayloadContextoIa,
+  pedirOpcoesContexto,
+} from "./lib/contexto-ia.js?v=2.16.0";
+import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.16.0";
 import {
   arquivarVersaoNota,
   carregarHistoricoCompleto,
@@ -89,38 +95,38 @@ import {
   mesclarNotasDoHistorico,
   restaurarVersaoHistorico,
   rotuloMotivoVersao,
-} from "./lib/diario-historico.js?v=2.15.2";
+} from "./lib/diario-historico.js?v=2.16.0";
 import {
   aplicarExplicacoesNeuro,
   carregarExplicacoesNeuro,
   mesclarExplicacoesNeuro,
-} from "./lib/neuro-explicar.js?v=2.15.2";
+} from "./lib/neuro-explicar.js?v=2.16.0";
 import {
   esconderBannerMigracaoHost,
   ligarMigracaoHost,
   mostrarAvisoGithubParaVercel,
   mostrarBannerMigracaoHost,
   precisaConectarSyncNesteHost,
-} from "./lib/migracao-host.js?v=2.15.2";
+} from "./lib/migracao-host.js?v=2.16.0";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.15.2";
+} from "./lib/tarde.js?v=2.16.0";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.15.2";
+} from "./lib/inteligencia.js?v=2.16.0";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.15.2";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.15.2";
+} from "./lib/lembretes.js?v=2.16.0";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.16.0";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -135,12 +141,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.15.2";
+} from "./lib/foco.js?v=2.16.0";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.15.2";
+} from "./lib/rotina-local.js?v=2.16.0";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -173,7 +179,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.15.2";
+} from "./lib/tdah.js?v=2.16.0";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -285,6 +291,8 @@ let avisos = [];
 let chegueiEstado = "inicio";
 let chegueiExcluidos = [];
 let chegueiOpcoesAtuais = null;
+let chegueiContexto = "chegada";
+let chegueiIaToken = 0;
 let filtroCategoria = "Todas";
 let idArrastando = null;
 let painelAtivo = "hoje";
@@ -2291,7 +2299,7 @@ function ativarPainel(nome) {
   const titulos = {
     rotina: "Sua rotina",
     hoje: "Seu dia",
-    cheguei: "Cheguei em casa",
+    cheguei: "E agora?",
     estudo: "Estudo",
     semana: "Sua semana",
     diario: "Diário",
@@ -2570,6 +2578,7 @@ function desenharAgora() {
   }
 
   const { habito, motivo } = sugestao;
+  const virtual = Boolean(sugestao.virtual) || !habito.id;
   const horario = habito.horario ? `<span class="agora-hora">${habito.horario}</span>` : "";
   const passos = listaMicroPassos(habito);
   const preparar = listaPreparar(habito);
@@ -2591,45 +2600,68 @@ function desenharAgora() {
       </div>`
       : "";
 
+  const botaoPrincipal = virtual
+    ? `<button type="button" class="agora-botao" id="agora-virtual">
+        <span class="agora-nome">${habito.nome}</span>
+      </button>`
+    : `<button type="button" class="agora-botao" data-ir-habito="${habito.id}">
+        ${horario}
+        <span class="agora-nome">${habito.nome}</span>
+      </button>`;
+
+  const acoesExtras = virtual
+    ? `<div class="agora-acoes">
+        <button type="button" class="botao-secundario" id="agora-abrir-cheguei">Mais opções</button>
+      </div>`
+    : `<div class="agora-acoes agora-timers">
+        <button type="button" class="botao-secundario agora-timer-btn" data-seg="30">Só abrir</button>
+        <button type="button" class="botao-secundario agora-timer-btn" data-seg="120">2 min</button>
+        <button type="button" class="botao-secundario agora-timer-btn" data-seg="300">5 min</button>
+        <button type="button" class="botao-secundario agora-timer-btn" data-seg="600">10 min</button>
+        <button type="button" class="botao-secundario agora-timer-btn" data-seg="1500">25 min</button>
+      </div>
+      <div class="agora-acoes">
+        <button type="button" class="botao-secundario" id="agora-cronometro">Cronômetro</button>
+        <button type="button" class="botao-secundario agora-travei" data-travei="${habito.id}">Travei</button>
+      </div>`;
+
   agoraConteudo.innerHTML = `
     ${timerHtml}
     <p class="agora-motivo">${motivo}</p>
-    <button type="button" class="agora-botao" data-ir-habito="${habito.id}">
-      ${horario}
-      <span class="agora-nome">${habito.nome}</span>
-    </button>
+    ${botaoPrincipal}
     ${dicaPasso}
     ${prepHtml}
-    <div class="agora-acoes agora-timers">
-      <button type="button" class="botao-secundario agora-timer-btn" data-seg="30">Só abrir</button>
-      <button type="button" class="botao-secundario agora-timer-btn" data-seg="120">2 min</button>
-      <button type="button" class="botao-secundario agora-timer-btn" data-seg="300">5 min</button>
-      <button type="button" class="botao-secundario agora-timer-btn" data-seg="600">10 min</button>
-      <button type="button" class="botao-secundario agora-timer-btn" data-seg="1500">25 min</button>
-    </div>
-    <div class="agora-acoes">
-      <button type="button" class="botao-secundario" id="agora-cronometro">Cronômetro</button>
-      <button type="button" class="botao-secundario agora-travei" data-travei="${habito.id}">Travei</button>
-    </div>
+    ${acoesExtras}
     <p class="agora-dica">Um passo só. Sem precisar fazer tudo.</p>`;
 
-  agoraConteudo.querySelector(".agora-botao")?.addEventListener("click", () => {
-    irParaHabito(habito.id);
-  });
-  agoraConteudo.querySelectorAll(".agora-timer-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const seg = Number(btn.dataset.seg);
-      const rotulo =
-        seg <= 30 ? "30 segundos" : seg === 120 ? "2 minutos" : `${Math.round(seg / 60)} minutos`;
-      comecarTimer(seg, habito, rotulo);
+  if (virtual) {
+    agoraConteudo.querySelector("#agora-virtual")?.addEventListener("click", () => {
+      comecarTimer(600, habito, "10 minutos de descanso");
     });
-  });
-  agoraConteudo.querySelector("#agora-cronometro")?.addEventListener("click", () => {
-    comecarCronometro(habito);
-  });
-  agoraConteudo.querySelector(".agora-travei")?.addEventListener("click", () => {
-    mostrarFeedback(textoPlanoB(habito), "aviso");
-  });
+    agoraConteudo.querySelector("#agora-abrir-cheguei")?.addEventListener("click", () => {
+      chegueiContexto = faixaDoDia() === "madrugada" ? "noite" : "chegada";
+      ativarPainel("cheguei");
+      mostrarOpcoesCheguei();
+    });
+  } else {
+    agoraConteudo.querySelector(".agora-botao")?.addEventListener("click", () => {
+      irParaHabito(habito.id);
+    });
+    agoraConteudo.querySelectorAll(".agora-timer-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const seg = Number(btn.dataset.seg);
+        const rotulo =
+          seg <= 30 ? "30 segundos" : seg === 120 ? "2 minutos" : `${Math.round(seg / 60)} minutos`;
+        comecarTimer(seg, habito, rotulo);
+      });
+    });
+    agoraConteudo.querySelector("#agora-cronometro")?.addEventListener("click", () => {
+      comecarCronometro(habito);
+    });
+    agoraConteudo.querySelector(".agora-travei")?.addEventListener("click", () => {
+      mostrarFeedback(textoPlanoB(habito), "aviso");
+    });
+  }
   agoraConteudo.querySelector("#agora-cancelar-timer")?.addEventListener("click", () => {
     cancelarTimer();
     pararCronometro();
@@ -2768,13 +2800,35 @@ function desenharCheguei() {
       chave: hojeStr(),
       estaPendente: (h) => ehAtivoHoje(h) && !estaFeitoHoje(h),
       excluirIds: chegueiExcluidos,
+      contexto: chegueiContexto,
     });
     chegueiRoot.innerHTML = renderChegueiOpcoes(chegueiOpcoesAtuais);
+    enriquecerChegueiComIa();
     return;
   }
   chegueiRoot.innerHTML = renderChegueiFeito(
     chegueiMensagemFeito || "Um passo já conta. Pode parar por aqui."
   );
+}
+
+async function enriquecerChegueiComIa() {
+  const token = ++chegueiIaToken;
+  const base = chegueiOpcoesAtuais;
+  if (!base) return;
+
+  const payload = montarPayloadContextoIa({
+    contexto: chegueiContexto,
+    opcoes: base,
+    perfil: carregarPerfil(),
+  });
+  const resp = await pedirOpcoesContexto(payload);
+  if (token !== chegueiIaToken || chegueiEstado !== "opcoes") return;
+  if (!resp.ok || !resp.escolhidos?.length) return;
+
+  chegueiOpcoesAtuais = aplicarSugestaoIa(base, resp);
+  if (chegueiRoot && chegueiEstado === "opcoes") {
+    chegueiRoot.innerHTML = renderChegueiOpcoes(chegueiOpcoesAtuais);
+  }
 }
 
 function mostrarOpcoesCheguei() {
@@ -2786,6 +2840,8 @@ function reiniciarCheguei() {
   chegueiEstado = "inicio";
   chegueiExcluidos = [];
   chegueiMensagemFeito = "";
+  chegueiContexto = "chegada";
+  chegueiIaToken += 1;
   desenharCheguei();
 }
 
@@ -3428,6 +3484,12 @@ function ligarTodosEventos() {
   });
   botaoLembretes?.addEventListener("click", ativarLembretes);
   chegueiRoot?.addEventListener("click", (evento) => {
+    const gatilho = evento.target.closest("[data-cheguei-contexto]");
+    if (gatilho) {
+      chegueiContexto = gatilho.dataset.chegueiContexto || "chegada";
+      mostrarOpcoesCheguei();
+      return;
+    }
     const alvo = evento.target.closest("[data-cheguei-acao], [data-cheguei-escolha]");
     if (!alvo) return;
     if (alvo.dataset.chegueiAcao === "mostrar") {

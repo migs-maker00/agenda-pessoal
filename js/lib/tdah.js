@@ -1,5 +1,11 @@
 // Ferramentas para TDAH — prioridades, inbox e sugestão do momento
 
+import {
+  faixaDoDia,
+  habitoFazSentidoAgora,
+  horarioRelevanteAgora,
+  rotuloFaixa,
+} from "./contexto-tempo.js";
 export const MAX_PRIORIDADES = 3;
 export const MAX_INBOX = 40;
 
@@ -163,8 +169,26 @@ export function alternarPrioridade(chave, habitoId, mapa = carregarPrioridades()
 }
 
 export function sugestaoAgora(habitos, chave, { estaPendente, ordenarPorHorario, prioridades }) {
-  const pendentes = habitos.filter((h) => estaPendente(h));
-  if (!pendentes.length) return null;
+  const faixa = faixaDoDia();
+  const pendentes = habitos
+    .filter((h) => estaPendente(h))
+    .filter((h) => habitoFazSentidoAgora(h, faixa));
+  if (!pendentes.length) {
+    if (faixa === "madrugada") {
+      return {
+        habito: {
+          id: 0,
+          nome: "Descansar agora",
+          horario: "",
+          microPassos: ["Respire fundo", "Água se quiser", "Deitar sem culpa"],
+          planoB: "Só deitar. O trabalho na praia é de manhã.",
+        },
+        motivo: `Madrugada — nada de trabalho pesado agora`,
+        virtual: true,
+      };
+    }
+    return null;
+  }
 
   for (const id of prioridades) {
     const habito = pendentes.find((h) => idHabitoIgual(h.id, id));
@@ -179,25 +203,28 @@ export function sugestaoAgora(habitos, chave, { estaPendente, ordenarPorHorario,
   });
 
   const essencial = porImportancia.find((h) => normalizarImportancia(h.importancia) === 1);
-  if (essencial) {
+  if (essencial && (!essencial.horario || horarioRelevanteAgora(essencial.horario))) {
     return { habito: essencial, motivo: "Hábito essencial — maior impacto" };
   }
 
-  const agora = new Date();
-  const minutosAgora = agora.getHours() * 60 + agora.getMinutes();
-  const comHorario = ordenarPorHorario(
-    porImportancia.filter((h) => h.horario)
-  );
+  const minutosAgoraVal = new Date().getHours() * 60 + new Date().getMinutes();
+  const comHorario = ordenarPorHorario(porImportancia.filter((h) => h.horario));
 
   for (const habito of comHorario) {
     const [hh, mm] = habito.horario.split(":").map(Number);
-    if (hh * 60 + mm >= minutosAgora) {
-      return { habito, motivo: `Próximo horário (${habito.horario})` };
+    const minH = hh * 60 + mm;
+    if (minH >= minutosAgoraVal && horarioRelevanteAgora(habito.horario)) {
+      return { habito, motivo: `Horário de agora (${habito.horario})` };
     }
   }
 
-  if (comHorario[0]) {
-    return { habito: comHorario[0], motivo: "Próximo da lista por horário" };
+  const relevanteSemHorario = porImportancia.find((h) => !h.horario);
+  if (relevanteSemHorario) {
+    return { habito: relevanteSemHorario, motivo: `Sugestão para a ${rotuloFaixa(faixa)}` };
+  }
+
+  if (comHorario[0] && horarioRelevanteAgora(comHorario[0].horario)) {
+    return { habito: comHorario[0], motivo: `Próximo da lista (${comHorario[0].horario})` };
   }
 
   return { habito: porImportancia[0], motivo: "Um passo de cada vez" };
