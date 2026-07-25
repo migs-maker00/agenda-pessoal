@@ -20,7 +20,7 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=2.11.4" />
+  <link rel="stylesheet" href="style.css?v=2.12.0" />
 </head>
 <body>
   <div class="ambiente">
@@ -312,7 +312,8 @@
           <h2 class="bloco-titulo">Diário</h2>
           <p class="bloco-apoio">
             Cada dia guarda uma entrada. É o <strong>mesmo texto</strong> de
-            <strong>Hoje → Anotações do dia</strong>. Abra sempre em <strong>Ir para hoje</strong> se não achar.
+            <strong>Hoje → Anotações do dia</strong>. Salva sozinho enquanto você escreve —
+            versões antigas ficam em <strong>Histórico</strong> abaixo.
           </p>
 
           <div class="diario-controles">
@@ -327,6 +328,7 @@
           <div id="diario-recuperar" class="diario-recuperar" hidden></div>
 
           <p id="diario-data-legenda" class="diario-legenda"></p>
+          <p id="diario-ultimo-salvo" class="diario-ultimo-salvo" aria-live="polite"></p>
           <textarea
             id="diario-texto"
             class="nota-campo"
@@ -340,6 +342,17 @@
             </button>
             <p id="diario-status" class="diario-status" aria-live="polite"></p>
           </div>
+        </section>
+
+        <section class="bloco">
+          <h2 class="bloco-titulo">Histórico</h2>
+          <p class="bloco-apoio">
+            Versões guardadas deste dia. Toque numa para restaurar se algo sumir.
+          </p>
+          <div id="lista-historico-diario" class="lista-historico-diario"></div>
+          <p id="diario-historico-vazio" class="mensagem-vazia">
+            Ainda sem versões guardadas para esta data. Escreva um pouco — o app salva automaticamente.
+          </p>
         </section>
 
         <section class="bloco">
@@ -498,7 +511,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
-  <script type="module" src="js/main.js?v=2.11.4"></script>
+  <script type="module" src="js/main.js?v=2.12.0"></script>
   <script defer src="sync.js?v=4"></script>
 </body>
 </html>

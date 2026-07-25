@@ -1848,6 +1848,12 @@ body {
   color: var(--marca);
 }
 
+.diario-ultimo-salvo {
+  margin: 0 0 8px;
+  font-size: 0.82rem;
+  color: var(--texto-suave);
+}
+
 .diario-acoes {
   display: flex;
   flex-wrap: wrap;
@@ -1869,6 +1875,46 @@ body {
 
 .diario-status-aviso {
   color: var(--aviso, #b45309);
+}
+
+.lista-historico-diario {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.historico-diario-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  background: var(--fundo-card);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.historico-diario-item:hover {
+  border-color: rgba(196, 149, 106, 0.55);
+  background: rgba(196, 149, 106, 0.08);
+}
+
+.historico-diario-meta {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.historico-diario-preview {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--texto);
+  white-space: pre-wrap;
 }
 
 .lista-diario {

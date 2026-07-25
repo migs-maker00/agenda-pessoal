@@ -1,0 +1,112 @@
+/** Histórico de versões do diário — protege contra perda acidental de texto. */
+
+export const CHAVE_HISTORICO_NOTAS = "notas-diarias-historico";
+const MAX_VERSOES = 150;
+const MIN_INTERVALO_MS = 25_000;
+const MIN_CHARS_NOVA_VERSAO = 35;
+
+const ultimoArquivoPorChave = new Map();
+
+function gerarIdVersao() {
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+export function chaveNotaDiarioValida(chave) {
+  return typeof chave === "string" && /^\d{4}-\d{2}-\d{2}$/.test(chave);
+}
+
+export function carregarHistoricoCompleto() {
+  try {
+    const lista = JSON.parse(localStorage.getItem(CHAVE_HISTORICO_NOTAS) || "[]");
+    return Array.isArray(lista) ? lista : [];
+  } catch {
+    return [];
+  }
+}
+
+function salvarHistoricoCompleto(lista) {
+  localStorage.setItem(CHAVE_HISTORICO_NOTAS, JSON.stringify(lista.slice(-MAX_VERSOES)));
+}
+
+export function historicoDaData(chave, lista = carregarHistoricoCompleto()) {
+  if (!chaveNotaDiarioValida(chave)) return [];
+  return lista
+    .filter((item) => item?.chave === chave && String(item.texto ?? "").trim())
+    .sort((a, b) => (b.em || 0) - (a.em || 0));
+}
+
+export function mesclarNotasDoHistorico(mapa = {}, lista = carregarHistoricoCompleto()) {
+  const resultado = { ...mapa };
+  lista.forEach((item) => {
+    if (!item?.chave || !chaveNotaDiarioValida(item.chave)) return;
+    const txt = String(item.texto ?? "").trim();
+    if (!txt) return;
+    const atual = String(resultado[item.chave] ?? "").trim();
+    if (!atual || txt.length > atual.length) resultado[item.chave] = item.texto;
+  });
+  return resultado;
+}
+
+function deveCriarNovaVersao(chave, texto, motivo) {
+  if (motivo === "manual" || motivo === "apagar" || motivo === "fechar") return true;
+
+  const registro = ultimoArquivoPorChave.get(chave);
+  if (!registro) return true;
+  if (registro.texto === texto) return false;
+
+  const passouTempo = Date.now() - registro.em >= MIN_INTERVALO_MS;
+  const mudouBastante = Math.abs(texto.length - registro.texto.length) >= MIN_CHARS_NOVA_VERSAO;
+  return passouTempo || mudouBastante;
+}
+
+/** Guarda uma versão do texto. Não apaga versões antigas ao limpar o campo. */
+export function arquivarVersaoNota(chave, texto, { motivo = "auto" } = {}) {
+  if (!chaveNotaDiarioValida(chave)) return false;
+  const limpo = String(texto ?? "").trim();
+  if (!limpo) return false;
+  if (!deveCriarNovaVersao(chave, limpo, motivo)) return false;
+
+  const lista = carregarHistoricoCompleto();
+  const versao = {
+    id: gerarIdVersao(),
+    chave,
+    texto: limpo,
+    em: Date.now(),
+    chars: limpo.length,
+    motivo,
+  };
+  lista.push(versao);
+  salvarHistoricoCompleto(lista);
+  ultimoArquivoPorChave.set(chave, { texto: limpo, em: versao.em });
+  return true;
+}
+
+export function restaurarVersaoHistorico(id) {
+  const item = carregarHistoricoCompleto().find((v) => v.id === id);
+  if (!item?.chave || !chaveNotaDiarioValida(item.chave)) return null;
+  return { chave: item.chave, texto: item.texto };
+}
+
+export function importarHistoricoNotas(lista) {
+  if (!Array.isArray(lista)) return;
+  const atual = carregarHistoricoCompleto();
+  const ids = new Set(atual.map((v) => v.id));
+  const novas = lista.filter((v) => v?.id && !ids.has(v.id));
+  if (!novas.length) return;
+  salvarHistoricoCompleto([...atual, ...novas]);
+}
+
+export function formatarHoraVersao(em) {
+  if (!em) return "";
+  return new Date(em).toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+export function rotuloMotivoVersao(motivo) {
+  if (motivo === "manual") return "salvo por você";
+  if (motivo === "apagar") return "antes de apagar";
+  if (motivo === "fechar") return "ao sair da aba";
+  return "automático";
+}
