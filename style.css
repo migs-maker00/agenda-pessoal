@@ -3199,3 +3199,212 @@ body {
 .estudo-pratica-trocar {
   margin: -4px 0 8px;
 }
+
+/* Trilha Neuro — aprender explicando */
+.neuro-modulos-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 12px;
+}
+
+.neuro-mod-chip {
+  border: 1px solid var(--borda);
+  border-radius: 999px;
+  background: var(--superficie);
+  color: var(--texto);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 6px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.neuro-mod-chip.ativo {
+  background: var(--marca);
+  color: var(--bege-claro);
+  border-color: var(--marca);
+}
+
+.neuro-mod-chip.feito:not(.ativo) {
+  border-color: color-mix(in srgb, var(--marca) 40%, var(--borda));
+  color: var(--marca);
+}
+
+.neuro-modulo-card {
+  margin: 0 0 14px;
+  padding: 12px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--marca) 5%, var(--superficie));
+  border: 1px solid color-mix(in srgb, var(--marca) 18%, var(--borda));
+}
+
+.neuro-modulo-cab {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 0 0 10px;
+}
+
+.neuro-modulo-emoji {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.neuro-modulo-titulo {
+  margin: 0;
+  font-family: var(--fonte-titulo);
+  font-size: 1.05rem;
+  color: var(--marca);
+}
+
+.neuro-modulo-meta {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+}
+
+.neuro-vocab-en {
+  font-style: italic;
+}
+
+.neuro-texto-leitura p {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--texto);
+}
+
+.neuro-texto-leitura p:last-child {
+  margin-bottom: 0;
+}
+
+.neuro-pontos {
+  margin-top: 10px;
+  font-size: 0.85rem;
+}
+
+.neuro-pontos summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--marca);
+}
+
+.neuro-pontos ul {
+  margin: 8px 0 0;
+  padding-left: 1.1rem;
+  color: var(--texto-suave);
+}
+
+.neuro-explicar-dica {
+  margin: 0 0 8px;
+  font-size: 0.82rem;
+  color: var(--texto-suave);
+}
+
+.neuro-explicacao-campo {
+  min-height: 7rem;
+}
+
+.neuro-explicar-botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 10px 0 0;
+}
+
+.neuro-dictado-status {
+  margin: 8px 0 0;
+  font-size: 0.82rem;
+  color: var(--marca);
+}
+
+.neuro-feedback {
+  margin: 14px 0 0;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--borda);
+  background: var(--superficie);
+}
+
+.neuro-feedback.ok {
+  border-color: color-mix(in srgb, #2d8a4e 40%, var(--borda));
+  background: color-mix(in srgb, #2d8a4e 8%, var(--superficie));
+}
+
+.neuro-feedback.parcial {
+  border-color: color-mix(in srgb, #c9a227 45%, var(--borda));
+  background: color-mix(in srgb, #c9a227 10%, var(--superficie));
+}
+
+.neuro-feedback.aviso {
+  border-color: color-mix(in srgb, var(--marca) 35%, var(--borda));
+}
+
+.neuro-fb-pct {
+  margin: 0 0 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--marca);
+}
+
+.neuro-fb-msg {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.neuro-fb-lista {
+  margin: 6px 0 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.neuro-fb-faltou {
+  color: var(--texto-suave);
+}
+
+.neuro-dica-app {
+  margin: 12px 0 0;
+  font-size: 0.82rem;
+  color: var(--texto-suave);
+}
+
+@media (max-width: 480px) {
+  .estudo-nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .estudo-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .estudo-nav-item {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .estudo-sessao-botoes {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .neuro-modulos-nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .neuro-modulos-nav::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -20,6 +20,7 @@ import {
 } from "./estudo-hub.js?v=2.11.0";
 import {
   escutarPronuncia,
+  escutarDictado,
   pararEscuta,
   suportaReconhecimentoVoz,
 } from "./estudo-fala.js";
@@ -48,6 +49,17 @@ import {
   linksSugeridosPorTipo,
   urlJaSalva,
 } from "./estudo-links-sugeridos.js?v=2.11.0";
+import {
+  MODULOS_NEURO,
+  moduloNeuroPorId,
+  proximoModuloNeuro,
+} from "./neuro-modulos.js";
+import {
+  avaliarExplicacao,
+  explicacaoSalva,
+  modulosExplicadosNoDia,
+  salvarExplicacao,
+} from "./neuro-explicar.js";
 
 function esc(s) {
   return String(s)
@@ -108,9 +120,10 @@ function renderSessao(dados, metaPratica) {
     <section class="estudo-bloco estudo-sessao">
       <h2 class="bloco-titulo">Sessão de hoje</h2>
       ${cabecalhoLivro(livro, { destaque: true })}
-      <p class="bloco-apoio">${r.feitos}/${r.total} etapas — vídeo, áudio, questões e falar.</p>
+      <p class="bloco-apoio">${r.feitos}/${r.total} etapas — vídeo, áudio, questões, falar e neuro.</p>
       <ul class="estudo-passos">${passosHtml}</ul>
       <div class="estudo-sessao-botoes">
+        <button type="button" class="botao-secundario" data-estudo-aba="neuro">🧠 Neuro</button>
         <button type="button" class="botao-secundario" data-estudo-aba="livros">📚 Livros</button>
         <button type="button" class="botao-secundario" data-estudo-aba="assistir">▶ Assistir</button>
         <button type="button" class="botao-secundario" data-estudo-aba="ouvir">🎧 Ouvir</button>
@@ -489,8 +502,103 @@ function renderLivros(dados) {
     </section>`;
 }
 
+function renderNeuro(dados, chaveDia) {
+  const modId = dados.neuroModuloAtivo || MODULOS_NEURO[0].id;
+  const mod = moduloNeuroPorId(modId);
+  const salva = explicacaoSalva(mod.id, chaveDia);
+  const rascunho = dados.neuroRascunho ?? salva?.texto ?? "";
+  const fb = dados.neuroFeedback;
+  const explicadosHoje = modulosExplicadosNoDia(chaveDia);
+
+  const chips = MODULOS_NEURO.map((m) => {
+    const feito = Boolean(explicacaoSalva(m.id, chaveDia));
+    return `<button type="button" class="neuro-mod-chip ${m.id === mod.id ? "ativo" : ""} ${feito ? "feito" : ""}" data-neuro-modulo="${m.id}">${m.emoji} ${esc(m.titulo)}${feito ? " ✓" : ""}</button>`;
+  }).join("");
+
+  const pontos = mod.pontosChave
+    .map((p) => `<li>${esc(p)}</li>`)
+    .join("");
+
+  let feedbackHtml = "";
+  if (fb) {
+    const cls = fb.ok ? "ok" : fb.curto ? "aviso" : "parcial";
+    const acertos =
+      fb.acertos?.length > 0
+        ? `<p class="neuro-fb-lista"><strong>Você mencionou:</strong> ${fb.acertos.map(esc).join(" · ")}</p>`
+        : "";
+    const faltou =
+      fb.faltou?.length > 0
+        ? `<p class="neuro-fb-lista neuro-fb-faltou"><strong>Ainda vale incluir:</strong> ${fb.faltou.map(esc).join(" · ")}</p>`
+        : "";
+    feedbackHtml = `
+      <div class="neuro-feedback ${cls}" role="status">
+        <p class="neuro-fb-pct">${fb.pct ?? 0}% do essencial</p>
+        <p class="neuro-fb-msg">${esc(fb.feedback)}</p>
+        ${acertos}
+        ${faltou}
+      </div>`;
+  }
+
+  const micBtn = suportaReconhecimentoVoz()
+    ? `<button type="button" class="botao-secundario" data-neuro-dictado="1">🎤 Falar explicação</button>`
+    : "";
+
+  const dictadoStatus =
+    dados.neuroDictadoStatus
+      ? `<p class="neuro-dictado-status" role="status">${esc(dados.neuroDictadoStatus)}</p>`
+      : "";
+
+  const prox = proximoModuloNeuro(mod.id);
+
+  return `
+    <section class="estudo-bloco neuro-painel" data-neuro-painel="1">
+      <h2 class="bloco-titulo">Neuro — aprender explicando</h2>
+      <p class="bloco-apoio">Leia → explique com suas palavras → veja o que pegou. Hoje: ${explicadosHoje}/${MODULOS_NEURO.length} módulos.</p>
+      <div class="neuro-modulos-nav" role="tablist" aria-label="Módulos de neurociência">${chips}</div>
+      <article class="neuro-modulo-card">
+        <header class="neuro-modulo-cab">
+          <span class="neuro-modulo-emoji">${mod.emoji}</span>
+          <div>
+            <h3 class="neuro-modulo-titulo">${esc(mod.titulo)}</h3>
+            <p class="neuro-modulo-meta">${esc(mod.tempo)} · ${esc(mod.vocab.pt)} <span class="neuro-vocab-en">(${esc(mod.vocab.en)})</span></p>
+          </div>
+        </header>
+        <div class="neuro-texto-leitura">${mod.texto
+          .split("\n")
+          .map((p) => `<p>${esc(p)}</p>`)
+          .join("")}</div>
+        <details class="neuro-pontos">
+          <summary>Pontos-chave</summary>
+          <ul>${pontos}</ul>
+        </details>
+      </article>
+      <div class="neuro-explicar">
+        <label class="estudo-form-rotulo" for="neuro-explicacao">${esc(mod.perguntaExplicar)}</label>
+        <p class="neuro-explicar-dica">Como se estivesse ensinando uma amiga — não precisa ser perfeito.</p>
+        <textarea
+          id="neuro-explicacao"
+          class="nota-campo neuro-explicacao-campo"
+          data-neuro-explicacao
+          rows="5"
+          maxlength="2500"
+          placeholder="Escreva ou use o microfone para ditar sua explicação..."
+        >${esc(rascunho)}</textarea>
+        ${dictadoStatus}
+        <div class="neuro-explicar-botoes">
+          <button type="button" class="botao-primario" data-neuro-verificar="1">Verificar minha explicação</button>
+          ${micBtn}
+          <button type="button" class="botao-secundario" data-estudo-timer="10">Timer 10 min</button>
+          ${prox ? `<button type="button" class="botao-texto" data-neuro-proximo="${prox.id}">Próximo: ${esc(prox.titulo)} →</button>` : ""}
+        </div>
+        ${feedbackHtml}
+        <p class="neuro-dica-app">💡 ${esc(mod.dicaApp)}</p>
+      </div>
+    </section>`;
+}
+
 const ABAS = [
   { id: "sessao", rotulo: "Início", icone: "🏠" },
+  { id: "neuro", rotulo: "Neuro", icone: "🧠" },
   { id: "livros", rotulo: "Livros", icone: "📚" },
   { id: "assistir", rotulo: "Assistir", icone: "▶" },
   { id: "ouvir", rotulo: "Ouvir", icone: "🎧" },
@@ -507,6 +615,7 @@ export function renderPainelEstudo(dados, chaveDia) {
 
   let conteudo = "";
   if (aba === "sessao") conteudo = renderSessao(dados, META_PERGUNTAS_DIA);
+  else if (aba === "neuro") conteudo = renderNeuro(dados, chaveDia);
   else if (aba === "livros") conteudo = renderLivros(dados);
   else if (aba === "assistir") conteudo = renderAssistir(dados);
   else if (aba === "ouvir") conteudo = renderOuvir(dados);
@@ -528,7 +637,7 @@ export function renderResumoHoje(dados, chaveDia) {
   return `
     <h2 class="bloco-titulo">Estudo de hoje</h2>
     ${cabecalhoLivro(livro, { destaque: true })}
-    <p class="bloco-apoio">Vídeo, áudio, questões e falar em voz alta.</p>
+    <p class="bloco-apoio">Vídeo, áudio, questões, falar e neurociência.</p>
     <div class="estudo-resumo-barra"><div class="estudo-resumo-fill" style="width:${pct}%"></div></div>
     <p class="estudo-resumo-texto">${r.feitos}/${r.total} etapas · Prática: ${praticaOk ? "✓" : "pendente"}</p>
     <button type="button" class="botao-secundario estudo-ir-aba" data-ir-painel="estudo">Abrir Estudo →</button>`;
@@ -562,7 +671,7 @@ export function ligarPainelEstudo(root, getState, setState, opts = {}) {
     if (!origem) return;
 
     const alvo = origem.closest(
-      "[data-estudo-acao], [data-estudo-aba], [data-estudo-link], [data-estudo-remover], [data-estudo-sugerir], [data-estudo-timer], [data-estudo-marcar], [data-estudo-ouvir], [data-estudo-mic], [data-estudo-selecionar-livro], [data-estudo-cat], [data-estudo-tema], .estudo-pratica-confirmar, .estudo-pratica-opcao, [data-ir-painel]"
+      "[data-estudo-acao], [data-estudo-aba], [data-estudo-link], [data-estudo-remover], [data-estudo-sugerir], [data-estudo-timer], [data-estudo-marcar], [data-estudo-ouvir], [data-estudo-mic], [data-estudo-selecionar-livro], [data-estudo-cat], [data-estudo-tema], [data-neuro-modulo], [data-neuro-verificar], [data-neuro-proximo], [data-neuro-dictado], .estudo-pratica-confirmar, .estudo-pratica-opcao, [data-ir-painel]"
     );
 
     if (!alvo) return;
@@ -584,7 +693,103 @@ export function ligarPainelEstudo(root, getState, setState, opts = {}) {
 
     if (alvo.dataset.estudoAba) {
       pararEscuta();
-      setState({ ...dados, abaAtiva: alvo.dataset.estudoAba, falaFeedback: null });
+      const aba = alvo.dataset.estudoAba;
+      if (aba === "neuro") {
+        const mod = moduloNeuroPorId(dados.neuroModuloAtivo);
+        const salva = explicacaoSalva(mod.id, chaveDia());
+        setState({
+          ...dados,
+          abaAtiva: "neuro",
+          neuroRascunho: salva?.texto || "",
+          neuroFeedback: salva?.avaliacao || null,
+          neuroDictadoStatus: null,
+          falaFeedback: null,
+        });
+        return;
+      }
+      setState({ ...dados, abaAtiva: aba, falaFeedback: null, neuroDictadoStatus: null });
+      return;
+    }
+
+    if (alvo.dataset.neuroModulo) {
+      pararEscuta();
+      const mod = moduloNeuroPorId(alvo.dataset.neuroModulo);
+      const salva = explicacaoSalva(mod.id, chaveDia());
+      setState({
+        ...dados,
+        abaAtiva: "neuro",
+        neuroModuloAtivo: mod.id,
+        neuroRascunho: salva?.texto || "",
+        neuroFeedback: salva?.avaliacao || null,
+        neuroDictadoStatus: null,
+      });
+      return;
+    }
+
+    if (alvo.dataset.neuroProximo) {
+      pararEscuta();
+      const prox = moduloNeuroPorId(alvo.dataset.neuroProximo);
+      const salva = explicacaoSalva(prox.id, chaveDia());
+      setState({
+        ...dados,
+        abaAtiva: "neuro",
+        neuroModuloAtivo: prox.id,
+        neuroRascunho: salva?.texto || "",
+        neuroFeedback: salva?.avaliacao || null,
+        neuroDictadoStatus: null,
+      });
+      return;
+    }
+
+    if (alvo.dataset.neuroVerificar !== undefined) {
+      const campo = root.querySelector("[data-neuro-explicacao]");
+      const texto = campo?.value?.trim() || "";
+      const mod = moduloNeuroPorId(dados.neuroModuloAtivo);
+      const avaliacao = avaliarExplicacao(texto, mod);
+      salvarExplicacao(mod.id, chaveDia(), texto, avaliacao);
+
+      let atual = {
+        ...dados,
+        neuroRascunho: texto,
+        neuroFeedback: avaliacao,
+        neuroDictadoStatus: null,
+      };
+
+      if (avaliacao.ok) {
+        const neuro = Math.max(atual.sessao?.neuro || 0, 1);
+        atual = marcarSessao({ ...atual, sessao: { ...atual.sessao, data: chaveDia(), neuro } }, "neuro", neuro);
+        mostrarFeedback?.("Boa explicação! Ensinar fixa o conhecimento.");
+        onAtualizarHoje?.();
+      } else if (avaliacao.curto) {
+        mostrarFeedback?.("Escreva um pouco mais antes de verificar.", "aviso");
+      } else {
+        mostrarFeedback?.("Quase lá — releia e tente incluir o que faltou.", "aviso");
+      }
+
+      setState(atual);
+      return;
+    }
+
+    if (alvo.dataset.neuroDictado !== undefined) {
+      escutarDictado({
+        onStatus: (msg) => {
+          setState({ ...getState(), neuroDictadoStatus: msg });
+        },
+        onError: (msg) => {
+          setState({ ...getState(), neuroDictadoStatus: msg });
+        },
+        onResult: (texto) => {
+          const atual = getState();
+          const campo = root.querySelector("[data-neuro-explicacao]");
+          const anterior = campo?.value?.trim() || atual.neuroRascunho || "";
+          const junto = anterior ? `${anterior} ${texto}` : texto;
+          setState({
+            ...atual,
+            neuroRascunho: junto,
+            neuroDictadoStatus: "Texto adicionado — revise e toque em Verificar.",
+          });
+        },
+      });
       return;
     }
 
@@ -718,6 +923,13 @@ export function ligarPainelEstudo(root, getState, setState, opts = {}) {
       const dados = getState();
       const novo = { ...dados, buscaLivro: campoBusca.value, temaLivro: null };
       setState(novo, { somenteLivros: true });
+      return;
+    }
+
+    const campoNeuro = evento.target.closest("[data-neuro-explicacao]");
+    if (campoNeuro) {
+      const dados = getState();
+      setState({ ...dados, neuroRascunho: campoNeuro.value }, { somenteNeuro: true, semResumo: true });
       return;
     }
 
