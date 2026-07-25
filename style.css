@@ -3480,12 +3480,37 @@ body {
   cursor: wait;
 }
 
+.neuro-fb-pct {
   margin: 0 0 6px;
   font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--marca);
+}
+
+.neuro-voz-botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 10px;
+}
+
+.neuro-voz-destaque {
+  flex: 1 1 auto;
+}
+
+.neuro-voz-indisponivel {
+  margin: 0 0 8px;
+  font-size: 0.82rem;
+  color: var(--texto-suave);
+}
+
+.neuro-fb-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .neuro-fb-msg {

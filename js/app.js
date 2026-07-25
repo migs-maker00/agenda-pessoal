@@ -1,5 +1,5 @@
-import { APP_VERSION, hostAtual } from "./config.js?v=2.17.0";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.17.0";
+import { APP_VERSION, hostAtual } from "./config.js?v=2.18.0";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.18.0";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.17.0";
+} from "./lib/avisos-agenda.js?v=2.18.0";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.17.0";
+} from "./lib/habitos.js?v=2.18.0";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.17.0";
+} from "./lib/perfil.js?v=2.18.0";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,49 +54,49 @@ import {
   PRIORIDADES_PRESET,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.17.0";
+} from "./lib/rotina-preset.js?v=2.18.0";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.17.0";
+} from "./lib/aprender.js?v=2.18.0";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.17.0";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.17.0";
+} from "./lib/estudo-hub.js?v=2.18.0";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.18.0";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.17.0";
+} from "./lib/estudo-ui.js?v=2.18.0";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.17.0";
+} from "./lib/cheguei.js?v=2.18.0";
 import {
   aplicarSugestaoIa,
   montarPayloadContextoIa,
   pedirOpcoesContexto,
-} from "./lib/contexto-ia.js?v=2.17.0";
-import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.17.0";
-import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.17.0";
+} from "./lib/contexto-ia.js?v=2.18.0";
+import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.18.0";
+import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.18.0";
 import {
   mensagemStreakGlobal,
   mensagemStreakHabito,
   rotuloStreakInsights,
-} from "./lib/streak-gentil.js?v=2.17.0";
-import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.17.0";
-import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.17.0";
-import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.17.0";
-import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.17.0";
-import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.17.0";
+} from "./lib/streak-gentil.js?v=2.18.0";
+import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.18.0";
+import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.18.0";
+import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.18.0";
+import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.18.0";
+import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.18.0";
 import {
   carregarSessaoParceiro,
   iniciarSessaoParceiro,
@@ -104,8 +104,8 @@ import {
   finalizarSessaoParceiro,
   limparSessaoParceiro,
   renderPainelParceiro,
-} from "./lib/estudo-parceiro.js?v=2.17.0";
-import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.17.0";
+} from "./lib/estudo-parceiro.js?v=2.18.0";
+import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.18.0";
 import {
   arquivarVersaoNota,
   carregarHistoricoCompleto,
@@ -115,38 +115,39 @@ import {
   mesclarNotasDoHistorico,
   restaurarVersaoHistorico,
   rotuloMotivoVersao,
-} from "./lib/diario-historico.js?v=2.17.0";
+} from "./lib/diario-historico.js?v=2.18.0";
 import {
   aplicarExplicacoesNeuro,
   carregarExplicacoesNeuro,
   mesclarExplicacoesNeuro,
-} from "./lib/neuro-explicar.js?v=2.17.0";
+} from "./lib/neuro-explicar.js?v=2.18.0";
+import { sondarIaNeuro } from "./lib/neuro-ia.js?v=2.18.0";
 import {
   esconderBannerMigracaoHost,
   ligarMigracaoHost,
   mostrarAvisoGithubParaVercel,
   mostrarBannerMigracaoHost,
   precisaConectarSyncNesteHost,
-} from "./lib/migracao-host.js?v=2.17.0";
+} from "./lib/migracao-host.js?v=2.18.0";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.17.0";
+} from "./lib/tarde.js?v=2.18.0";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.17.0";
+} from "./lib/inteligencia.js?v=2.18.0";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.17.0";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.17.0";
+} from "./lib/lembretes.js?v=2.18.0";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.18.0";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -161,12 +162,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.17.0";
+} from "./lib/foco.js?v=2.18.0";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.17.0";
+} from "./lib/rotina-local.js?v=2.18.0";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -199,7 +200,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.17.0";
+} from "./lib/tdah.js?v=2.18.0";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -3855,6 +3856,10 @@ export function initApp() {
   });
   processarParametrosUrl();
   processarHashHabito();
+
+  void sondarIaNeuro().then(() => {
+    if (painelAtivo === "estudo") desenharPainelEstudo();
+  });
 
   ligarMigracaoHost({
     ativarPainel,
