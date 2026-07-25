@@ -1,6 +1,6 @@
 /* Service worker — lembretes agendados + cache do app (PWA) */
 
-const CACHE = "agenda-v2.12.1";
+const CACHE = "agenda-v2.12.3";
 const alarmes = new Map();
 
 const ARQUIVOS_CACHE = [
@@ -48,9 +48,7 @@ async function cacheFirst(request) {
 }
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(ARQUIVOS_CACHE)).then(() => self.skipWaiting())
-  );
+  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ARQUIVOS_CACHE)));
 });
 
 self.addEventListener("activate", (event) => {

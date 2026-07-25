@@ -1,10 +1,12 @@
 /**
  * Ponto de entrada do app — expõe API para sync.js e inicializa a UI.
  */
-import { APP_VERSION } from "./config.js?v=2.12.1";
+import { APP_VERSION } from "./config.js?v=2.12.3";
 
 const CHAVE_VERSAO_LOCAL = "app-versao-carregada";
 const CHAVE_TENTOU_RECUPERAR = "app-tentou-recuperar-cache";
+const CHAVE_RECARREGAR_SW = "sw-recarregar-pendente";
+const CHAVE_RECARREGAR_VERSAO = "versao-recarregando";
 
 function mostrarErroCarregamento(erro) {
   const detalhe = erro?.message || String(erro);
@@ -43,34 +45,30 @@ async function removerServiceWorkers() {
   await Promise.all(registrations.map((reg) => reg.unregister()));
 }
 
+function ligarRecargaControladaSW() {
+  if (!("serviceWorker" in navigator)) return;
+  if (ligarRecargaControladaSW._ligado) return;
+  ligarRecargaControladaSW._ligado = true;
+
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (sessionStorage.getItem(CHAVE_RECARREGAR_SW) !== "1") return;
+    sessionStorage.removeItem(CHAVE_RECARREGAR_SW);
+    forcarRecargaComVersaoNova();
+  });
+}
+
 async function configurarServiceWorker() {
   if (!("serviceWorker" in navigator)) return null;
 
-  const registration = await navigator.serviceWorker.register(`./sw.js?v=${APP_VERSION}`);
+  ligarRecargaControladaSW();
 
-  navigator.serviceWorker.addEventListener("controllerchange", () => {
-    forcarRecargaComVersaoNova();
-  });
-
-  if (registration.waiting) {
-    registration.waiting.postMessage({ type: "SKIP_WAITING" });
-  }
-
-  registration.addEventListener("updatefound", () => {
-    const novo = registration.installing;
-    if (!novo) return;
-    novo.addEventListener("statechange", () => {
-      if (novo.state === "installed" && navigator.serviceWorker.controller) {
-        novo.postMessage({ type: "SKIP_WAITING" });
-      }
-    });
-  });
-
+  const registration = await navigator.serviceWorker.register("./sw.js");
   await registration.update();
   return registration;
 }
 
 export async function forcarAtualizacaoApp() {
+  sessionStorage.removeItem(CHAVE_RECARREGAR_VERSAO);
   await removerServiceWorkers();
   await limparCachesAntigos();
   sessionStorage.removeItem(CHAVE_TENTOU_RECUPERAR);
@@ -82,8 +80,17 @@ async function prepararVersaoNova() {
   const salva = localStorage.getItem(CHAVE_VERSAO_LOCAL);
   if (!salva || salva === APP_VERSION) {
     localStorage.setItem(CHAVE_VERSAO_LOCAL, APP_VERSION);
+    sessionStorage.removeItem(CHAVE_RECARREGAR_VERSAO);
     return false;
   }
+
+  if (sessionStorage.getItem(CHAVE_RECARREGAR_VERSAO) === "1") {
+    localStorage.setItem(CHAVE_VERSAO_LOCAL, APP_VERSION);
+    sessionStorage.removeItem(CHAVE_RECARREGAR_VERSAO);
+    return false;
+  }
+
+  sessionStorage.setItem(CHAVE_RECARREGAR_VERSAO, "1");
   await removerServiceWorkers();
   await limparCachesAntigos();
   localStorage.setItem(CHAVE_VERSAO_LOCAL, APP_VERSION);
