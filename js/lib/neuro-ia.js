@@ -1,18 +1,30 @@
 /** Cliente — feedback da trilha Neuro via API Vercel + Gemini. */
 
-import { NEURO_IA_API_URL } from "../config.js";
+import { NEURO_IA_API_URL, hostAtual } from "../config.js";
 
+export function urlApiNeuro() {
+  const base = String(NEURO_IA_API_URL || "").trim();
+  if (!base) return "";
+  if (base.startsWith("http://") || base.startsWith("https://")) return base;
+  if (typeof location !== "undefined") {
+    return new URL(base, location.origin).href;
+  }
+  return base;
+}
+
+/** IA só no Vercel (mesma origem). GitHub Pages usa fallback local. */
 export function iaNeuroDisponivel() {
-  return Boolean(String(NEURO_IA_API_URL || "").trim());
+  return hostAtual() === "vercel" && Boolean(urlApiNeuro());
 }
 
 export async function pedirFeedbackIaNeuro(modulo, explicacao) {
-  if (!iaNeuroDisponivel()) {
-    return { ok: false, erro: "IA não configurada neste app." };
+  const url = urlApiNeuro();
+  if (!iaNeuroDisponivel() || !url) {
+    return { ok: false, erro: "IA disponível no app Vercel." };
   }
 
   try {
-    const resposta = await fetch(NEURO_IA_API_URL, {
+    const resposta = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
