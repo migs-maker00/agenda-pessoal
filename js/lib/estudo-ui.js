@@ -61,6 +61,12 @@ import {
   salvarExplicacao,
 } from "./neuro-explicar.js";
 import { iaNeuroDisponivel, pedirFeedbackIaNeuro } from "./neuro-ia.js";
+import {
+  dictadoExplicacaoNeuro,
+  falarPortugues,
+  montarTextoFeedback,
+  suportaReconhecimentoVoz as suportaVozNeuro,
+} from "./neuro-voz.js";
 
 function esc(s) {
   return String(s)
@@ -540,6 +546,11 @@ function renderNeuro(dados, chaveDia) {
     const pergunta = fb.perguntaSeguinte
       ? `<p class="neuro-fb-pergunta"><strong>Pra pensar:</strong> ${esc(fb.perguntaSeguinte)}</p>`
       : "";
+    const acoesFb = `
+      <div class="neuro-fb-acoes">
+        <button type="button" class="botao-secundario" data-neuro-ouvir-feedback="1">🔊 Ouvir feedback</button>
+        ${fb.perguntaSeguinte && suportaVozNeuro() ? `<button type="button" class="botao-secundario" data-neuro-responder-pergunta="1">🎤 Responder pergunta</button>` : ""}
+      </div>`;
     feedbackHtml = `
       <div class="neuro-feedback ${cls} ${fonteIa ? "neuro-feedback-ia" : ""}" role="status">
         ${fonteIa ? `<p class="neuro-fb-fonte">Correção com IA ✨</p>` : `<p class="neuro-fb-pct">${fb.pct ?? 0}% do essencial</p>`}
@@ -547,12 +558,16 @@ function renderNeuro(dados, chaveDia) {
         ${acertos}
         ${faltou}
         ${pergunta}
+        ${acoesFb}
       </div>`;
   }
 
-  const micBtn = suportaReconhecimentoVoz()
-    ? `<button type="button" class="botao-secundario" data-neuro-dictado="1">🎤 Falar explicação</button>`
-    : "";
+  const micBtns = suportaVozNeuro()
+    ? `<div class="neuro-voz-botoes">
+        <button type="button" class="botao-primario neuro-voz-destaque" data-neuro-voz-completa="1">🎤 Explicar só com voz</button>
+        <button type="button" class="botao-secundario" data-neuro-dictado="1">🎤 Acrescentar por voz</button>
+      </div>`
+    : `<p class="neuro-voz-indisponivel">Microfone indisponível — escreva abaixo.</p>`;
 
   const dictadoStatus =
     dados.neuroDictadoStatus
@@ -564,7 +579,7 @@ function renderNeuro(dados, chaveDia) {
   return `
     <section class="estudo-bloco neuro-painel" data-neuro-painel="1">
       <h2 class="bloco-titulo">Neuro — aprender explicando</h2>
-      <p class="bloco-apoio">Leia → explique → feedback${iaNeuroDisponivel() ? " com IA" : ""}. Hoje: ${explicadosHoje}/${MODULOS_NEURO.length} módulos.</p>
+      <p class="bloco-apoio">Trilha com ${MODULOS_NEURO.length} módulos · leia → explique (voz ou texto) → feedback${iaNeuroDisponivel() ? " com IA" : ""}. Hoje: ${explicadosHoje}/${MODULOS_NEURO.length}.</p>
       <div class="neuro-modulos-nav" role="tablist" aria-label="Módulos de neurociência">${chips}</div>
       <article class="neuro-modulo-card">
         <header class="neuro-modulo-cab">
@@ -585,21 +600,21 @@ function renderNeuro(dados, chaveDia) {
       </article>
       <div class="neuro-explicar">
         <label class="estudo-form-rotulo" for="neuro-explicacao">${esc(mod.perguntaExplicar)}</label>
-        <p class="neuro-explicar-dica">Como se estivesse ensinando uma amiga — não precisa ser perfeito.</p>
+        <p class="neuro-explicar-dica">Como se estivesse ensinando uma amiga — voz ou texto.</p>
+        ${micBtns}
         <textarea
           id="neuro-explicacao"
           class="nota-campo neuro-explicacao-campo"
           data-neuro-explicacao
           rows="5"
           maxlength="2500"
-          placeholder="Escreva ou use o microfone para ditar sua explicação..."
+          placeholder="Escreva ou use o microfone acima..."
         >${esc(rascunho)}</textarea>
         ${dictadoStatus}
         <div class="neuro-explicar-botoes">
           <button type="button" class="botao-primario" data-neuro-verificar="1" ${dados.neuroIaCarregando ? "disabled" : ""}>
             ${iaNeuroDisponivel() ? "Verificar com IA ✨" : "Verificar minha explicação"}
           </button>
-          ${micBtn}
           <button type="button" class="botao-secundario" data-estudo-timer="10">Timer 10 min</button>
           ${prox ? `<button type="button" class="botao-texto" data-neuro-proximo="${prox.id}">Próximo: ${esc(prox.titulo)} →</button>` : ""}
         </div>
@@ -684,7 +699,7 @@ export function ligarPainelEstudo(root, getState, setState, opts = {}) {
     if (!origem) return;
 
     const alvo = origem.closest(
-      "[data-estudo-acao], [data-estudo-aba], [data-estudo-link], [data-estudo-remover], [data-estudo-sugerir], [data-estudo-timer], [data-estudo-marcar], [data-estudo-ouvir], [data-estudo-mic], [data-estudo-selecionar-livro], [data-estudo-cat], [data-estudo-tema], [data-neuro-modulo], [data-neuro-verificar], [data-neuro-proximo], [data-neuro-dictado], .estudo-pratica-confirmar, .estudo-pratica-opcao, [data-ir-painel]"
+      "[data-estudo-acao], [data-estudo-aba], [data-estudo-link], [data-estudo-remover], [data-estudo-sugerir], [data-estudo-timer], [data-estudo-marcar], [data-estudo-ouvir], [data-estudo-mic], [data-estudo-selecionar-livro], [data-estudo-cat], [data-estudo-tema], [data-neuro-modulo], [data-neuro-verificar], [data-neuro-proximo], [data-neuro-dictado], [data-neuro-voz-completa], [data-neuro-ouvir-feedback], [data-neuro-responder-pergunta], .estudo-pratica-confirmar, .estudo-pratica-opcao, [data-ir-painel]"
     );
 
     if (!alvo) return;
@@ -760,22 +775,52 @@ export function ligarPainelEstudo(root, getState, setState, opts = {}) {
     }
 
     if (alvo.dataset.neuroDictado !== undefined) {
-      escutarDictado({
-        onStatus: (msg) => {
-          setState({ ...getState(), neuroDictadoStatus: msg });
-        },
-        onError: (msg) => {
-          setState({ ...getState(), neuroDictadoStatus: msg });
-        },
-        onResult: (texto) => {
+      iniciarDictadoNeuro(root, getState, setState, {
+        substituir: false,
+        autoVerificar: false,
+        chaveDia,
+        mostrarFeedback,
+        onAtualizarHoje,
+      });
+      return;
+    }
+
+    if (alvo.dataset.neuroVozCompleta !== undefined) {
+      iniciarDictadoNeuro(root, getState, setState, {
+        substituir: true,
+        autoVerificar: true,
+        minChars: 20,
+        chaveDia,
+        mostrarFeedback,
+        onAtualizarHoje,
+      });
+      return;
+    }
+
+    if (alvo.dataset.neuroOuvirFeedback !== undefined) {
+      const fbAtual = getState().neuroFeedback;
+      if (!falarPortugues(montarTextoFeedback(fbAtual))) {
+        mostrarFeedback?.("Não foi possível ler em voz alta.", "aviso");
+      }
+      return;
+    }
+
+    if (alvo.dataset.neuroResponderPergunta !== undefined) {
+      const fbAtual = getState().neuroFeedback;
+      if (!fbAtual?.perguntaSeguinte) return;
+      dictadoExplicacaoNeuro({
+        onStatus: (msg) => setState({ ...getState(), neuroDictadoStatus: msg }),
+        onError: (msg) => setState({ ...getState(), neuroDictadoStatus: msg }),
+        onTexto: ({ texto }) => {
           const atual = getState();
           const campo = root.querySelector("[data-neuro-explicacao]");
-          const anterior = campo?.value?.trim() || atual.neuroRascunho || "";
-          const junto = anterior ? `${anterior} ${texto}` : texto;
+          const prefixo = `[Resposta] `;
+          const junto = `${prefixo}${texto}`;
+          if (campo) campo.value = junto;
           setState({
             ...atual,
             neuroRascunho: junto,
-            neuroDictadoStatus: "Texto adicionado — revise e toque em Verificar.",
+            neuroDictadoStatus: "Resposta gravada — toque em Verificar.",
           });
         },
       });
@@ -993,6 +1038,54 @@ export function ligarPainelEstudo(root, getState, setState, opts = {}) {
       form.reset();
       mostrarFeedback?.("Palavra adicionada!");
     }
+  });
+}
+
+function iniciarDictadoNeuro(root, getState, setState, opts) {
+  const {
+    substituir = false,
+    autoVerificar = false,
+    minChars = 20,
+    chaveDia,
+    mostrarFeedback,
+    onAtualizarHoje,
+  } = opts;
+
+  dictadoExplicacaoNeuro({
+    substituir,
+    autoVerificar,
+    minChars,
+    onStatus: (msg) => setState({ ...getState(), neuroDictadoStatus: msg }),
+    onError: (msg) => setState({ ...getState(), neuroDictadoStatus: msg }),
+    onTexto: ({ texto }) => {
+      const atual = getState();
+      const campo = root.querySelector("[data-neuro-explicacao]");
+      const anterior = campo?.value?.trim() || atual.neuroRascunho || "";
+      const junto = substituir ? texto : anterior ? `${anterior} ${texto}` : texto;
+      if (campo) campo.value = junto;
+      setState({
+        ...atual,
+        neuroRascunho: junto,
+        neuroDictadoStatus: autoVerificar
+          ? "Verificando sua explicação…"
+          : "Texto adicionado — revise e toque em Verificar.",
+      });
+      if (autoVerificar && junto.trim().length >= minChars) {
+        void processarVerificacaoNeuro(
+          root,
+          chaveDia,
+          getState,
+          setState,
+          mostrarFeedback,
+          onAtualizarHoje
+        );
+      } else if (autoVerificar) {
+        setState({
+          ...getState(),
+          neuroDictadoStatus: "Fale um pouco mais e toque em Verificar.",
+        });
+      }
+    },
   });
 }
 
