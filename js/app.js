@@ -1,5 +1,5 @@
-import { APP_VERSION, hostAtual } from "./config.js?v=2.16.1";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.16.1";
+import { APP_VERSION, hostAtual } from "./config.js?v=2.17.0";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.17.0";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.16.1";
+} from "./lib/avisos-agenda.js?v=2.17.0";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.16.1";
+} from "./lib/habitos.js?v=2.17.0";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.16.1";
+} from "./lib/perfil.js?v=2.17.0";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,38 +54,58 @@ import {
   PRIORIDADES_PRESET,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.16.1";
+} from "./lib/rotina-preset.js?v=2.17.0";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.16.1";
+} from "./lib/aprender.js?v=2.17.0";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.16.1";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.16.1";
+} from "./lib/estudo-hub.js?v=2.17.0";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.17.0";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.16.1";
+} from "./lib/estudo-ui.js?v=2.17.0";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.16.1";
+} from "./lib/cheguei.js?v=2.17.0";
 import {
   aplicarSugestaoIa,
   montarPayloadContextoIa,
   pedirOpcoesContexto,
-} from "./lib/contexto-ia.js?v=2.16.1";
-import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.16.1";
+} from "./lib/contexto-ia.js?v=2.17.0";
+import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.17.0";
+import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.17.0";
+import {
+  mensagemStreakGlobal,
+  mensagemStreakHabito,
+  rotuloStreakInsights,
+} from "./lib/streak-gentil.js?v=2.17.0";
+import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.17.0";
+import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.17.0";
+import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.17.0";
+import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.17.0";
+import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.17.0";
+import {
+  carregarSessaoParceiro,
+  iniciarSessaoParceiro,
+  avancarParaExplicar,
+  finalizarSessaoParceiro,
+  limparSessaoParceiro,
+  renderPainelParceiro,
+} from "./lib/estudo-parceiro.js?v=2.17.0";
+import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.17.0";
 import {
   arquivarVersaoNota,
   carregarHistoricoCompleto,
@@ -95,38 +115,38 @@ import {
   mesclarNotasDoHistorico,
   restaurarVersaoHistorico,
   rotuloMotivoVersao,
-} from "./lib/diario-historico.js?v=2.16.1";
+} from "./lib/diario-historico.js?v=2.17.0";
 import {
   aplicarExplicacoesNeuro,
   carregarExplicacoesNeuro,
   mesclarExplicacoesNeuro,
-} from "./lib/neuro-explicar.js?v=2.16.1";
+} from "./lib/neuro-explicar.js?v=2.17.0";
 import {
   esconderBannerMigracaoHost,
   ligarMigracaoHost,
   mostrarAvisoGithubParaVercel,
   mostrarBannerMigracaoHost,
   precisaConectarSyncNesteHost,
-} from "./lib/migracao-host.js?v=2.16.1";
+} from "./lib/migracao-host.js?v=2.17.0";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.16.1";
+} from "./lib/tarde.js?v=2.17.0";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.16.1";
+} from "./lib/inteligencia.js?v=2.17.0";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.16.1";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.16.1";
+} from "./lib/lembretes.js?v=2.17.0";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.17.0";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -141,12 +161,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.16.1";
+} from "./lib/foco.js?v=2.17.0";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.16.1";
+} from "./lib/rotina-local.js?v=2.17.0";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -179,7 +199,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.16.1";
+} from "./lib/tdah.js?v=2.17.0";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -275,7 +295,10 @@ const botaoArquivarInbox = document.getElementById("botao-arquivar-inbox");
 const toggleCabecaLeve = document.getElementById("toggle-cabeca-leve");
 const toggleLimiteDiario = document.getElementById("toggle-limite-diario");
 const toggleCerebroVazio = document.getElementById("toggle-cerebro-vazio");
+const toggleModoBarulho = document.getElementById("toggle-modo-barulho");
 const bannerTarde = document.getElementById("banner-tarde");
+const bannerTransicao = document.getElementById("banner-transicao");
+const bannerPreditivo = document.getElementById("banner-preditivo");
 const manhaFoco1 = document.getElementById("manha-foco1");
 const manhaFoco2 = document.getElementById("manha-foco2");
 const manhaFoco3 = document.getElementById("manha-foco3");
@@ -283,6 +306,10 @@ const resumoNaoEsqueci = document.getElementById("resumo-nao-esqueci");
 const entradaTemaSemana = document.getElementById("entrada-tema-semana");
 const perfilResumo = document.getElementById("perfil-resumo");
 const botaoRotinaPersonalizada = document.getElementById("botao-rotina-personalizada");
+const diarioResumoIa = document.getElementById("diario-resumo-ia");
+const diarioResumoPainel = document.getElementById("diario-resumo-painel");
+const botaoPlanoSemana = document.getElementById("botao-plano-semana");
+const planoSemanaPainel = document.getElementById("plano-semana-painel");
 
 // ---- Estado (a "fonte da verdade" do app) ----
 let habitos = [];
@@ -293,6 +320,7 @@ let chegueiExcluidos = [];
 let chegueiOpcoesAtuais = null;
 let chegueiContexto = "chegada";
 let chegueiIaToken = 0;
+let chegueiFalaTexto = "";
 let agoraTraveiHabitoId = null;
 let filtroCategoria = "Todas";
 let idArrastando = null;
@@ -1439,6 +1467,10 @@ function avancarHabito(id) {
 
     return { ...habito, historico };
   });
+  const habitoAtual = habitos.find((h) => h.id === id);
+  if (habitoAtual && estaFeitoHoje(habitoAtual)) {
+    registrarConclusao(habitoAtual);
+  }
   salvar();
   desenhar();
 }
@@ -1976,6 +2008,68 @@ function desenharResumoSemana() {
   resumoSemana.textContent = gerarResumoSemana(stats);
 }
 
+async function gerarPlanoSemanaIa() {
+  if (!planoSemanaPainel) return;
+  planoSemanaPainel.hidden = false;
+  planoSemanaPainel.innerHTML = `<p class="plano-semana-carregando">Montando plano…</p>`;
+  const stats = calcularEstatisticasSemana();
+  const padroes = resumoPadroesParaIA(habitos);
+  const resp = await pedirPlanoSemana(
+    {
+      feitosSemana: stats.feitosSemana,
+      totalPossivel: stats.totalPossivel,
+      taxa30: taxaConclusao30Dias(),
+      streak: streakGlobal(),
+      prioridades: prioridadesDoDia(hojeStr()).map(
+        (id) => habitos.find((h) => h.id === id)?.nome || ""
+      ),
+    },
+    padroes
+  );
+  const linhas = (resp.linhas || []).map((l) => `<li>${l}</li>`).join("");
+  planoSemanaPainel.innerHTML = `
+    <div class="plano-semana-card">
+      <p class="plano-semana-titulo">${resp.titulo || "Sua semana"}</p>
+      <ul class="plano-semana-lista">${linhas}</ul>
+      ${resp.focoPrincipal ? `<p class="plano-semana-foco"><strong>Foco:</strong> ${resp.focoPrincipal}</p>` : ""}
+      ${resp.fraseMotivacao ? `<p class="plano-semana-motiv">${resp.fraseMotivacao}</p>` : ""}
+      <p class="plano-semana-fonte">${resp.fonte === "ia" ? "✨ IA" : "Local"}</p>
+    </div>`;
+}
+
+async function gerarResumoDiarioIa() {
+  if (!diarioResumoPainel) return;
+  const chave = garantirDataDiario();
+  const texto = (notas[chave] || diarioTexto?.value || "").trim();
+  const revisao = revisaoDoDia(chave);
+  if (texto.length < 15) {
+    mostrarFeedback("Escreva um pouco mais antes de organizar.", "aviso");
+    return;
+  }
+  diarioResumoPainel.hidden = false;
+  diarioResumoPainel.innerHTML = `<p class="diario-resumo-carregando">Organizando…</p>`;
+  const resp = await pedirResumoDiario(texto, revisao);
+  const feito = (resp.feito || []).map((f) => `<li>${f}</li>`).join("");
+  const pesou = (resp.pesou || []).map((p) => `<li>${p}</li>`).join("");
+  diarioResumoPainel.innerHTML = `
+    <div class="diario-resumo-card">
+      <p class="diario-resumo-frase">${resp.fraseApoio || ""}</p>
+      ${feito ? `<p class="diario-resumo-sec"><strong>Vale celebrar</strong></p><ul>${feito}</ul>` : ""}
+      ${pesou ? `<p class="diario-resumo-sec"><strong>Ficou na cabeça</strong></p><ul>${pesou}</ul>` : ""}
+      ${resp.amanha ? `<p class="diario-resumo-amanha"><strong>Amanhã:</strong> ${resp.amanha}</p>` : ""}
+      <p class="diario-resumo-nota">Seu texto original não foi alterado.</p>
+      <p class="diario-resumo-fonte">${resp.fonte === "ia" ? "✨ IA" : "Local"}</p>
+    </div>`;
+}
+
+function processarParametrosUrl() {
+  const params = new URLSearchParams(location.search);
+  const painel = params.get("painel");
+  if (painel && document.getElementById(`painel-${painel}`)) {
+    ativarPainel(painel);
+  }
+}
+
 function atualizarSugestaoHabito() {
   const texto = entradaHabito.value.trim();
   if (!texto || texto.length < 3) {
@@ -2253,12 +2347,14 @@ function desenharCardsInsights() {
   const total = habitos.length;
   const taxa = taxaConclusao30Dias();
   const melhorRecorde = habitos.reduce((max, h) => Math.max(max, calcularRecorde(h)), 0);
+  const apoioStreak = mensagemStreakGlobal(streak);
 
   cardsInsights.innerHTML = `
     <article class="card-insight">
       <p class="card-insight-rotulo">Sequência</p>
       <p class="card-insight-valor">${streak}</p>
-      <p class="card-insight-apoio">${streak === 1 ? "dia seguido" : "dias seguidos"}</p>
+      <p class="card-insight-apoio">${rotuloStreakInsights(streak)}</p>
+      <p class="card-insight-extra">${apoioStreak}</p>
     </article>
     <article class="card-insight">
       <p class="card-insight-rotulo">Hoje</p>
@@ -2799,6 +2895,7 @@ function desenharManha() {
   const prio = prioridadesDoDia(chave);
 
   const focos = [dados.foco1, dados.foco2, dados.foco3].filter((t) => t.trim());
+  const preparoOntem = textoPreparoManha(chave);
   const habitoNomes = prio
     .map((id) => habitos.find((h) => h.id === id)?.nome)
     .filter(Boolean);
@@ -2806,7 +2903,11 @@ function desenharManha() {
   if (focos.length || habitoNomes.length) {
     const linhas = focos.length ? focos : habitoNomes;
     resumoNaoEsqueci.hidden = false;
-    resumoNaoEsqueci.innerHTML = `<strong>Não esquecer:</strong> ${linhas.slice(0, 3).join(" · ")}`;
+    const extra = preparoOntem && !focos.includes(preparoOntem) ? ` · <em>${preparoOntem}</em>` : "";
+    resumoNaoEsqueci.innerHTML = `<strong>Não esquecer:</strong> ${linhas.slice(0, 3).join(" · ")}${extra}`;
+  } else if (preparoOntem) {
+    resumoNaoEsqueci.hidden = false;
+    resumoNaoEsqueci.innerHTML = `<strong>De ontem:</strong> ${preparoOntem}`;
   } else if (perfil.prioridadesVida?.length) {
     resumoNaoEsqueci.hidden = false;
     resumoNaoEsqueci.innerHTML = `<strong>Seu foco:</strong> ${perfil.prioridadesVida.join(" · ")}`;
@@ -2820,6 +2921,31 @@ function desenharManha() {
 }
 
 let chegueiMensagemFeito = "";
+
+function iniciarVozCheguei() {
+  if (!suportaReconhecimentoVoz()) {
+    mostrarFeedback("Seu navegador não suporta voz. Use os botões.", "aviso");
+    return;
+  }
+  pararEscuta();
+  mostrarFeedback("Ouvindo… fale o que aconteceu.");
+  escutarDictado({
+    onStatus: (msg) => {
+      if (chegueiRoot) {
+        const apoio = chegueiRoot.querySelector(".cheguei-apoio");
+        if (apoio) apoio.textContent = msg;
+      }
+    },
+    onResult: (texto) => {
+      const interp = interpretarFala(texto);
+      chegueiContexto = interp.contexto;
+      chegueiFalaTexto = interp.texto;
+      mostrarFeedback(`Entendi: ${rotuloContextoVoz(interp.contexto)}`);
+      mostrarOpcoesCheguei();
+    },
+    onError: () => mostrarFeedback("Não ouvi bem — tente de novo ou use os botões.", "aviso"),
+  });
+}
 
 function desenharCheguei() {
   if (!chegueiRoot) return;
@@ -2854,6 +2980,7 @@ async function enriquecerChegueiComIa() {
     contexto: chegueiContexto,
     opcoes: base,
     perfil: carregarPerfil(),
+    fala: chegueiFalaTexto,
   });
   const resp = await pedirOpcoesContexto(payload);
   if (token !== chegueiIaToken || chegueiEstado !== "opcoes") return;
@@ -2875,6 +3002,7 @@ function reiniciarCheguei() {
   chegueiExcluidos = [];
   chegueiMensagemFeito = "";
   chegueiContexto = "chegada";
+  chegueiFalaTexto = "";
   chegueiIaToken += 1;
   desenharCheguei();
 }
@@ -2914,6 +3042,31 @@ function aplicarEscolhaCheguei(opcaoId) {
 
   chegueiEstado = "feito";
   desenharCheguei();
+}
+
+function desenharBannerTransicao() {
+  if (!bannerTransicao) return;
+  const trans = detectarTransicao();
+  if (!trans) {
+    bannerTransicao.hidden = true;
+    return;
+  }
+  bannerTransicao.hidden = false;
+  const texto = bannerTransicao.querySelector(".banner-transicao-texto");
+  if (texto) texto.textContent = mensagemTransicao(trans);
+}
+
+function desenharBannerPreditivo() {
+  if (!bannerPreditivo) return;
+  const pendente = habitos.find((h) => ehAtivoHoje(h) && !estaFeitoHoje(h));
+  const alerta = pendente ? alertaPreditivo(pendente) : null;
+  if (!alerta) {
+    bannerPreditivo.hidden = true;
+    return;
+  }
+  bannerPreditivo.hidden = false;
+  const texto = bannerPreditivo.querySelector(".banner-preditivo-texto");
+  if (texto) texto.textContent = alerta;
 }
 
 function desenharBannerTarde() {
@@ -3057,7 +3210,8 @@ function desenharEstudoResumo() {
 function desenharPainelEstudo() {
   if (!estudoPainelRoot) return;
   dadosEstudo = resetSessaoSeNovoDia(dadosEstudo, hojeStr());
-  estudoPainelRoot.innerHTML = renderPainelEstudo(dadosEstudo, hojeStr());
+  const parceiro = renderPainelParceiro(carregarSessaoParceiro());
+  estudoPainelRoot.innerHTML = parceiro + renderPainelEstudo(dadosEstudo, hojeStr());
 }
 
 function processarHashHabito() {
@@ -3109,6 +3263,8 @@ function desenharResumoAgenda() {
   desenharFilosofia();
   desenharManha();
   desenharBannerTarde();
+  desenharBannerTransicao();
+  desenharBannerPreditivo();
   desenharAgora();
   desenharEstudoResumo();
   desenharInbox();
@@ -3289,7 +3445,10 @@ function criarItem(habito) {
 
   const marcaStreak = document.createElement("span");
   marcaStreak.className = "streak" + (streak > 0 ? " ativa" : "");
-  marcaStreak.textContent = streak > 0 ? `${streak} ${streak === 1 ? "dia" : "dias"}` : "—";
+  const msgStreak = mensagemStreakHabito(habito, streak, calcularRecorde(habito));
+  marcaStreak.textContent =
+    msgStreak || (streak > 0 ? `${streak} ${streak === 1 ? "dia" : "dias"}` : "—");
+  if (msgStreak) marcaStreak.title = msgStreak;
 
   const botaoEditar = document.createElement("button");
   botaoEditar.className = "botao-editar";
@@ -3373,6 +3532,11 @@ function desenhar() {
   if (modoCerebroVazio()) {
     base = filtrarCerebroVazio(base, chave);
   }
+  if (modoBarulho()) {
+    base = filtrarModoBarulho(base, chave);
+  }
+
+  document.body.classList.toggle("modo-barulho-ativo", modoBarulho());
 
   let visiveis = ordenarComPrioridades(ordenarPorHorario(base), chave);
   visiveis = aplicarLimiteDiario(visiveis, chave);
@@ -3388,6 +3552,10 @@ function desenhar() {
   if (toggleCerebroVazio) {
     toggleCerebroVazio.classList.toggle("ativo", modoCerebroVazio());
     toggleCerebroVazio.setAttribute("aria-pressed", modoCerebroVazio() ? "true" : "false");
+  }
+  if (toggleModoBarulho) {
+    toggleModoBarulho.classList.toggle("ativo", modoBarulho());
+    toggleModoBarulho.setAttribute("aria-pressed", modoBarulho() ? "true" : "false");
   }
 
   if (rotuloFoco) {
@@ -3516,8 +3684,53 @@ function ligarTodosEventos() {
   revisaoAmanha?.addEventListener("input", () => {
     definirRevisaoCampo(hojeStr(), "amanha", revisaoAmanha.value);
   });
+  revisaoAmanha?.addEventListener("blur", () => {
+    if (aplicarPreparoNoite(hojeStr())) {
+      mostrarFeedback("Prioridade de amanhã copiada para a revisão da manhã.");
+    }
+  });
+  diarioResumoIa?.addEventListener("click", () => {
+    void gerarResumoDiarioIa();
+  });
+  botaoPlanoSemana?.addEventListener("click", () => {
+    void gerarPlanoSemanaIa();
+  });
+  estudoPainelRoot?.addEventListener("click", (evento) => {
+    const alvo = evento.target.closest("[data-parceiro]");
+    if (!alvo) return;
+    const acao = alvo.dataset.parceiro;
+    if (acao === "iniciar") {
+      iniciarSessaoParceiro({ titulo: "Estudo", minutos: 25 });
+      comecarTimer(1500, { id: 0, nome: "Estudo focado", microPassos: [] }, "25 minutos");
+      desenharPainelEstudo();
+      return;
+    }
+    if (acao === "explicar") {
+      avancarParaExplicar();
+      desenharPainelEstudo();
+      return;
+    }
+    if (acao === "enviar") {
+      const texto = estudoPainelRoot.querySelector("[data-parceiro-texto]")?.value || "";
+      finalizarSessaoParceiro(texto);
+      mostrarFeedback("Boa sessão! Veja feedback na trilha Neuro se quiser.");
+      limparSessaoParceiro();
+      desenharPainelEstudo();
+    }
+  });
+  toggleModoBarulho?.addEventListener("click", () => {
+    definirModoBarulho(!modoBarulho());
+    desenhar();
+    mostrarFeedback(
+      modoBarulho() ? "Modo barulho: só 1 coisa na tela." : "Mostrando visão normal."
+    );
+  });
   botaoLembretes?.addEventListener("click", ativarLembretes);
   chegueiRoot?.addEventListener("click", (evento) => {
+    if (evento.target.closest("[data-cheguei-voz]")) {
+      iniciarVozCheguei();
+      return;
+    }
     const gatilho = evento.target.closest("[data-cheguei-contexto]");
     if (gatilho) {
       chegueiContexto = gatilho.dataset.chegueiContexto || "chegada";
@@ -3640,6 +3853,7 @@ export function initApp() {
     persistirNotaHojeAtual();
     persistirNotaDiarioAtual();
   });
+  processarParametrosUrl();
   processarHashHabito();
 
   ligarMigracaoHost({

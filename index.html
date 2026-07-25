@@ -20,7 +20,7 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=2.16.1" />
+  <link rel="stylesheet" href="style.css?v=2.17.0" />
 </head>
 <body>
   <div class="ambiente">
@@ -158,6 +158,14 @@
           <p class="banner-tarde-texto"></p>
         </div>
 
+        <div id="banner-transicao" class="banner-transicao" hidden>
+          <p class="banner-transicao-texto"></p>
+        </div>
+
+        <div id="banner-preditivo" class="banner-preditivo" hidden>
+          <p class="banner-preditivo-texto"></p>
+        </div>
+
         <section class="bloco bloco-manha" aria-label="Revisão da manhã">
           <h2 class="bloco-titulo">Manhã — 2 min</h2>
           <p class="bloco-apoio">O que importa hoje? Três linhas no máximo.</p>
@@ -269,6 +277,9 @@
           <button type="button" id="toggle-cerebro-vazio" class="chip chip-modo-leve" aria-pressed="false">
             1 coisa só
           </button>
+          <button type="button" id="toggle-modo-barulho" class="chip chip-modo-leve chip-barulho" aria-pressed="false">
+            🔇 Cabeça em barulho
+          </button>
         </div>
         <p id="rotulo-foco" class="secao-rotulo rotulo-foco" hidden>Máx. 3 prioridades — toque na ☆</p>
         <ul id="lista-habitos" class="lista-habitos"></ul>
@@ -337,8 +348,10 @@
           ></textarea>
           <div class="diario-acoes">
             <button type="button" id="diario-salvar" class="botao-secundario">Salvar entrada</button>
+            <button type="button" id="diario-resumo-ia" class="botao-secundario">Organizar com IA</button>
             <p id="diario-status" class="diario-status" aria-live="polite"></p>
           </div>
+          <div id="diario-resumo-painel" class="diario-resumo-painel" hidden></div>
         </section>
 
         <section class="bloco">
@@ -404,6 +417,8 @@
           <h2 class="bloco-titulo">Resumo da semana</h2>
           <p class="bloco-apoio">Uma leitura do seu último ciclo de 7 dias.</p>
           <p id="resumo-semana" class="resumo-semana"></p>
+          <button type="button" id="botao-plano-semana" class="botao-secundario">Plano inteligente da semana</button>
+          <div id="plano-semana-painel" class="plano-semana-painel" hidden></div>
         </section>
 
         <section class="bloco">
@@ -562,7 +577,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
-  <script type="module" src="js/main.js?v=2.16.1"></script>
+  <script type="module" src="js/main.js?v=2.17.0"></script>
   <script defer src="sync.js?v=6"></script>
 </body>
 </html>

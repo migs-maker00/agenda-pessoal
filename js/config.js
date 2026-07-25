@@ -1,5 +1,5 @@
 /** Versão do app — usada para cache-bust de CSS/JS no index.html */
-export const APP_VERSION = "2.16.1";
+export const APP_VERSION = "2.17.0";
 
 /** URL principal no Vercel (GitHub Pages continua como espelho). */
 export const APP_URL_VERCEL = "https://projeto-1-criar.vercel.app";
@@ -15,6 +15,9 @@ export const NEURO_IA_API_URL = "/api/neuro-feedback";
 
 /** API Cheguei / Agora — sugestões contextuais (Groq no Vercel). */
 export const CONTEXTO_IA_API_URL = "/api/contexto-sugestao";
+
+export const DIARIO_IA_API_URL = "/api/diario-resumo";
+export const SEMANA_IA_API_URL = "/api/semana-agente";
 
 export function hostAtual() {
   const h = typeof location !== "undefined" ? location.hostname : "";

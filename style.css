@@ -3645,3 +3645,132 @@ body.migracao-host-aberto {
   padding: 0 4px;
 }
 
+/* v2.17 — inteligência expandida */
+.cheguei-voz {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 14px 16px;
+  border: 2px dashed color-mix(in srgb, var(--marca) 40%, var(--borda));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--marca) 8%, var(--superficie));
+  color: var(--texto);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cheguei-ou-voz {
+  margin: 0 0 8px;
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.banner-transicao,
+.banner-preditivo {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.banner-transicao {
+  background: color-mix(in srgb, var(--marca) 12%, var(--superficie));
+  border: 1px solid color-mix(in srgb, var(--marca) 25%, var(--borda));
+}
+
+.banner-preditivo {
+  background: color-mix(in srgb, #7c6cf0 12%, var(--superficie));
+  border: 1px solid color-mix(in srgb, #7c6cf0 25%, var(--borda));
+}
+
+.chip-barulho.ativo {
+  background: color-mix(in srgb, #6b4c9a 18%, var(--superficie-elevada));
+  border-color: color-mix(in srgb, #6b4c9a 40%, var(--borda));
+}
+
+body.modo-barulho-ativo .bloco-inbox,
+body.modo-barulho-ativo .grafico-bloco,
+body.modo-barulho-ativo .filosofia-dia,
+body.modo-barulho-ativo .bloco-estudo-resumo,
+body.modo-barulho-ativo .bloco-avisos,
+body.modo-barulho-ativo .bloco-revisao {
+  display: none !important;
+}
+
+.card-insight-extra {
+  margin: 6px 0 0;
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--texto-suave);
+}
+
+.diario-resumo-painel,
+.plano-semana-painel {
+  margin-top: 12px;
+}
+
+.diario-resumo-card,
+.plano-semana-card {
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--marca) 8%, var(--superficie-elevada));
+  border: 1px solid var(--borda);
+  text-align: left;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.diario-resumo-nota {
+  margin: 10px 0 0;
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+}
+
+.parceiro-bloco {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--azul-claro) 40%, var(--superficie));
+  border: 1px solid var(--borda);
+  text-align: left;
+}
+
+.parceiro-titulo {
+  margin: 0 0 6px;
+  font-weight: 700;
+}
+
+.parceiro-apoio {
+  margin: 0 0 12px;
+  font-size: 0.88rem;
+  color: var(--texto-suave);
+}
+
+.parceiro-texto {
+  width: 100%;
+  margin-bottom: 10px;
+  font-family: inherit;
+  font-size: 0.92rem;
+}
+
+.plano-semana-lista {
+  margin: 8px 0;
+  padding-left: 1.2rem;
+}
+
+.plano-semana-fonte,
+.diario-resumo-fonte {
+  margin: 8px 0 0;
+  font-size: 0.72rem;
+  color: var(--destaque, #7c6cf0);
+}
+
