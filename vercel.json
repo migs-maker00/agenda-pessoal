@@ -1,6 +1,12 @@
-/** Vercel — app estático + API Neuro na mesma origem. */
-
 {
+  "version": 2,
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "installCommand": "echo 'static app — sem build'",
+  "framework": null,
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" }
+  ],
   "headers": [
     {
       "source": "/sw.js",
@@ -18,7 +24,7 @@
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "Access-Control-Allow-Methods", "value": "POST, OPTIONS" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
         { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
       ]
     }

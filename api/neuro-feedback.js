@@ -1,4 +1,4 @@
-/** Vercel Serverless — feedback IA para trilha Neuro (Gemini). */
+/** Vercel Serverless — feedback IA para trilha Neuro (Groq → Gemini). */
 
 const ORIGENS_PADRAO = [
   "https://migs-maker00.github.io",
@@ -16,27 +16,19 @@ function origensPermitidas() {
   return [...new Set([...ORIGENS_PADRAO, ...extra])];
 }
 
-function corsHeaders(origin) {
+function corsOrigin(origin) {
   const permitidas = origensPermitidas();
-  const ok =
-    origin &&
-    (permitidas.includes(origin) || /\.vercel\.app$/i.test(origin));
-  return {
-    "Access-Control-Allow-Origin": ok ? origin : permitidas[0],
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Max-Age": "86400",
-  };
+  if (origin && (permitidas.includes(origin) || /\.vercel\.app$/i.test(origin))) {
+    return origin;
+  }
+  return permitidas[0];
 }
 
-function jsonResponse(body, status, origin) {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      ...corsHeaders(origin),
-    },
-  });
+function aplicarCors(res, origin) {
+  res.setHeader("Access-Control-Allow-Origin", corsOrigin(origin));
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Max-Age", "86400");
 }
 
 function montarPrompt({ titulo, textoModulo, pontosChave, explicacao }) {
@@ -58,11 +50,11 @@ ${explicacao}
 
 Avalie com empatia e clareza. Responda APENAS em JSON válido, sem markdown, neste formato:
 {
-  "ok": true ou false,
-  "pct": número de 0 a 100,
+  "ok": true,
+  "pct": 75,
   "feedback": "2-4 frases em português, tom encorajador",
   "acertos": ["o que ela acertou"],
-  "faltou": ["conceitos que faltaram ou confundiu"],
+  "faltou": ["conceitos que faltaram"],
   "perguntaSeguinte": "uma pergunta curta para ela pensar mais"
 }
 
@@ -71,6 +63,45 @@ Regras:
 - Seja específica: cite o que ela disse bem e o que melhorar
 - Não seja dura; celebre o esforço
 - Máximo 4 itens em acertos e faltou`;
+}
+
+function parseJsonResposta(texto) {
+  const limpo = String(texto || "").trim();
+  const jsonMatch = limpo.match(/\{[\s\S]*\}/);
+  return JSON.parse(jsonMatch ? jsonMatch[0] : limpo);
+}
+
+async function chamarGroq(prompt) {
+  const apiKey = process.env.GROQ_API_KEY;
+  if (!apiKey) return null;
+
+  const modelo = process.env.GROQ_MODEL || "llama-3.1-8b-instant";
+
+  const resposta = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: modelo,
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.35,
+      response_format: { type: "json_object" },
+    }),
+  });
+
+  if (!resposta.ok) {
+    const err = new Error(`Groq: ${resposta.status}`);
+    err.status = resposta.status;
+    throw err;
+  }
+
+  const dados = await resposta.json();
+  const texto = dados?.choices?.[0]?.message?.content;
+  if (!texto) throw new Error("Resposta vazia (Groq)");
+
+  return parseJsonResposta(texto);
 }
 
 const MODELOS_GEMINI = [
@@ -95,10 +126,8 @@ async function chamarGeminiModelo(apiKey, modelo, prompt) {
   });
 
   if (!resposta.ok) {
-    const erro = await resposta.text();
     const err = new Error(`Gemini ${modelo}: ${resposta.status}`);
     err.status = resposta.status;
-    err.detalhe = erro;
     throw err;
   }
 
@@ -106,42 +135,53 @@ async function chamarGeminiModelo(apiKey, modelo, prompt) {
   const texto = dados?.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!texto) throw new Error(`Resposta vazia (${modelo})`);
 
-  return JSON.parse(texto);
+  return parseJsonResposta(texto);
 }
 
 async function chamarGemini(prompt) {
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) throw new Error("GEMINI_API_KEY não configurada no Vercel");
+  if (!apiKey) return null;
 
   const preferido = (process.env.GEMINI_MODEL || "").trim();
   const modelos = preferido
     ? [preferido, ...MODELOS_GEMINI.filter((m) => m !== preferido)]
     : MODELOS_GEMINI;
 
-  let ultimoErro = null;
-
   for (const modelo of modelos) {
     try {
       return await chamarGeminiModelo(apiKey, modelo, prompt);
     } catch (erro) {
-      ultimoErro = erro;
       const status = erro.status || 0;
-      // 429 = limite; 404/400 = modelo indisponível — tenta o próximo
-      if (status === 429 || status === 404 || status === 400 || status >= 500) {
-        console.warn(`neuro-feedback: ${modelo} falhou (${status}), tentando próximo…`);
-        continue;
-      }
+      if (status === 429 || status === 404 || status === 400 || status >= 500) continue;
       throw erro;
     }
   }
 
-  console.error("neuro-feedback: todos os modelos falharam", ultimoErro?.detalhe || ultimoErro);
-  const err = new Error("Limite ou indisponibilidade do Gemini");
-  err.status = ultimoErro?.status || 503;
+  const err = new Error("Gemini indisponível");
+  err.status = 503;
   throw err;
 }
 
-function normalizarFeedback(raw) {
+async function chamarIA(prompt) {
+  if (process.env.GROQ_API_KEY) {
+    try {
+      return { raw: await chamarGroq(prompt), provedor: "groq" };
+    } catch (erro) {
+      console.warn("Groq falhou:", erro.message);
+      if (!process.env.GEMINI_API_KEY) throw erro;
+    }
+  }
+
+  if (process.env.GEMINI_API_KEY) {
+    return { raw: await chamarGemini(prompt), provedor: "gemini" };
+  }
+
+  const err = new Error("Configure GROQ_API_KEY no Vercel");
+  err.status = 503;
+  throw err;
+}
+
+function normalizarFeedback(raw, provedor = "ia") {
   const pct = Math.max(0, Math.min(100, Number(raw.pct) || 0));
   return {
     ok: Boolean(raw.ok) || pct >= 55,
@@ -151,33 +191,53 @@ function normalizarFeedback(raw) {
     faltou: Array.isArray(raw.faltou) ? raw.faltou.map(String).slice(0, 6) : [],
     perguntaSeguinte: String(raw.perguntaSeguinte || "").slice(0, 300),
     fonte: "ia",
+    provedor,
   };
 }
 
-export default async function handler(request) {
-  const origin = request.headers.get("origin") || "";
+function lerCorpo(req) {
+  if (req.body && typeof req.body === "object") return req.body;
+  if (typeof req.body === "string" && req.body.trim()) {
+    try {
+      return JSON.parse(req.body);
+    } catch {
+      return {};
+    }
+  }
+  return {};
+}
 
-  if (request.method === "OPTIONS") {
-    return new Response(null, { status: 204, headers: corsHeaders(origin) });
+module.exports = async (req, res) => {
+  const origin = req.headers.origin || "";
+
+  aplicarCors(res, origin);
+
+  if (req.method === "OPTIONS") {
+    return res.status(204).end();
   }
 
-  if (request.method !== "POST") {
-    return jsonResponse({ erro: "Use POST" }, 405, origin);
+  if (req.method === "GET") {
+    const temGroq = Boolean(process.env.GROQ_API_KEY);
+    const temGemini = Boolean(process.env.GEMINI_API_KEY);
+    return res.status(200).json({
+      ok: true,
+      servico: "neuro-feedback",
+      ia: temGroq ? "groq" : temGemini ? "gemini" : "nenhuma",
+    });
   }
 
-  let corpo;
-  try {
-    corpo = await request.json();
-  } catch {
-    return jsonResponse({ erro: "JSON inválido" }, 400, origin);
+  if (req.method !== "POST") {
+    return res.status(405).json({ erro: "Use POST" });
   }
 
+  const corpo = lerCorpo(req);
   const explicacao = String(corpo.explicacao ?? "").trim();
+
   if (explicacao.length < 25) {
-    return jsonResponse({ erro: "Explique um pouco mais antes de pedir correção da IA." }, 400, origin);
+    return res.status(400).json({ erro: "Explique um pouco mais antes de pedir correção da IA." });
   }
   if (explicacao.length > 2500) {
-    return jsonResponse({ erro: "Texto muito longo." }, 400, origin);
+    return res.status(400).json({ erro: "Texto muito longo." });
   }
 
   try {
@@ -188,18 +248,13 @@ export default async function handler(request) {
       explicacao,
     });
 
-    const avaliacao = normalizarFeedback(await chamarGemini(prompt));
-    return jsonResponse({ ok: true, avaliacao }, 200, origin);
+    const { raw, provedor } = await chamarIA(prompt);
+    return res.status(200).json({ ok: true, avaliacao: normalizarFeedback(raw, provedor) });
   } catch (erro) {
     console.error("neuro-feedback:", erro);
-    return jsonResponse(
-      {
-        erro:
-          "IA temporariamente indisponível (limite do Google). O app usa correção local automaticamente.",
-        codigo: "gemini_indisponivel",
-      },
-      503,
-      origin
-    );
+    return res.status(503).json({
+      erro: "IA temporariamente indisponível. O app usa correção local automaticamente.",
+      codigo: "ia_indisponivel",
+    });
   }
-}
+};
