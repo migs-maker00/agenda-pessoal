@@ -20,7 +20,7 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=2.20.0" />
+  <link rel="stylesheet" href="style.css?v=2.21.0" />
 </head>
 <body>
   <div class="ambiente">
@@ -513,7 +513,35 @@
 
         <section class="bloco" id="bloco-rotina-ajustes">
           <h2 class="bloco-titulo" data-i18n="ajustes.rotina.titulo">Sua rotina</h2>
+          <p class="bloco-apoio" data-i18n="ajustes.rotina.apoio">
+            Ajuste seus horários — a rotina recalcula estudo, água e sono automaticamente.
+          </p>
+          <form id="form-perfil-rotina" class="perfil-rotina-form" novalidate>
+            <div class="perfil-rotina-grid">
+              <label class="perfil-rotina-campo">
+                <span data-i18n="ajustes.rotina.acordar">Acordar</span>
+                <input type="time" id="perfil-acordar" name="acordar" required />
+              </label>
+              <label class="perfil-rotina-campo">
+                <span data-i18n="ajustes.rotina.dormir">Dormir</span>
+                <input type="time" id="perfil-dormir" name="dormir" required />
+              </label>
+              <label class="perfil-rotina-campo">
+                <span data-i18n="ajustes.rotina.chegada">Chego em casa</span>
+                <input type="time" id="perfil-chegada" name="chegadaCasa" required />
+              </label>
+              <label class="perfil-rotina-campo">
+                <span data-i18n="ajustes.rotina.tardeFim">Fim da tarde difícil</span>
+                <input type="time" id="perfil-tarde-fim" name="tardeDificilFim" required />
+              </label>
+            </div>
+            <label class="perfil-rotina-check">
+              <input type="checkbox" id="perfil-praia" name="trabalhoPraiaFimSemana" />
+              <span data-i18n="ajustes.rotina.praia">Trabalho na praia no fim de semana</span>
+            </label>
+          </form>
           <p class="bloco-apoio" id="perfil-resumo"></p>
+          <div id="rotina-preview" class="rotina-preview" aria-live="polite"></div>
           <button type="button" id="botao-rotina-personalizada" class="botao-secundario" data-i18n="ajustes.rotina.botao">
             Remontar rotina completa
           </button>
@@ -605,7 +633,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
-  <script type="module" src="js/main.js?v=2.20.0"></script>
+  <script type="module" src="js/main.js?v=2.21.0"></script>
   <script defer src="sync.js?v=6"></script>
 </body>
 </html>
