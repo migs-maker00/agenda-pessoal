@@ -1,5 +1,5 @@
-import { APP_VERSION } from "./config.js?v=2.10.0";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.10.0";
+import { APP_VERSION } from "./config.js?v=2.11.0";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.11.0";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.10.0";
+} from "./lib/avisos-agenda.js?v=2.11.0";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.10.0";
+} from "./lib/habitos.js?v=2.11.0";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.10.0";
+} from "./lib/perfil.js?v=2.11.0";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,45 +54,51 @@ import {
   PRIORIDADES_PRESET,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.10.0";
+} from "./lib/rotina-preset.js?v=2.11.0";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.10.0";
+} from "./lib/aprender.js?v=2.11.0";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.10.0";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.10.0";
+} from "./lib/estudo-hub.js?v=2.11.0";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.11.0";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.10.0";
+} from "./lib/estudo-ui.js?v=2.11.0";
+import {
+  montarOpcoesCheguei,
+  renderChegueiFeito,
+  renderChegueiInicio,
+  renderChegueiOpcoes,
+} from "./lib/cheguei.js?v=2.11.0";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.10.0";
+} from "./lib/tarde.js?v=2.11.0";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.10.0";
+} from "./lib/inteligencia.js?v=2.11.0";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.10.0";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.10.0";
+} from "./lib/lembretes.js?v=2.11.0";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.11.0";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -107,12 +113,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.10.0";
+} from "./lib/foco.js?v=2.11.0";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.10.0";
+} from "./lib/rotina-local.js?v=2.11.0";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -145,7 +151,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.10.0";
+} from "./lib/tdah.js?v=2.11.0";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -230,6 +236,7 @@ const avisoData = document.getElementById("aviso-data");
 const avisoHora = document.getElementById("aviso-hora");
 const listaAvisos = document.getElementById("lista-avisos");
 const avisosVazio = document.getElementById("avisos-vazio");
+const chegueiRoot = document.getElementById("cheguei-root");
 const relogioAtual = document.getElementById("relogio-atual");
 const countdownProximo = document.getElementById("countdown-proximo");
 const botaoArquivarInbox = document.getElementById("botao-arquivar-inbox");
@@ -249,6 +256,9 @@ const botaoRotinaPersonalizada = document.getElementById("botao-rotina-personali
 let habitos = [];
 let notas = {};
 let avisos = [];
+let chegueiEstado = "inicio";
+let chegueiExcluidos = [];
+let chegueiOpcoesAtuais = null;
 let filtroCategoria = "Todas";
 let idArrastando = null;
 let painelAtivo = "hoje";
@@ -1783,6 +1793,7 @@ function ativarPainel(nome) {
   const titulos = {
     rotina: "Sua rotina",
     hoje: "Seu dia",
+    cheguei: "Cheguei em casa",
     estudo: "Estudo",
     semana: "Sua semana",
     diario: "Diário",
@@ -1796,6 +1807,9 @@ function ativarPainel(nome) {
   }
   if (nome === "estudo") {
     desenharPainelEstudo();
+  }
+  if (nome === "cheguei") {
+    desenharCheguei();
   }
   if (nome === "diario") {
     carregarNotaDiario(dataDiarioSelecionada || hojeStr());
@@ -2071,7 +2085,7 @@ function desenharAgora() {
     ? `<p class="agora-micro">Primeiro passo: <strong>${passos[0]}</strong></p>`
     : "";
   const prepHtml = preparar.length
-    ? `<p class="agora-preparar">Preparar: ${preparar.join(" · ")}</p>`
+    ? `<p class="agora-preparar">Dica: ${preparar.join(" · ")}</p>`
     : "";
 
   const timerHtml =
@@ -2245,6 +2259,79 @@ function desenharManha() {
   if (entradaTemaSemana && entradaTemaSemana.value !== carregarTemaSemana()) {
     entradaTemaSemana.value = carregarTemaSemana();
   }
+}
+
+let chegueiMensagemFeito = "";
+
+function desenharCheguei() {
+  if (!chegueiRoot) return;
+  if (chegueiEstado === "inicio") {
+    chegueiRoot.innerHTML = renderChegueiInicio();
+    return;
+  }
+  if (chegueiEstado === "opcoes") {
+    chegueiOpcoesAtuais = montarOpcoesCheguei({
+      habitos,
+      avisos,
+      chave: hojeStr(),
+      estaPendente: (h) => ehAtivoHoje(h) && !estaFeitoHoje(h),
+      excluirIds: chegueiExcluidos,
+    });
+    chegueiRoot.innerHTML = renderChegueiOpcoes(chegueiOpcoesAtuais);
+    return;
+  }
+  chegueiRoot.innerHTML = renderChegueiFeito(
+    chegueiMensagemFeito || "Um passo já conta. Pode parar por aqui."
+  );
+}
+
+function mostrarOpcoesCheguei() {
+  chegueiEstado = "opcoes";
+  desenharCheguei();
+}
+
+function reiniciarCheguei() {
+  chegueiEstado = "inicio";
+  chegueiExcluidos = [];
+  chegueiMensagemFeito = "";
+  desenharCheguei();
+}
+
+function aplicarEscolhaCheguei(opcaoId) {
+  if (!chegueiOpcoesAtuais) return;
+  const { opcaoA, opcaoB } = chegueiOpcoesAtuais;
+  const opcao = [opcaoA, opcaoB].find((o) => o && o.id === opcaoId);
+  if (!opcao) return;
+
+  chegueiExcluidos.push(opcao.id);
+
+  if (opcao.tipo === "habito") {
+    const habito = habitos.find((h) => h.id === opcao.habitoId);
+    if (habito) {
+      const seg = opcao.timerSeg || 120;
+      comecarTimer(seg, habito, seg <= 150 ? "2 minutos" : "10 minutos");
+      chegueiMensagemFeito = `Foco: ${opcao.passo}. Timer ligado — veja em Hoje se quiser.`;
+    }
+  } else if (opcao.tipo === "descanso") {
+    comecarTimer(
+      opcao.timerSeg || 600,
+      { id: 0, nome: "Descanso", microPassos: [] },
+      "10 minutos de descanso"
+    );
+    chegueiMensagemFeito = "Descanse sem culpa. 10 minutos.";
+  } else if (opcao.tipo === "aviso") {
+    chegueiMensagemFeito = `${opcao.titulo} — ${opcao.passo}.`;
+  } else if (opcao.tipo === "painel") {
+    reiniciarCheguei();
+    ativarPainel(opcao.painel || "estudo");
+    mostrarFeedback("Só se tiver vontade — sem pressão.");
+    return;
+  } else if (opcao.tipo === "ok") {
+    chegueiMensagemFeito = "Nada pendente. Aproveite.";
+  }
+
+  chegueiEstado = "feito";
+  desenharCheguei();
 }
 
 function desenharBannerTarde() {
@@ -2842,6 +2929,26 @@ function ligarTodosEventos() {
     definirRevisaoCampo(hojeStr(), "amanha", revisaoAmanha.value);
   });
   botaoLembretes?.addEventListener("click", ativarLembretes);
+  chegueiRoot?.addEventListener("click", (evento) => {
+    const alvo = evento.target.closest("[data-cheguei-acao], [data-cheguei-escolha]");
+    if (!alvo) return;
+    if (alvo.dataset.chegueiAcao === "mostrar") {
+      mostrarOpcoesCheguei();
+      return;
+    }
+    if (alvo.dataset.chegueiAcao === "reiniciar") {
+      reiniciarCheguei();
+      return;
+    }
+    if (alvo.dataset.chegueiAcao === "mais") {
+      chegueiEstado = "opcoes";
+      desenharCheguei();
+      return;
+    }
+    if (alvo.dataset.chegueiEscolha) {
+      aplicarEscolhaCheguei(alvo.dataset.chegueiEscolha);
+    }
+  });
   formAviso?.addEventListener("submit", adicionarAvisoForm);
   botaoAtualizarApp?.addEventListener("click", buscarAtualizacaoApp);
   botaoArquivarInbox?.addEventListener("click", arquivarInbox);

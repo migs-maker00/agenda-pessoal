@@ -413,6 +413,139 @@ body {
   margin-top: 4px;
 }
 
+.avisos-vazio {
+  margin-top: 4px;
+}
+
+/* Cheguei — só 2 opções */
+.cheguei-root {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 8px 0 24px;
+}
+
+.cheguei-bloco {
+  text-align: center;
+}
+
+.cheguei-ola {
+  margin: 0 0 8px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--texto);
+}
+
+.cheguei-apoio,
+.cheguei-intro {
+  margin: 0 0 20px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--texto-suave);
+}
+
+.cheguei-cta {
+  width: 100%;
+  padding: 16px 20px;
+  font-size: 1.05rem;
+  border-radius: 14px;
+}
+
+.cheguei-dupla {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.cheguei-ou {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.cheguei-opcao {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  width: 100%;
+  text-align: left;
+  padding: 16px 18px;
+  border: 2px solid color-mix(in srgb, var(--marca) 35%, var(--borda));
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--bege) 25%, var(--superficie-elevada));
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.12s;
+}
+
+.cheguei-opcao:hover {
+  border-color: var(--marca);
+  transform: translateY(-1px);
+}
+
+.cheguei-opcao-letra {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--marca);
+}
+
+.cheguei-opcao-ctx {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--texto-suave);
+}
+
+.cheguei-opcao-titulo {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--texto);
+  line-height: 1.3;
+}
+
+.cheguei-opcao-passo {
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--texto-suave);
+}
+
+.cheguei-opcao-btn {
+  margin-top: 4px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--marca);
+}
+
+.cheguei-reiniciar {
+  margin-top: 8px;
+}
+
+.cheguei-feito-titulo {
+  margin: 0 0 8px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--marca);
+}
+
+.cheguei-feito-texto {
+  margin: 0 0 20px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--texto);
+}
+
+.cheguei-feito-acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
 .editar-horario {
   min-width: 118px;
   font-size: 0.82rem;
