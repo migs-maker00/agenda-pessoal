@@ -789,7 +789,7 @@ export function ligarPainelEstudo(root, getState, setState, opts = {}) {
       iniciarDictadoNeuro(root, getState, setState, {
         substituir: true,
         autoVerificar: true,
-        minChars: 20,
+        minChars: 25,
         chaveDia,
         mostrarFeedback,
         onAtualizarHoje,
@@ -1045,7 +1045,7 @@ function iniciarDictadoNeuro(root, getState, setState, opts) {
   const {
     substituir = false,
     autoVerificar = false,
-    minChars = 20,
+    minChars = 25,
     chaveDia,
     mostrarFeedback,
     onAtualizarHoje,

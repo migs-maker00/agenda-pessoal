@@ -2,6 +2,8 @@
 
 import { NEURO_IA_API_URL, hostAtual } from "../config.js";
 
+let iaNeuroNoServidor = null;
+
 export function urlApiNeuro() {
   const base = String(NEURO_IA_API_URL || "").trim();
   if (!base) return "";
@@ -12,14 +14,31 @@ export function urlApiNeuro() {
   return base;
 }
 
-/** IA só no Vercel (mesma origem). GitHub Pages usa fallback local. */
+/** Sonda o servidor uma vez — evita prometer IA sem GROQ/Gemini configurado. */
+export async function sondarIaNeuro() {
+  if (hostAtual() !== "vercel" || !urlApiNeuro()) {
+    iaNeuroNoServidor = false;
+    return false;
+  }
+  try {
+    const resposta = await fetch(urlApiNeuro());
+    const dados = await resposta.json().catch(() => ({}));
+    iaNeuroNoServidor = Boolean(dados.ia && dados.ia !== "nenhuma");
+  } catch {
+    iaNeuroNoServidor = false;
+  }
+  return iaNeuroNoServidor;
+}
+
+/** IA só no Vercel e com chave configurada no servidor. */
 export function iaNeuroDisponivel() {
-  return hostAtual() === "vercel" && Boolean(urlApiNeuro());
+  return iaNeuroNoServidor === true;
 }
 
 export async function pedirFeedbackIaNeuro(modulo, explicacao) {
   const url = urlApiNeuro();
-  if (!iaNeuroDisponivel() || !url) {
+  const iaAtiva = iaNeuroNoServidor ?? (await sondarIaNeuro());
+  if (!iaAtiva || !url) {
     return { ok: false, erro: "IA disponível no app Vercel." };
   }
 

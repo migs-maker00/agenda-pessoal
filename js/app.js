@@ -121,6 +121,7 @@ import {
   carregarExplicacoesNeuro,
   mesclarExplicacoesNeuro,
 } from "./lib/neuro-explicar.js?v=2.18.0";
+import { sondarIaNeuro } from "./lib/neuro-ia.js?v=2.18.0";
 import {
   esconderBannerMigracaoHost,
   ligarMigracaoHost,
@@ -3855,6 +3856,10 @@ export function initApp() {
   });
   processarParametrosUrl();
   processarHashHabito();
+
+  void sondarIaNeuro().then(() => {
+    if (painelAtivo === "estudo") desenharPainelEstudo();
+  });
 
   ligarMigracaoHost({
     ativarPainel,
