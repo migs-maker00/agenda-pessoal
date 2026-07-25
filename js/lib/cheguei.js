@@ -254,10 +254,17 @@ export function renderChegueiInicio() {
       </button>`
   ).join("");
 
+  const vozBtn = `<button type="button" class="cheguei-voz" data-cheguei-voz aria-label="Falar o que aconteceu">
+      <span class="cheguei-voz-emoji">🎤</span>
+      <span class="cheguei-voz-rotulo">Falar — eu entendo</span>
+    </button>`;
+
   return `
     <section class="cheguei-bloco">
       <p class="cheguei-ola">E agora?</p>
       <p class="cheguei-apoio">${apoio}</p>
+      ${vozBtn}
+      <p class="cheguei-ou-voz">ou escolha:</p>
       <div class="cheguei-gatilhos" role="list">${botoes}</div>
     </section>`;
 }

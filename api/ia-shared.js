@@ -1,4 +1,4 @@
-/** Vercel Serverless — sugestões contextuais Cheguei / Agora (Groq → Gemini). */
+/** Utilitários compartilhados — APIs IA no Vercel. */
 
 const ORIGENS_PADRAO = [
   "https://migs-maker00.github.io",
@@ -39,35 +39,7 @@ function parseJsonResposta(texto) {
   return JSON.parse(jsonMatch ? jsonMatch[0] : limpo);
 }
 
-function montarPrompt(corpo) {
-  const opcoes = (corpo.opcoes || [])
-    .slice(0, 8)
-    .map((o) => `- id="${o.id}" | ${o.titulo} — ${o.passo || ""}`)
-    .join("\n");
-
-  return `Você é uma assistente de produtividade para Erica, 16 anos, com TDAH.
-Ela acabou de dizer: "${corpo.contexto || "chegada"}".
-${corpo.fala ? `Na voz ela disse: "${String(corpo.fala).slice(0, 200)}"` : ""}
-Faixa do dia: ${corpo.faixa || "?"}. Hora local: ${corpo.horaLocal || "?"} (${corpo.diaSemana || "?"}).
-Perfil: acorda ${corpo.perfil?.acordar || "?"}, dorme ${corpo.perfil?.dormir || "?"}.
-
-REGRAS IMPORTANTES:
-- Madrugada (00h–05h): NUNCA sugira trabalho na praia, escola ou tarefas pesadas.
-- Sábado/domingo ela trabalha na praia, mas só perto do horário agendado (manhã).
-- Máximo 2 opções — ela escolhe só uma.
-- Tom curto, acolhedor, sem culpa.
-
-Opções candidatas (escolha exatamente 2 ids da lista, na ordem A depois B):
-${opcoes || "(nenhuma)"}
-
-Responda APENAS JSON válido, sem markdown:
-{
-  "intro": "1-2 frases personalizadas para o momento",
-  "escolhidos": ["id-opcao-A", "id-opcao-B"]
-}`;
-}
-
-async function chamarGroq(prompt) {
+async function chamarGroq(prompt, maxTokens = 500) {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) return null;
 
@@ -81,7 +53,7 @@ async function chamarGroq(prompt) {
     body: JSON.stringify({
       model: modelo,
       temperature: 0.4,
-      max_tokens: 400,
+      max_tokens: maxTokens,
       messages: [
         { role: "system", content: "Responda só JSON válido em português do Brasil." },
         { role: "user", content: prompt },
@@ -101,14 +73,14 @@ async function chamarGroq(prompt) {
   return parseJsonResposta(texto);
 }
 
-async function chamarGeminiModelo(apiKey, modelo, prompt) {
+async function chamarGeminiModelo(apiKey, modelo, prompt, maxTokens = 500) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${apiKey}`;
   const resposta = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.4, maxOutputTokens: 500 },
+      generationConfig: { temperature: 0.4, maxOutputTokens: maxTokens },
     }),
   });
 
@@ -124,7 +96,7 @@ async function chamarGeminiModelo(apiKey, modelo, prompt) {
   return parseJsonResposta(texto);
 }
 
-async function chamarGemini(prompt) {
+async function chamarGemini(prompt, maxTokens = 500) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return null;
 
@@ -135,7 +107,7 @@ async function chamarGemini(prompt) {
 
   for (const modelo of modelos) {
     try {
-      return await chamarGeminiModelo(apiKey, modelo, prompt);
+      return await chamarGeminiModelo(apiKey, modelo, prompt, maxTokens);
     } catch (erro) {
       const status = erro.status || 0;
       if (status === 429 || status === 404 || status === 400 || status >= 500) continue;
@@ -148,10 +120,10 @@ async function chamarGemini(prompt) {
   throw err;
 }
 
-async function chamarIA(prompt) {
+async function chamarIA(prompt, maxTokens = 500) {
   if (process.env.GROQ_API_KEY) {
     try {
-      return { raw: await chamarGroq(prompt), provedor: "groq" };
+      return { raw: await chamarGroq(prompt, maxTokens), provedor: "groq" };
     } catch (erro) {
       console.warn("Groq falhou:", erro.message);
       if (!process.env.GEMINI_API_KEY) throw erro;
@@ -159,26 +131,12 @@ async function chamarIA(prompt) {
   }
 
   if (process.env.GEMINI_API_KEY) {
-    return { raw: await chamarGemini(prompt), provedor: "gemini" };
+    return { raw: await chamarGemini(prompt, maxTokens), provedor: "gemini" };
   }
 
   const err = new Error("Configure GROQ_API_KEY no Vercel");
   err.status = 503;
   throw err;
-}
-
-function normalizarSugestao(raw, opcoes, provedor) {
-  const idsValidos = new Set((opcoes || []).map((o) => String(o.id)));
-  const escolhidos = (Array.isArray(raw.escolhidos) ? raw.escolhidos : [])
-    .map(String)
-    .filter((id) => idsValidos.has(id))
-    .slice(0, 2);
-
-  return {
-    intro: String(raw.intro || "").slice(0, 400),
-    escolhidos,
-    provedor,
-  };
 }
 
 function lerCorpo(req) {
@@ -193,45 +151,44 @@ function lerCorpo(req) {
   return {};
 }
 
-module.exports = async (req, res) => {
-  const origin = req.headers.origin || "";
-  aplicarCors(res, origin);
+function criarHandlerApi({ servico, montarPrompt, normalizar, validar }) {
+  return async (req, res) => {
+    const origin = req.headers.origin || "";
+    aplicarCors(res, origin);
 
-  if (req.method === "OPTIONS") {
-    return res.status(204).end();
-  }
+    if (req.method === "OPTIONS") return res.status(204).end();
 
-  if (req.method === "GET") {
-    const temGroq = Boolean(process.env.GROQ_API_KEY);
-    const temGemini = Boolean(process.env.GEMINI_API_KEY);
-    return res.status(200).json({
-      ok: true,
-      servico: "contexto-sugestao",
-      ia: temGroq ? "groq" : temGemini ? "gemini" : "nenhuma",
-    });
-  }
+    if (req.method === "GET") {
+      const temGroq = Boolean(process.env.GROQ_API_KEY);
+      const temGemini = Boolean(process.env.GEMINI_API_KEY);
+      return res.status(200).json({
+        ok: true,
+        servico,
+        ia: temGroq ? "groq" : temGemini ? "gemini" : "nenhuma",
+      });
+    }
 
-  if (req.method !== "POST") {
-    return res.status(405).json({ erro: "Use POST" });
-  }
+    if (req.method !== "POST") return res.status(405).json({ erro: "Use POST" });
 
-  const corpo = lerCorpo(req);
-  const opcoes = Array.isArray(corpo.opcoes) ? corpo.opcoes.slice(0, 8) : [];
+    const corpo = lerCorpo(req);
+    const erroVal = validar?.(corpo);
+    if (erroVal) return res.status(400).json({ erro: erroVal });
 
-  if (!opcoes.length) {
-    return res.status(400).json({ erro: "Envie opcoes candidatas." });
-  }
+    try {
+      const prompt = montarPrompt(corpo);
+      const { raw, provedor } = await chamarIA(prompt);
+      return res.status(200).json({ ok: true, ...normalizar(raw, corpo, provedor) });
+    } catch (erro) {
+      const status = erro.status || 500;
+      return res.status(status).json({ ok: false, erro: erro.message || "IA indisponível." });
+    }
+  };
+}
 
-  try {
-    const prompt = montarPrompt(corpo);
-    const { raw, provedor } = await chamarIA(prompt);
-    const sugestao = normalizarSugestao(raw, opcoes, provedor);
-    return res.status(200).json({ ok: true, ...sugestao });
-  } catch (erro) {
-    const status = erro.status || 500;
-    return res.status(status).json({
-      ok: false,
-      erro: erro.message || "IA indisponível.",
-    });
-  }
+module.exports = {
+  aplicarCors,
+  chamarIA,
+  criarHandlerApi,
+  lerCorpo,
+  parseJsonResposta,
 };

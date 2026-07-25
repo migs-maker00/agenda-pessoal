@@ -17,7 +17,7 @@ export function contextoIaDisponivel() {
 
 const DIAS = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"];
 
-export function montarPayloadContextoIa({ contexto, opcoes, perfil }) {
+export function montarPayloadContextoIa({ contexto, opcoes, perfil, fala = "" }) {
   const agora = new Date();
   const lista = [opcoes?.opcaoA, opcoes?.opcaoB]
     .filter(Boolean)
@@ -31,6 +31,7 @@ export function montarPayloadContextoIa({ contexto, opcoes, perfil }) {
 
   return {
     contexto,
+    fala: String(fala || opcoes?.fala || "").slice(0, 300),
     faixa: opcoes?.faixa || faixaDoDia(agora),
     horaLocal: agora.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
     diaSemana: DIAS[agora.getDay()],
