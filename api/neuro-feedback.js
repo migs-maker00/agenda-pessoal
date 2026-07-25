@@ -2,6 +2,7 @@
 
 const ORIGENS_PADRAO = [
   "https://migs-maker00.github.io",
+  "https://projeto-1-criar.vercel.app",
   "http://localhost:3000",
   "http://127.0.0.1:3000",
   "http://localhost:5173",
@@ -17,7 +18,9 @@ function origensPermitidas() {
 
 function corsHeaders(origin) {
   const permitidas = origensPermitidas();
-  const ok = origin && permitidas.includes(origin);
+  const ok =
+    origin &&
+    (permitidas.includes(origin) || /\.vercel\.app$/i.test(origin));
   return {
     "Access-Control-Allow-Origin": ok ? origin : permitidas[0],
     "Access-Control-Allow-Methods": "POST, OPTIONS",

@@ -3448,3 +3448,103 @@ body {
     display: none;
   }
 }
+
+/* Migração GitHub → Vercel (proteção do diário) */
+.migracao-host {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: color-mix(in srgb, var(--marca) 35%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+.migracao-host[hidden] {
+  display: none !important;
+}
+
+.migracao-host-card {
+  max-width: 22rem;
+  width: 100%;
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--superficie-elevada);
+  border: 1px solid var(--borda);
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--marca) 20%, transparent);
+}
+
+.migracao-host-titulo {
+  margin: 0 0 10px;
+  font-family: var(--fonte-titulo);
+  font-size: 1.15rem;
+  color: var(--marca);
+}
+
+.migracao-host-texto,
+.migracao-host-alerta {
+  margin: 0 0 10px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--texto);
+}
+
+.migracao-host-alerta {
+  padding: 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, #c9a227 15%, var(--superficie));
+  border: 1px solid color-mix(in srgb, #c9a227 35%, var(--borda));
+  font-weight: 600;
+}
+
+.migracao-host-botoes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+body.migracao-host-aberto {
+  overflow: hidden;
+}
+
+.migracao-github-aviso {
+  position: fixed;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  left: 12px;
+  right: 12px;
+  z-index: 900;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--superficie-elevada);
+  border: 1px solid color-mix(in srgb, var(--marca) 25%, var(--borda));
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--marca) 12%, transparent);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.migracao-github-aviso[hidden] {
+  display: none !important;
+}
+
+.migracao-github-aviso a {
+  color: var(--marca);
+  font-weight: 600;
+}
+
+.migracao-github-fechar {
+  flex: 0 0 auto;
+  border: none;
+  background: transparent;
+  color: var(--texto-suave);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+}
+

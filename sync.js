@@ -153,6 +153,7 @@
         ? "Sincronização criada. Use este código no outro aparelho."
         : "Conectado. Dados sincronizados."
     );
+    window.dispatchEvent(new CustomEvent("habitos-sync-conectado"));
   }
 
   async function criarSync() {
