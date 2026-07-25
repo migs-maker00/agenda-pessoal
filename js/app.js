@@ -1,5 +1,5 @@
-import { APP_VERSION } from "./config.js?v=2.12.1";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.12.1";
+import { APP_VERSION } from "./config.js?v=2.12.3";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.12.3";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.12.1";
+} from "./lib/avisos-agenda.js?v=2.12.3";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.12.1";
+} from "./lib/habitos.js?v=2.12.3";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.12.1";
+} from "./lib/perfil.js?v=2.12.3";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,32 +54,32 @@ import {
   PRIORIDADES_PRESET,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.12.1";
+} from "./lib/rotina-preset.js?v=2.12.3";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.12.1";
+} from "./lib/aprender.js?v=2.12.3";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.12.1";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.12.1";
+} from "./lib/estudo-hub.js?v=2.12.3";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.12.3";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.12.1";
+} from "./lib/estudo-ui.js?v=2.12.3";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.12.1";
+} from "./lib/cheguei.js?v=2.12.3";
 import {
   arquivarVersaoNota,
   carregarHistoricoCompleto,
@@ -89,26 +89,26 @@ import {
   mesclarNotasDoHistorico,
   restaurarVersaoHistorico,
   rotuloMotivoVersao,
-} from "./lib/diario-historico.js?v=2.12.1";
+} from "./lib/diario-historico.js?v=2.12.3";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.12.1";
+} from "./lib/tarde.js?v=2.12.3";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.12.1";
+} from "./lib/inteligencia.js?v=2.12.3";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.12.1";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.12.1";
+} from "./lib/lembretes.js?v=2.12.3";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.12.3";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -123,12 +123,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.12.1";
+} from "./lib/foco.js?v=2.12.3";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.12.1";
+} from "./lib/rotina-local.js?v=2.12.3";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -161,7 +161,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.12.1";
+} from "./lib/tdah.js?v=2.12.3";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -2369,13 +2369,6 @@ async function ativarLembretes() {
   atualizarLembretesStatus();
   mostrarFeedback(resultado.mensagem, resultado.ok ? "ok" : "aviso");
   rodarLembretes();
-  if (resultado.ok && "serviceWorker" in navigator) {
-    try {
-      await navigator.serviceWorker.register(`./sw.js?v=${APP_VERSION}`);
-    } catch {
-      /* silencioso */
-    }
-  }
 }
 
 function carregarRevisaoCampos() {

@@ -2507,9 +2507,26 @@ body {
     font-size: 16px;
   }
 
+  .nav-paineis {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 6px;
+  }
+
+  .nav-paineis::-webkit-scrollbar {
+    display: none;
+  }
+
   .nav-item {
-    font-size: 0.62rem;
-    padding: 9px 1px;
+    flex: 0 0 auto;
+    font-size: 0.75rem;
+    padding: 10px 14px;
+    white-space: nowrap;
   }
 
   .cards-insights {
