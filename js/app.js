@@ -1,5 +1,5 @@
-import { APP_VERSION, hostAtual } from "./config.js?v=2.18.0";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.18.0";
+import { APP_VERSION, hostAtual } from "./config.js?v=2.19.0";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.19.0";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.18.0";
+} from "./lib/avisos-agenda.js?v=2.19.0";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.18.0";
+} from "./lib/habitos.js?v=2.19.0";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.18.0";
+} from "./lib/perfil.js?v=2.19.0";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,49 +54,49 @@ import {
   PRIORIDADES_PRESET,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.18.0";
+} from "./lib/rotina-preset.js?v=2.19.0";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.18.0";
+} from "./lib/aprender.js?v=2.19.0";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.18.0";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.18.0";
+} from "./lib/estudo-hub.js?v=2.19.0";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.19.0";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.18.0";
+} from "./lib/estudo-ui.js?v=2.19.0";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.18.0";
+} from "./lib/cheguei.js?v=2.19.0";
 import {
   aplicarSugestaoIa,
   montarPayloadContextoIa,
   pedirOpcoesContexto,
-} from "./lib/contexto-ia.js?v=2.18.0";
-import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.18.0";
-import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.18.0";
+} from "./lib/contexto-ia.js?v=2.19.0";
+import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.19.0";
+import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.19.0";
 import {
   mensagemStreakGlobal,
   mensagemStreakHabito,
   rotuloStreakInsights,
-} from "./lib/streak-gentil.js?v=2.18.0";
-import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.18.0";
-import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.18.0";
-import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.18.0";
-import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.18.0";
-import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.18.0";
+} from "./lib/streak-gentil.js?v=2.19.0";
+import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.19.0";
+import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.19.0";
+import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.19.0";
+import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.19.0";
+import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.19.0";
 import {
   carregarSessaoParceiro,
   iniciarSessaoParceiro,
@@ -104,8 +104,8 @@ import {
   finalizarSessaoParceiro,
   limparSessaoParceiro,
   renderPainelParceiro,
-} from "./lib/estudo-parceiro.js?v=2.18.0";
-import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.18.0";
+} from "./lib/estudo-parceiro.js?v=2.19.0";
+import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.19.0";
 import {
   arquivarVersaoNota,
   carregarHistoricoCompleto,
@@ -115,39 +115,49 @@ import {
   mesclarNotasDoHistorico,
   restaurarVersaoHistorico,
   rotuloMotivoVersao,
-} from "./lib/diario-historico.js?v=2.18.0";
+} from "./lib/diario-historico.js?v=2.19.0";
 import {
   aplicarExplicacoesNeuro,
   carregarExplicacoesNeuro,
   mesclarExplicacoesNeuro,
-} from "./lib/neuro-explicar.js?v=2.18.0";
-import { sondarIaNeuro } from "./lib/neuro-ia.js?v=2.18.0";
+} from "./lib/neuro-explicar.js?v=2.19.0";
+import { sondarIaNeuro, iaNeuroDisponivel } from "./lib/neuro-ia.js?v=2.19.0";
+import {
+  marcarGuiaVisto,
+  marcarPassoGuia,
+  guiaJaVisto,
+  carregarProgressoGuia,
+  passoDemoPorIndice,
+  renderPainelGuia,
+  resetarProgressoGuia,
+  ROTEIRO_DEMO,
+} from "./lib/guia-app.js?v=2.19.0";
 import {
   esconderBannerMigracaoHost,
   ligarMigracaoHost,
   mostrarAvisoGithubParaVercel,
   mostrarBannerMigracaoHost,
   precisaConectarSyncNesteHost,
-} from "./lib/migracao-host.js?v=2.18.0";
+} from "./lib/migracao-host.js?v=2.19.0";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.18.0";
+} from "./lib/tarde.js?v=2.19.0";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.18.0";
+} from "./lib/inteligencia.js?v=2.19.0";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.18.0";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.18.0";
+} from "./lib/lembretes.js?v=2.19.0";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.19.0";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -162,12 +172,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.18.0";
+} from "./lib/foco.js?v=2.19.0";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.18.0";
+} from "./lib/rotina-local.js?v=2.19.0";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -200,7 +210,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.18.0";
+} from "./lib/tdah.js?v=2.19.0";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -290,6 +300,9 @@ const avisoHora = document.getElementById("aviso-hora");
 const listaAvisos = document.getElementById("lista-avisos");
 const avisosVazio = document.getElementById("avisos-vazio");
 const chegueiRoot = document.getElementById("cheguei-root");
+const chegueiVoltarGuia = document.getElementById("cheguei-voltar-guia");
+const guiaRoot = document.getElementById("guia-root");
+const guiaChamada = document.getElementById("guia-chamada");
 const relogioAtual = document.getElementById("relogio-atual");
 const countdownProximo = document.getElementById("countdown-proximo");
 const botaoArquivarInbox = document.getElementById("botao-arquivar-inbox");
@@ -322,6 +335,8 @@ let chegueiOpcoesAtuais = null;
 let chegueiContexto = "chegada";
 let chegueiIaToken = 0;
 let chegueiFalaTexto = "";
+let chegueiVeioDoGuia = false;
+let guiaDemoIndice = null;
 let agoraTraveiHabitoId = null;
 let filtroCategoria = "Todas";
 let idArrastando = null;
@@ -2071,6 +2086,84 @@ function processarParametrosUrl() {
   }
 }
 
+function atualizarGuiaChamada() {
+  if (!guiaChamada) return;
+  guiaChamada.hidden = guiaJaVisto();
+}
+
+function desenharGuia() {
+  if (!guiaRoot) return;
+  guiaRoot.innerHTML = renderPainelGuia({
+    iaAtiva: iaNeuroDisponivel(),
+    demoIndice: guiaDemoIndice,
+  });
+}
+
+function abrirChegueiDoApp({ opcoes = false, voltarGuia = false } = {}) {
+  chegueiVeioDoGuia = voltarGuia;
+  chegueiContexto = faixaDoDia() === "madrugada" ? "noite" : "chegada";
+  if (!opcoes) {
+    chegueiEstado = "inicio";
+    chegueiExcluidos = [];
+    chegueiMensagemFeito = "";
+    chegueiFalaTexto = "";
+    chegueiIaToken += 1;
+  }
+  ativarPainel("cheguei");
+  if (opcoes) mostrarOpcoesCheguei();
+}
+
+function executarNavegacaoGuia({ painel, chegueiOpcoes, estudoAba, passoId, demo = false }) {
+  if (passoId) marcarPassoGuia(passoId);
+  marcarGuiaVisto();
+  atualizarGuiaChamada();
+
+  if (painel === "cheguei") {
+    abrirChegueiDoApp({ opcoes: Boolean(chegueiOpcoes), voltarGuia: true });
+    return;
+  }
+
+  chegueiVeioDoGuia = false;
+  if (painel === "estudo" && estudoAba) {
+    dadosEstudo = { ...dadosEstudo, abaAtiva: estudoAba };
+    salvarEstudo(dadosEstudo);
+  }
+  ativarPainel(painel);
+
+  if (demo && guiaDemoIndice != null) {
+    const passo = passoDemoPorIndice(guiaDemoIndice);
+    if (passo) {
+      mostrarFeedback(`Demonstração — ${passo.titulo}`, "ok");
+    }
+  }
+}
+
+function executarPassoDemo(indice) {
+  const passo = passoDemoPorIndice(indice);
+  if (!passo) return;
+  guiaDemoIndice = indice;
+  executarNavegacaoGuia({
+    painel: passo.painel,
+    chegueiOpcoes: passo.chegueiOpcoes,
+    estudoAba: passo.estudoAba,
+    passoId: passo.id,
+    demo: true,
+  });
+}
+
+function avancarDemoGuia() {
+  if (guiaDemoIndice == null) return;
+  const proximo = guiaDemoIndice + 1;
+  if (proximo >= ROTEIRO_DEMO.length) {
+    guiaDemoIndice = null;
+    marcarGuiaVisto();
+    ativarPainel("guia");
+    mostrarFeedback("Roteiro completo! Você arrasou na demonstração.", "ok");
+    return;
+  }
+  executarPassoDemo(proximo);
+}
+
 function atualizarSugestaoHabito() {
   const texto = entradaHabito.value.trim();
   if (!texto || texto.length < 3) {
@@ -2397,6 +2490,7 @@ function ativarPainel(nome) {
   const titulos = {
     rotina: "Sua rotina",
     hoje: "Seu dia",
+    guia: "Guia",
     cheguei: "E agora?",
     estudo: "Estudo",
     semana: "Sua semana",
@@ -2406,11 +2500,18 @@ function ativarPainel(nome) {
   };
   if (tituloPainel) tituloPainel.textContent = titulos[nome] || "Agenda";
 
+  if (chegueiVoltarGuia) {
+    chegueiVoltarGuia.hidden = nome !== "cheguei" || !chegueiVeioDoGuia;
+  }
+
   if (nome === "rotina") {
     carregarCamposRotina();
   }
   if (nome === "estudo") {
     desenharPainelEstudo();
+  }
+  if (nome === "guia") {
+    desenharGuia();
   }
   if (nome === "cheguei") {
     desenharCheguei();
@@ -2756,16 +2857,21 @@ function desenharAgora() {
     ${prepHtml}
     ${acoesExtras}
     ${traveiHtml}
+    <p class="agora-cheguei-wrap">
+      <button type="button" class="botao-texto agora-link-cheguei">E agora? — só 2 opções</button>
+    </p>
     <p class="agora-dica">Um passo só. Sem precisar fazer tudo.</p>`;
+
+  agoraConteudo.querySelector(".agora-link-cheguei")?.addEventListener("click", () => {
+    abrirChegueiDoApp({ opcoes: true, voltarGuia: false });
+  });
 
   if (virtual) {
     agoraConteudo.querySelector("#agora-virtual")?.addEventListener("click", () => {
       comecarTimer(600, habito, "10 minutos de descanso");
     });
     agoraConteudo.querySelector("#agora-abrir-cheguei")?.addEventListener("click", () => {
-      chegueiContexto = faixaDoDia() === "madrugada" ? "noite" : "chegada";
-      ativarPainel("cheguei");
-      mostrarOpcoesCheguei();
+      abrirChegueiDoApp({ opcoes: true, voltarGuia: false });
     });
   } else {
     agoraConteudo.querySelector(".agora-botao")?.addEventListener("click", () => {
@@ -3757,6 +3863,63 @@ function ligarTodosEventos() {
       aplicarEscolhaCheguei(alvo.dataset.chegueiEscolha);
     }
   });
+  chegueiVoltarGuia?.addEventListener("click", () => {
+    chegueiVeioDoGuia = false;
+    ativarPainel("guia");
+  });
+  guiaRoot?.addEventListener("click", (evento) => {
+    const alvo = evento.target.closest(
+      "[data-guia-ir], [data-guia-marcar], [data-guia-demo-iniciar], [data-guia-demo-proximo], [data-guia-demo-parar], [data-guia-reset]"
+    );
+    if (!alvo) return;
+
+    if (alvo.dataset.guiaReset !== undefined) {
+      resetarProgressoGuia();
+      guiaDemoIndice = null;
+      desenharGuia();
+      mostrarFeedback("Progresso do roteiro zerado.");
+      return;
+    }
+    if (alvo.dataset.guiaDemoParar !== undefined) {
+      guiaDemoIndice = null;
+      desenharGuia();
+      return;
+    }
+    if (alvo.dataset.guiaDemoIniciar !== undefined) {
+      guiaDemoIndice = 0;
+      desenharGuia();
+      executarPassoDemo(0);
+      return;
+    }
+    if (alvo.dataset.guiaDemoProximo !== undefined) {
+      avancarDemoGuia();
+      return;
+    }
+    if (alvo.dataset.guiaMarcar) {
+      const id = alvo.dataset.guiaMarcar;
+      const feito = Boolean(carregarProgressoGuia()[id]);
+      marcarPassoGuia(id, !feito);
+      desenharGuia();
+      return;
+    }
+    if (alvo.dataset.guiaIr) {
+      executarNavegacaoGuia({
+        painel: alvo.dataset.guiaIr,
+        chegueiOpcoes: alvo.dataset.guiaCheguei !== undefined,
+        estudoAba: alvo.dataset.guiaEstudoAba || "",
+        passoId: alvo.dataset.guiaPassoId || "",
+      });
+    }
+  });
+  document.getElementById("guia-chamada-abrir")?.addEventListener("click", () => {
+    marcarGuiaVisto();
+    atualizarGuiaChamada();
+    ativarPainel("guia");
+  });
+  document.getElementById("guia-chamada-fechar")?.addEventListener("click", () => {
+    marcarGuiaVisto();
+    atualizarGuiaChamada();
+  });
   formAviso?.addEventListener("submit", adicionarAvisoForm);
   botaoAtualizarApp?.addEventListener("click", buscarAtualizacaoApp);
   botaoArquivarInbox?.addEventListener("click", arquivarInbox);
@@ -3859,7 +4022,10 @@ export function initApp() {
 
   void sondarIaNeuro().then(() => {
     if (painelAtivo === "estudo") desenharPainelEstudo();
+    if (painelAtivo === "guia") desenharGuia();
   });
+
+  atualizarGuiaChamada();
 
   ligarMigracaoHost({
     ativarPainel,

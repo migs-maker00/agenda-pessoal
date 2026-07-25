@@ -26,6 +26,13 @@
   ],
   "shortcuts": [
     {
+      "name": "Guia do app",
+      "short_name": "Guia",
+      "description": "Roteiro de demonstração",
+      "url": "./?painel=guia",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
       "name": "E agora?",
       "short_name": "Agora",
       "description": "Duas opções do momento",
