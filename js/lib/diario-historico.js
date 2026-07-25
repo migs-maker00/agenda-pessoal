@@ -1,9 +1,7 @@
-/** Histórico de versões do diário — protege contra perda acidental de texto. */
+/** Histórico de versões do diário — uma entrada a cada salvamento. */
 
 export const CHAVE_HISTORICO_NOTAS = "notas-diarias-historico";
-const MAX_VERSOES = 150;
-const MIN_INTERVALO_MS = 25_000;
-const MIN_CHARS_NOVA_VERSAO = 35;
+const MAX_VERSOES = 200;
 
 const ultimoArquivoPorChave = new Map();
 
@@ -47,24 +45,14 @@ export function mesclarNotasDoHistorico(mapa = {}, lista = carregarHistoricoComp
   return resultado;
 }
 
-function deveCriarNovaVersao(chave, texto, motivo) {
-  if (motivo === "manual" || motivo === "apagar" || motivo === "fechar") return true;
-
-  const registro = ultimoArquivoPorChave.get(chave);
-  if (!registro) return true;
-  if (registro.texto === texto) return false;
-
-  const passouTempo = Date.now() - registro.em >= MIN_INTERVALO_MS;
-  const mudouBastante = Math.abs(texto.length - registro.texto.length) >= MIN_CHARS_NOVA_VERSAO;
-  return passouTempo || mudouBastante;
-}
-
-/** Guarda uma versão do texto. Não apaga versões antigas ao limpar o campo. */
+/** Guarda versão a cada salvamento. Só ignora se for idêntica à última da mesma data. */
 export function arquivarVersaoNota(chave, texto, { motivo = "auto" } = {}) {
   if (!chaveNotaDiarioValida(chave)) return false;
   const limpo = String(texto ?? "").trim();
   if (!limpo) return false;
-  if (!deveCriarNovaVersao(chave, limpo, motivo)) return false;
+
+  const ultimo = ultimoArquivoPorChave.get(chave);
+  if (ultimo?.texto === limpo) return false;
 
   const lista = carregarHistoricoCompleto();
   const versao = {
@@ -107,6 +95,6 @@ export function formatarHoraVersao(em) {
 export function rotuloMotivoVersao(motivo) {
   if (motivo === "manual") return "salvo por você";
   if (motivo === "apagar") return "antes de apagar";
-  if (motivo === "fechar") return "ao sair da aba";
+  if (motivo === "fechar") return "ao sair";
   return "automático";
 }

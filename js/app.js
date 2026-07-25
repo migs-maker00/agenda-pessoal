@@ -1,5 +1,5 @@
-import { APP_VERSION } from "./config.js?v=2.12.0";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.12.0";
+import { APP_VERSION } from "./config.js?v=2.12.1";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.12.1";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.12.0";
+} from "./lib/avisos-agenda.js?v=2.12.1";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.12.0";
+} from "./lib/habitos.js?v=2.12.1";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.12.0";
+} from "./lib/perfil.js?v=2.12.1";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,32 +54,32 @@ import {
   PRIORIDADES_PRESET,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.12.0";
+} from "./lib/rotina-preset.js?v=2.12.1";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.12.0";
+} from "./lib/aprender.js?v=2.12.1";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.12.0";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.12.0";
+} from "./lib/estudo-hub.js?v=2.12.1";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.12.1";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.12.0";
+} from "./lib/estudo-ui.js?v=2.12.1";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.12.0";
+} from "./lib/cheguei.js?v=2.12.1";
 import {
   arquivarVersaoNota,
   carregarHistoricoCompleto,
@@ -89,26 +89,26 @@ import {
   mesclarNotasDoHistorico,
   restaurarVersaoHistorico,
   rotuloMotivoVersao,
-} from "./lib/diario-historico.js?v=2.12.0";
+} from "./lib/diario-historico.js?v=2.12.1";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.12.0";
+} from "./lib/tarde.js?v=2.12.1";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.12.0";
+} from "./lib/inteligencia.js?v=2.12.1";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.12.0";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.12.0";
+} from "./lib/lembretes.js?v=2.12.1";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.12.1";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -123,12 +123,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.12.0";
+} from "./lib/foco.js?v=2.12.1";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.12.0";
+} from "./lib/rotina-local.js?v=2.12.1";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -161,7 +161,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.12.0";
+} from "./lib/tdah.js?v=2.12.1";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -199,7 +199,7 @@ const navPaineis = document.querySelector(".nav-paineis");
 const diarioData = document.getElementById("diario-data");
 const diarioTexto = document.getElementById("diario-texto");
 const diarioSalvar = document.getElementById("diario-salvar");
-const diarioBuscarAntiga = document.getElementById("diario-buscar-antiga");
+const diarioBuscarAntiga = document.getElementById("diario-buscar-antiga-btn");
 const diarioUltimoSalvo = document.getElementById("diario-ultimo-salvo");
 const listaHistoricoDiario = document.getElementById("lista-historico-diario");
 const diarioStatus = document.getElementById("diario-status");
@@ -280,6 +280,8 @@ let intervaloRelogio = null;
 let dataDiarioSelecionada = hojeStr();
 let timerPersistenciaNotas = null;
 const ultimoSalvoPorChave = {};
+const motivoSalvoPorChave = {};
+const chavesPendentesHistorico = new Set();
 let sugestaoAtual = null;
 let rotinaGerada = null;
 let dadosEstudo = resetSessaoSeNovoDia(carregarEstudo(), hojeStr());
@@ -447,6 +449,17 @@ function flushNotasParaDisco() {
   salvarNotas();
 }
 
+function registrarHistoricoSalvamento() {
+  chavesPendentesHistorico.forEach((chave) => {
+    const texto = notas[chave];
+    if (texto?.trim()) {
+      arquivarVersaoNota(chave, texto, { motivo: motivoSalvoPorChave[chave] || "auto" });
+    }
+  });
+  chavesPendentesHistorico.clear();
+  desenharHistoricoDiario();
+}
+
 function agendarPersistenciaNotas(chave) {
   clearTimeout(timerPersistenciaNotas);
   timerPersistenciaNotas = setTimeout(() => {
@@ -568,33 +581,104 @@ function restaurarNotasPerdidas() {
     }
   }
 
-  if (recuperou) salvarNotas({ pularBackup: true });
+  if (recuperou) salvarNotas({ pularBackup: true, pularHistorico: true });
   return recuperou;
 }
 
+function coletarTextosRecuperaveis() {
+  const vistos = new Set();
+  const lista = [];
+
+  function adicionar(item) {
+    const id = `${item.chave}::${item.texto.slice(0, 100)}`;
+    if (vistos.has(id)) return;
+    vistos.add(id);
+    lista.push(item);
+  }
+
+  carregarHistoricoCompleto().forEach((versao) => {
+    const texto = String(versao.texto ?? "").trim();
+    if (texto.length < 40) return;
+    adicionar({
+      rotulo: `Histórico · ${formatarDataCurtaBR(versao.chave)} · ${formatarHoraVersao(versao.em)}`,
+      chave: versao.chave,
+      texto,
+      tamanho: versao.chars || texto.length,
+      tipo: "historico",
+      ref: versao.id,
+    });
+  });
+
+  buscarTextosLongosNoNavegador()
+    .filter((item) => item.tamanho >= 80)
+    .forEach((item) => {
+      const dataNoCaminho = item.caminho.match(/\d{4}-\d{2}-\d{2}/);
+      adicionar({
+        rotulo: `Navegador · ${item.caminho.replace("localStorage.", "")}`,
+        chave: dataNoCaminho?.[0] || dataDiarioSelecionada || ontemStr(),
+        texto: item.texto,
+        tamanho: item.tamanho,
+        tipo: "storage",
+        ref: item.caminho,
+      });
+    });
+
+  return lista.sort((a, b) => b.tamanho - a.tamanho);
+}
+
 function procurarTextoAntigoDiario() {
-  const chave = dataDiarioSelecionada || ontemStr();
-  const achados = buscarTextosLongosNoNavegador().filter((item) => item.tamanho >= 200);
-  if (!achados.length) {
-    mostrarFeedback("Não achei nenhum texto longo guardado neste navegador.");
+  const resultados = coletarTextosRecuperaveis();
+  const container = document.getElementById("lista-busca-diario");
+  const vazio = document.getElementById("diario-busca-vazio");
+
+  if (!container) return;
+
+  container.innerHTML = "";
+  container.hidden = false;
+
+  if (!resultados.length) {
+    if (vazio) vazio.hidden = false;
+    mostrarFeedback("Nenhum texto antigo encontrado neste navegador.");
     return;
   }
 
-  const melhor =
-    achados.find((item) => item.caminho.includes("notas-diarias")) ||
-    achados.find((item) => item.caminho.includes(ontemStr())) ||
-    achados[0];
+  if (vazio) vazio.hidden = true;
 
-  const confirmar = confirm(
-    `Encontrei um texto com ${melhor.tamanho} caracteres.\n\nPrévia:\n${melhor.texto.slice(0, 220)}${
-      melhor.texto.length > 220 ? "…" : ""
-    }\n\nRestaurar no diário de ${formatarDataCurtaBR(chave)}?`
-  );
-  if (!confirmar) return;
+  resultados.slice(0, 25).forEach((item) => {
+    const botao = document.createElement("button");
+    botao.type = "button";
+    botao.className = "historico-diario-item busca-diario-item";
 
-  definirNota(chave, melhor.texto, { motivo: "manual", imediato: true });
-  carregarNotaDiario(chave);
-  mostrarFeedback("Texto antigo restaurado no diário.");
+    const meta = document.createElement("span");
+    meta.className = "historico-diario-meta";
+    meta.textContent = `${item.rotulo} · ${item.tamanho} caracteres`;
+
+    const preview = document.createElement("span");
+    preview.className = "historico-diario-preview";
+    preview.textContent =
+      item.texto.length > 140 ? `${item.texto.slice(0, 140)}…` : item.texto;
+
+    botao.appendChild(meta);
+    botao.appendChild(preview);
+    botao.addEventListener("click", () => {
+      const confirmar = confirm(
+        `Restaurar este texto (${item.tamanho} caracteres) no diário de ${formatarDataCurtaBR(item.chave)}?`
+      );
+      if (!confirmar) return;
+
+      if (item.tipo === "historico") {
+        restaurarVersaoHistoricoDiario(item.ref);
+      } else {
+        definirNota(item.chave, item.texto, { motivo: "manual", imediato: true });
+        carregarNotaDiario(item.chave);
+        mostrarFeedback("Texto antigo restaurado.");
+      }
+    });
+    container.appendChild(botao);
+  });
+
+  container.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  mostrarFeedback(`${resultados.length} texto(s) encontrado(s). Toque para restaurar.`);
 }
 
 function restaurarVersaoHistoricoDiario(id) {
@@ -606,7 +690,8 @@ function restaurarVersaoHistoricoDiario(id) {
 }
 
 function salvarNotas(opcoes = {}) {
-  const { pularBackup = false } = opcoes;
+  const { pularBackup = false, pularHistorico = false } = opcoes;
+  if (!pularHistorico) registrarHistoricoSalvamento();
   if (!pularBackup) {
     try {
       const rawAtual = localStorage.getItem("notas-diarias");
@@ -693,12 +778,14 @@ function definirNota(chave, texto, opcoes = {}) {
   const limpo = texto.trim();
   const anterior = notas[chave];
 
+  motivoSalvoPorChave[chave] = motivo;
+  chavesPendentesHistorico.add(chave);
+
   if (!limpo && anterior?.trim()) {
     arquivarVersaoNota(chave, anterior, { motivo: "apagar" });
   }
 
   if (limpo) {
-    arquivarVersaoNota(chave, texto, { motivo });
     notas[chave] = texto;
   } else {
     delete notas[chave];

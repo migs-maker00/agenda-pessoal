@@ -20,7 +20,7 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=2.12.0" />
+  <link rel="stylesheet" href="style.css?v=2.12.1" />
 </head>
 <body>
   <div class="ambiente">
@@ -312,8 +312,8 @@
           <h2 class="bloco-titulo">Diário</h2>
           <p class="bloco-apoio">
             Cada dia guarda uma entrada. É o <strong>mesmo texto</strong> de
-            <strong>Hoje → Anotações do dia</strong>. Salva sozinho enquanto você escreve —
-            versões antigas ficam em <strong>Histórico</strong> abaixo.
+            <strong>Hoje → Anotações do dia</strong>. Salva sozinho a cada alteração —
+            <strong>uma versão nova a cada salvamento</strong> fica em <strong>Histórico</strong>.
           </p>
 
           <div class="diario-controles">
@@ -337,9 +337,6 @@
           ></textarea>
           <div class="diario-acoes">
             <button type="button" id="diario-salvar" class="botao-secundario">Salvar entrada</button>
-            <button type="button" id="diario-buscar-antiga" class="botao-secundario">
-              Procurar texto antigo
-            </button>
             <p id="diario-status" class="diario-status" aria-live="polite"></p>
           </div>
         </section>
@@ -347,11 +344,25 @@
         <section class="bloco">
           <h2 class="bloco-titulo">Histórico</h2>
           <p class="bloco-apoio">
-            Versões guardadas deste dia. Toque numa para restaurar se algo sumir.
+            Uma versão nova a cada salvamento automático ou manual. Toque para restaurar.
           </p>
           <div id="lista-historico-diario" class="lista-historico-diario"></div>
           <p id="diario-historico-vazio" class="mensagem-vazia">
             Ainda sem versões guardadas para esta data. Escreva um pouco — o app salva automaticamente.
+          </p>
+        </section>
+
+        <section class="bloco">
+          <h2 class="bloco-titulo">Busca de texto antigo</h2>
+          <p class="bloco-apoio">
+            Vasculha o histórico e todo o navegador por textos longos que possam ter sumido.
+          </p>
+          <button type="button" id="diario-buscar-antiga-btn" class="botao-secundario">
+            Procurar agora
+          </button>
+          <div id="lista-busca-diario" class="lista-historico-diario" hidden></div>
+          <p id="diario-busca-vazio" class="mensagem-vazia">
+            Nenhum resultado ainda. Toque em <strong>Procurar agora</strong>.
           </p>
         </section>
 
@@ -511,7 +522,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
-  <script type="module" src="js/main.js?v=2.12.0"></script>
+  <script type="module" src="js/main.js?v=2.12.1"></script>
   <script defer src="sync.js?v=4"></script>
 </body>
 </html>
