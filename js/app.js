@@ -1,5 +1,5 @@
-import { APP_VERSION, hostAtual } from "./config.js?v=2.19.0";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.19.0";
+import { APP_VERSION, hostAtual } from "./config.js?v=2.20.0";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.20.0";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.19.0";
+} from "./lib/avisos-agenda.js?v=2.20.0";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.19.0";
+} from "./lib/habitos.js?v=2.20.0";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.19.0";
+} from "./lib/perfil.js?v=2.20.0";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,49 +54,49 @@ import {
   PRIORIDADES_PRESET,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.19.0";
+} from "./lib/rotina-preset.js?v=2.20.0";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.19.0";
+} from "./lib/aprender.js?v=2.20.0";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.19.0";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.19.0";
+} from "./lib/estudo-hub.js?v=2.20.0";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.20.0";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.19.0";
+} from "./lib/estudo-ui.js?v=2.20.0";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.19.0";
+} from "./lib/cheguei.js?v=2.20.0";
 import {
   aplicarSugestaoIa,
   montarPayloadContextoIa,
   pedirOpcoesContexto,
-} from "./lib/contexto-ia.js?v=2.19.0";
-import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.19.0";
-import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.19.0";
+} from "./lib/contexto-ia.js?v=2.20.0";
+import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.20.0";
+import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.20.0";
 import {
   mensagemStreakGlobal,
   mensagemStreakHabito,
   rotuloStreakInsights,
-} from "./lib/streak-gentil.js?v=2.19.0";
-import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.19.0";
-import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.19.0";
-import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.19.0";
-import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.19.0";
-import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.19.0";
+} from "./lib/streak-gentil.js?v=2.20.0";
+import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.20.0";
+import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.20.0";
+import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.20.0";
+import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.20.0";
+import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.20.0";
 import {
   carregarSessaoParceiro,
   iniciarSessaoParceiro,
@@ -104,8 +104,8 @@ import {
   finalizarSessaoParceiro,
   limparSessaoParceiro,
   renderPainelParceiro,
-} from "./lib/estudo-parceiro.js?v=2.19.0";
-import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.19.0";
+} from "./lib/estudo-parceiro.js?v=2.20.0";
+import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.20.0";
 import {
   arquivarVersaoNota,
   carregarHistoricoCompleto,
@@ -115,13 +115,13 @@ import {
   mesclarNotasDoHistorico,
   restaurarVersaoHistorico,
   rotuloMotivoVersao,
-} from "./lib/diario-historico.js?v=2.19.0";
+} from "./lib/diario-historico.js?v=2.20.0";
 import {
   aplicarExplicacoesNeuro,
   carregarExplicacoesNeuro,
   mesclarExplicacoesNeuro,
-} from "./lib/neuro-explicar.js?v=2.19.0";
-import { sondarIaNeuro, iaNeuroDisponivel } from "./lib/neuro-ia.js?v=2.19.0";
+} from "./lib/neuro-explicar.js?v=2.20.0";
+import { sondarIaNeuro, iaNeuroDisponivel } from "./lib/neuro-ia.js?v=2.20.0";
 import {
   marcarGuiaVisto,
   marcarPassoGuia,
@@ -131,33 +131,34 @@ import {
   renderPainelGuia,
   resetarProgressoGuia,
   ROTEIRO_DEMO,
-} from "./lib/guia-app.js?v=2.19.0";
+} from "./lib/guia-app.js?v=2.20.0";
+import { aplicarIdiomaHtml, definirCallbackIdioma, localeTag, setLocale, t } from "./lib/i18n.js?v=2.20.0";
 import {
   esconderBannerMigracaoHost,
   ligarMigracaoHost,
   mostrarAvisoGithubParaVercel,
   mostrarBannerMigracaoHost,
   precisaConectarSyncNesteHost,
-} from "./lib/migracao-host.js?v=2.19.0";
+} from "./lib/migracao-host.js?v=2.20.0";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.19.0";
+} from "./lib/tarde.js?v=2.20.0";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.19.0";
+} from "./lib/inteligencia.js?v=2.20.0";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.19.0";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.19.0";
+} from "./lib/lembretes.js?v=2.20.0";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.20.0";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -172,12 +173,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.19.0";
+} from "./lib/foco.js?v=2.20.0";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.19.0";
+} from "./lib/rotina-local.js?v=2.20.0";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -210,7 +211,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.19.0";
+} from "./lib/tdah.js?v=2.20.0";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -320,6 +321,7 @@ const resumoNaoEsqueci = document.getElementById("resumo-nao-esqueci");
 const entradaTemaSemana = document.getElementById("entrada-tema-semana");
 const perfilResumo = document.getElementById("perfil-resumo");
 const botaoRotinaPersonalizada = document.getElementById("botao-rotina-personalizada");
+const rotinaAjustesStatus = document.getElementById("rotina-ajustes-status");
 const diarioResumoIa = document.getElementById("diario-resumo-ia");
 const diarioResumoPainel = document.getElementById("diario-resumo-painel");
 const botaoPlanoSemana = document.getElementById("botao-plano-semana");
@@ -396,7 +398,7 @@ function inicioDaSemana() {
 
 function mostrarData() {
   const opcoes = { weekday: "long", day: "numeric", month: "long" };
-  dataHoje.textContent = new Date().toLocaleDateString("pt-BR", opcoes);
+  dataHoje.textContent = new Date().toLocaleDateString(localeTag(), opcoes);
 }
 
 // ============ TEMA (claro/escuro) ============
@@ -2078,6 +2080,34 @@ async function gerarResumoDiarioIa() {
     </div>`;
 }
 
+function tituloPainelAtual(nome) {
+  const chaves = {
+    rotina: "panel.rotina",
+    hoje: "panel.hoje",
+    guia: "panel.guia",
+    cheguei: "panel.cheguei",
+    estudo: "panel.estudo",
+    semana: "panel.semana",
+    diario: "panel.diario",
+    insights: "panel.insights",
+    ajustes: "panel.ajustes",
+  };
+  return t(chaves[nome] || "panel.default");
+}
+
+function aplicarIdiomaApp() {
+  aplicarIdiomaHtml(document);
+  if (tituloPainel) tituloPainel.textContent = tituloPainelAtual(painelAtivo);
+  desenharRelogio();
+}
+
+function mudarIdioma(novo) {
+  setLocale(novo);
+  aplicarIdiomaApp();
+  desenhar();
+  mostrarFeedback(t("feedback.idioma"));
+}
+
 function processarParametrosUrl() {
   const params = new URLSearchParams(location.search);
   const painel = params.get("painel");
@@ -2133,7 +2163,7 @@ function executarNavegacaoGuia({ painel, chegueiOpcoes, estudoAba, passoId, demo
   if (demo && guiaDemoIndice != null) {
     const passo = passoDemoPorIndice(guiaDemoIndice);
     if (passo) {
-      mostrarFeedback(`Demonstração — ${passo.titulo}`, "ok");
+      mostrarFeedback(t("feedback.demo.passo", { titulo: passo.titulo }), "ok");
     }
   }
 }
@@ -2158,7 +2188,7 @@ function avancarDemoGuia() {
     guiaDemoIndice = null;
     marcarGuiaVisto();
     ativarPainel("guia");
-    mostrarFeedback("Roteiro completo! Você arrasou na demonstração.", "ok");
+    mostrarFeedback(t("feedback.demo.fim"), "ok");
     return;
   }
   executarPassoDemo(proximo);
@@ -2488,17 +2518,17 @@ function ativarPainel(nome) {
   });
 
   const titulos = {
-    rotina: "Sua rotina",
-    hoje: "Seu dia",
-    guia: "Guia",
-    cheguei: "E agora?",
-    estudo: "Estudo",
-    semana: "Sua semana",
-    diario: "Diário",
-    insights: "Insights",
-    ajustes: "Ajustes",
+    rotina: tituloPainelAtual("rotina"),
+    hoje: tituloPainelAtual("hoje"),
+    guia: tituloPainelAtual("guia"),
+    cheguei: tituloPainelAtual("cheguei"),
+    estudo: tituloPainelAtual("estudo"),
+    semana: tituloPainelAtual("semana"),
+    diario: tituloPainelAtual("diario"),
+    insights: tituloPainelAtual("insights"),
+    ajustes: tituloPainelAtual("ajustes"),
   };
-  if (tituloPainel) tituloPainel.textContent = titulos[nome] || "Agenda";
+  if (tituloPainel) tituloPainel.textContent = titulos[nome] || t("panel.default");
 
   if (chegueiVoltarGuia) {
     chegueiVoltarGuia.hidden = nome !== "cheguei" || !chegueiVeioDoGuia;
@@ -2785,7 +2815,7 @@ function desenharAgora() {
   if (!sugestao) {
     agoraTraveiHabitoId = null;
     agoraConteudo.innerHTML = `
-      <p class="agora-texto agora-vazio">Nada pendente agora. Descanse ou revise a inbox.</p>`;
+      <p class="agora-texto agora-vazio">${t("agora.vazio")}</p>`;
     return;
   }
 
@@ -2808,7 +2838,7 @@ function desenharAgora() {
         <span class="agora-timer-valor" id="agora-timer-valor">${formatarTimer(
           cronometroAtivo() ? segundosCronometro() : segundosRestantesTimer()
         )}</span>
-        <button type="button" class="agora-timer-cancelar" id="agora-cancelar-timer">Parar</button>
+        <button type="button" class="agora-timer-cancelar" id="agora-cancelar-timer">${t("agora.parar")}</button>
       </div>`
       : "";
 
@@ -2823,7 +2853,7 @@ function desenharAgora() {
 
   const acoesExtras = virtual
     ? `<div class="agora-acoes">
-        <button type="button" class="botao-secundario" id="agora-abrir-cheguei">Mais opções</button>
+        <button type="button" class="botao-secundario" id="agora-abrir-cheguei">${t("agora.mais")}</button>
       </div>`
     : `<div class="agora-acoes agora-timers">
         <button type="button" class="botao-secundario agora-timer-btn" data-seg="30">Só abrir</button>
@@ -2833,18 +2863,18 @@ function desenharAgora() {
         <button type="button" class="botao-secundario agora-timer-btn" data-seg="1500">25 min</button>
       </div>
       <div class="agora-acoes">
-        <button type="button" class="botao-secundario" id="agora-cronometro">Cronômetro</button>
-        <button type="button" class="botao-secundario agora-travei" data-travei="${habito.id}">Travei</button>
+        <button type="button" class="botao-secundario" id="agora-cronometro">${t("agora.cronometro")}</button>
+        <button type="button" class="botao-secundario agora-travei" data-travei="${habito.id}">${t("agora.travei")}</button>
       </div>`;
 
   const traveiAberto = !virtual && agoraTraveiHabitoId != null && String(agoraTraveiHabitoId) === String(habito.id);
   const traveiHtml = traveiAberto
     ? `<div class="agora-travei-painel" role="status" aria-live="polite">
-        <p class="agora-travei-titulo">Travou? Plano B — só o mínimo</p>
+        <p class="agora-travei-titulo">${t("agora.travei.titulo")}</p>
         <p class="agora-travei-texto">${textoPlanoB(habito).replace(/&/g, "&amp;").replace(/</g, "&lt;")}</p>
         <div class="agora-travei-acoes">
-          <button type="button" class="botao-secundario" id="agora-travei-30s">Só 30 segundos</button>
-          <button type="button" class="botao-texto" id="agora-travei-fechar">Ok, entendi</button>
+          <button type="button" class="botao-secundario" id="agora-travei-30s">${t("agora.travei.30s")}</button>
+          <button type="button" class="botao-texto" id="agora-travei-fechar">${t("agora.travei.ok")}</button>
         </div>
       </div>`
     : "";
@@ -2858,9 +2888,9 @@ function desenharAgora() {
     ${acoesExtras}
     ${traveiHtml}
     <p class="agora-cheguei-wrap">
-      <button type="button" class="botao-texto agora-link-cheguei">E agora? — só 2 opções</button>
+      <button type="button" class="botao-texto agora-link-cheguei">${t("agora.link.cheguei")}</button>
     </p>
-    <p class="agora-dica">Um passo só. Sem precisar fazer tudo.</p>`;
+    <p class="agora-dica">${t("agora.dica")}</p>`;
 
   agoraConteudo.querySelector(".agora-link-cheguei")?.addEventListener("click", () => {
     abrirChegueiDoApp({ opcoes: true, voltarGuia: false });
@@ -3189,7 +3219,19 @@ function desenharBannerTarde() {
 function desenharPerfilAjustes() {
   if (!perfilResumo) return;
   const perfil = carregarPerfil();
-  perfilResumo.textContent = `Acorda ${perfil.acordar}, escola seg–sex, tarde difícil ${perfil.tardeDificilInicio}–${perfil.tardeDificilFim}. Prioridades: ${(perfil.prioridadesVida || []).join(", ")}.`;
+  perfilResumo.textContent = t("ajustes.rotina.perfil", {
+    acordar: perfil.acordar,
+    tardeIni: perfil.tardeDificilInicio,
+    tardeFim: perfil.tardeDificilFim,
+    prioridades: (perfil.prioridadesVida || []).join(", "),
+  });
+}
+
+function mostrarStatusRotinaAjustes(texto, tipo = "ok") {
+  if (!rotinaAjustesStatus) return;
+  rotinaAjustesStatus.textContent = texto;
+  rotinaAjustesStatus.className = `rotina-ajustes-status rotina-ajustes-status--${tipo}`;
+  rotinaAjustesStatus.hidden = !texto;
 }
 
 function aplicarRotinaCompleta(silencioso = false) {
@@ -3283,14 +3325,42 @@ function aplicarRotinaCompleta(silencioso = false) {
   desenhar();
 
   if (!silencioso) {
-    mostrarFeedback(
-      `Rotina montada! ${adicionados} novo(s), ${atualizados} atualizado(s). Vá em Ajustes → Ativar lembretes.`
-    );
+    if (typeof window.marcarEscritaLocalSync === "function") {
+      window.marcarEscritaLocalSync(4000);
+    }
+    if (typeof window.forcarSyncNuvem === "function") {
+      void window.forcarSyncNuvem();
+    }
+    const msg = t("ajustes.rotina.ok", {
+      novos: adicionados,
+      atualizados,
+    });
+    mostrarStatusRotinaAjustes(msg, "ok");
+    mostrarFeedback(msg, "ok");
   }
+  return { adicionados, atualizados };
 }
 
 function aplicarRotinaPersonalizada() {
-  aplicarRotinaCompleta(false);
+  if (!confirm(t("ajustes.rotina.confirmar"))) return;
+
+  const botao = botaoRotinaPersonalizada;
+  if (botao) botao.disabled = true;
+
+  try {
+    const { adicionados, atualizados } = aplicarRotinaCompleta(false);
+    desenharPerfilAjustes();
+    ativarPainel("hoje");
+    if (adicionados === 0 && atualizados === 0) {
+      mostrarStatusRotinaAjustes(t("ajustes.rotina.ok", { novos: 0, atualizados: 0 }), "ok");
+    }
+  } catch (erro) {
+    console.error("aplicarRotinaPersonalizada:", erro);
+    mostrarStatusRotinaAjustes(t("ajustes.rotina.erro"), "erro");
+    mostrarFeedback(t("ajustes.rotina.erro"), "aviso");
+  } finally {
+    if (botao) botao.disabled = false;
+  }
 }
 
 function salvarEstudoLocal(novo, opts = {}) {
@@ -3877,7 +3947,7 @@ function ligarTodosEventos() {
       resetarProgressoGuia();
       guiaDemoIndice = null;
       desenharGuia();
-      mostrarFeedback("Progresso do roteiro zerado.");
+      mostrarFeedback(t("feedback.guia.reset"));
       return;
     }
     if (alvo.dataset.guiaDemoParar !== undefined) {
@@ -3919,6 +3989,12 @@ function ligarTodosEventos() {
   document.getElementById("guia-chamada-fechar")?.addEventListener("click", () => {
     marcarGuiaVisto();
     atualizarGuiaChamada();
+  });
+  document.querySelectorAll("[data-idioma]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const loc = btn.dataset.idioma;
+      if (loc) mudarIdioma(loc);
+    });
   });
   formAviso?.addEventListener("submit", adicionarAvisoForm);
   botaoAtualizarApp?.addEventListener("click", buscarAtualizacaoApp);
@@ -3975,6 +4051,8 @@ export function initApp() {
   carregarNotaHoje();
   carregarNotaDiario(dataInicialDiario());
   ligarTodosEventos();
+  definirCallbackIdioma(() => aplicarIdiomaApp());
+  aplicarIdiomaApp();
   iniciarVozes(() => {
     if (painelAtivo === "estudo") desenharPainelEstudo();
   });

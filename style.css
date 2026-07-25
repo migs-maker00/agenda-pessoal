@@ -4124,3 +4124,50 @@ body.modo-barulho-ativo .bloco-revisao {
   font-size: 0.84rem;
 }
 
+.idioma-opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.idioma-chip {
+  border: 1px solid var(--borda);
+  background: var(--superficie-elevada, var(--superficie));
+  color: var(--preto-suave, inherit);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+}
+
+.idioma-chip:hover {
+  border-color: color-mix(in srgb, var(--marca) 40%, var(--borda));
+}
+
+.idioma-chip.ativo {
+  background: var(--marca);
+  border-color: var(--marca);
+  color: var(--bege-claro, #fff);
+}
+
+.rotina-ajustes-status {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.rotina-ajustes-status--ok {
+  background: color-mix(in srgb, #2d8a4e 10%, var(--superficie));
+  border: 1px solid color-mix(in srgb, #2d8a4e 35%, var(--borda));
+}
+
+.rotina-ajustes-status--erro {
+  background: color-mix(in srgb, #c0392b 8%, var(--superficie));
+  border: 1px solid color-mix(in srgb, #c0392b 30%, var(--borda));
+}
+

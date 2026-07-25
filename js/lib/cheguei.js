@@ -1,5 +1,4 @@
-// Cheguei / Acabei de… — no máximo 2 opções contextuais
-
+import { t } from "./i18n.js";
 import { PLANO_B_APRENDER, detectarHabitoAprender } from "./aprender.js";
 import { avisosPendentes } from "./avisos-agenda.js";
 import {
@@ -18,13 +17,18 @@ import { carregarPerfil, ehDiaEscola, minutosAgora } from "./perfil.js";
 import { ehHorarioDificil } from "./tarde.js";
 import { prioridadesDoDia } from "./tdah.js";
 
-export const GATILHOS_CHEGUEI = [
-  { id: "chegada", emoji: "🏠", rotulo: "Cheguei em casa" },
-  { id: "tarefa", emoji: "✓", rotulo: "Completei uma tarefa" },
-  { id: "acordar", emoji: "☀️", rotulo: "Acabei de acordar" },
-  { id: "pausa", emoji: "☕", rotulo: "Preciso de uma pausa" },
-  { id: "noite", emoji: "🌙", rotulo: "Vou desacelerar" },
-];
+export function gatilhosCheguei() {
+  return [
+    { id: "chegada", emoji: "🏠", rotulo: t("cheguei.gatilho.chegada") },
+    { id: "tarefa", emoji: "✓", rotulo: t("cheguei.gatilho.tarefa") },
+    { id: "acordar", emoji: "☀️", rotulo: t("cheguei.gatilho.acordar") },
+    { id: "pausa", emoji: "☕", rotulo: t("cheguei.gatilho.pausa") },
+    { id: "noite", emoji: "🌙", rotulo: t("cheguei.gatilho.noite") },
+  ];
+}
+
+/** @deprecated use gatilhosCheguei() */
+export const GATILHOS_CHEGUEI = gatilhosCheguei();
 
 function ehOrganizarChegada(habito) {
   return /organizar|chegar|chegada|mochila/i.test(habito.nome || "");
@@ -242,29 +246,29 @@ export function montarOpcoesCheguei({
 export function renderChegueiInicio() {
   const faixa = faixaDoDia();
   const apoio =
-    faixa === "madrugada"
-      ? "É madrugada — nada de trabalho pesado. Diga o que acabou de acontecer:"
-      : "Sem lista enorme — diga o que acabou de acontecer e eu monto 2 opções.";
+    faixa === "madrugada" ? t("cheguei.apoio.madrugada") : t("cheguei.apoio");
 
-  const botoes = GATILHOS_CHEGUEI.map(
-    (g) =>
-      `<button type="button" class="cheguei-gatilho" data-cheguei-contexto="${g.id}">
+  const botoes = gatilhosCheguei()
+    .map(
+      (g) =>
+        `<button type="button" class="cheguei-gatilho" data-cheguei-contexto="${g.id}">
         <span class="cheguei-gatilho-emoji">${g.emoji}</span>
         <span class="cheguei-gatilho-rotulo">${esc(g.rotulo)}</span>
       </button>`
-  ).join("");
+    )
+    .join("");
 
-  const vozBtn = `<button type="button" class="cheguei-voz" data-cheguei-voz aria-label="Falar o que aconteceu">
+  const vozBtn = `<button type="button" class="cheguei-voz" data-cheguei-voz aria-label="${esc(t("cheguei.voz"))}">
       <span class="cheguei-voz-emoji">🎤</span>
-      <span class="cheguei-voz-rotulo">Falar — eu entendo</span>
+      <span class="cheguei-voz-rotulo">${esc(t("cheguei.voz"))}</span>
     </button>`;
 
   return `
     <section class="cheguei-bloco">
-      <p class="cheguei-ola">E agora?</p>
-      <p class="cheguei-apoio">${apoio}</p>
+      <p class="cheguei-ola">${esc(t("cheguei.ola"))}</p>
+      <p class="cheguei-apoio">${esc(apoio)}</p>
       ${vozBtn}
-      <p class="cheguei-ou-voz">ou escolha:</p>
+      <p class="cheguei-ou-voz">${esc(t("cheguei.ou.voz"))}</p>
       <div class="cheguei-gatilhos" role="list">${botoes}</div>
     </section>`;
 }
@@ -283,16 +287,16 @@ function renderOpcaoCard(opcao, letra) {
 }
 
 export function renderChegueiOpcoes({ intro, opcaoA, opcaoB, ia }) {
-  const badge = ia ? '<span class="cheguei-intro-ia">✨ ajustado pela IA</span>' : "";
+  const badge = ia ? `<span class="cheguei-intro-ia">${esc(t("cheguei.ia"))}</span>` : "";
   return `
     <section class="cheguei-bloco">
       <p class="cheguei-intro">${esc(intro)}${badge}</p>
       <div class="cheguei-dupla">
         ${renderOpcaoCard(opcaoA, "A")}
-        ${opcaoB ? `<p class="cheguei-ou">ou</p>${renderOpcaoCard(opcaoB, "B")}` : ""}
+        ${opcaoB ? `<p class="cheguei-ou">${esc(t("cheguei.ou"))}</p>${renderOpcaoCard(opcaoB, "B")}` : ""}
       </div>
       <button type="button" class="botao-texto cheguei-reiniciar" data-cheguei-acao="reiniciar">
-        Outra situação
+        ${esc(t("cheguei.reiniciar"))}
       </button>
     </section>`;
 }
@@ -300,11 +304,11 @@ export function renderChegueiOpcoes({ intro, opcaoA, opcaoB, ia }) {
 export function renderChegueiFeito(mensagem) {
   return `
     <section class="cheguei-bloco cheguei-feito">
-      <p class="cheguei-feito-titulo">Boa.</p>
+      <p class="cheguei-feito-titulo">${esc(t("cheguei.feito.titulo"))}</p>
       <p class="cheguei-feito-texto">${esc(mensagem)}</p>
       <div class="cheguei-feito-acoes">
-        <button type="button" class="botao-secundario" data-cheguei-acao="mais">Ver mais 2 opções</button>
-        <button type="button" class="botao-texto" data-cheguei-acao="reiniciar">Outra situação</button>
+        <button type="button" class="botao-secundario" data-cheguei-acao="mais">${esc(t("cheguei.feito.mais"))}</button>
+        <button type="button" class="botao-texto" data-cheguei-acao="reiniciar">${esc(t("cheguei.reiniciar"))}</button>
       </div>
     </section>`;
 }
