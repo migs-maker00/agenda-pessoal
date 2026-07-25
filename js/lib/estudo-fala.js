@@ -198,3 +198,55 @@ export function escutarPronuncia(esperado, opts = {}) {
     onError?.("Microfone ocupado. Aguarde um segundo e tente de novo.");
   }
 }
+
+/** Ditado livre — preenche texto em português (ex.: explicar neuro). */
+export function escutarDictado(opts = {}) {
+  const { lang = "pt-BR", onStatus, onResult, onError } = opts;
+
+  pararEscuta();
+
+  if (!SpeechRecognition) {
+    onError?.("Reconhecimento de voz indisponível. Use Chrome e permita o microfone.");
+    return;
+  }
+
+  const rec = new SpeechRecognition();
+  reconhecimentoAtivo = rec;
+  rec.lang = lang;
+  rec.interimResults = false;
+  rec.maxAlternatives = 1;
+
+  rec.onstart = () => onStatus?.("🎤 Ouvindo… explique em voz alta.");
+
+  rec.onerror = (evento) => {
+    reconhecimentoAtivo = null;
+    const mapa = {
+      "not-allowed": "Microfone bloqueado. Permita nas configurações do navegador.",
+      "no-speech": "Não ouvi voz. Tente falar mais perto do microfone.",
+      network: "Precisa de internet para reconhecer a voz.",
+      aborted: "Escuta cancelada.",
+    };
+    onError?.(mapa[evento.error] || "Erro ao ouvir. Tente de novo.");
+  };
+
+  rec.onend = () => {
+    if (reconhecimentoAtivo === rec) reconhecimentoAtivo = null;
+  };
+
+  rec.onresult = (evento) => {
+    const bloco = evento.results[0];
+    const texto = bloco?.[0]?.transcript?.trim() || "";
+    if (!texto) {
+      onError?.("Não ouvi nada. Tente de novo.");
+      return;
+    }
+    onResult?.(texto);
+  };
+
+  try {
+    rec.start();
+  } catch {
+    reconhecimentoAtivo = null;
+    onError?.("Microfone ocupado. Aguarde um segundo e tente de novo.");
+  }
+}

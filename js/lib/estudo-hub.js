@@ -19,8 +19,11 @@ function estadoInicial() {
     vocabulario: [...VOCAB_PADRAO],
     vocabIndex: 0,
     linkAtivoId: null,
-    sessao: { data: "", assistir: false, ouvir: false, praticar: 0, falar: 0 },
+    sessao: { data: "", assistir: false, ouvir: false, praticar: 0, falar: 0, neuro: 0 },
     abaAtiva: "sessao",
+    neuroModuloAtivo: "caminhada-cerebro",
+    neuroFeedback: null,
+    neuroRascunho: "",
     buscaLivro: "",
     categoriaLivro: "todos",
     temaLivro: null,
@@ -202,7 +205,7 @@ export function resetSessaoSeNovoDia(dados, chaveDia) {
   if (dados.sessao?.data === chaveDia) return dados;
   return {
     ...dados,
-    sessao: { data: chaveDia, assistir: false, ouvir: false, praticar: 0, falar: 0 },
+    sessao: { data: chaveDia, assistir: false, ouvir: false, praticar: 0, falar: 0, neuro: 0 },
   };
 }
 
@@ -252,6 +255,7 @@ export function resumoSessao(dados, metaPratica = 3) {
     { id: "ouvir", ok: !!s.ouvir, rotulo: "Ouvir" },
     { id: "praticar", ok: (s.praticar || 0) >= metaPratica, rotulo: "Praticar" },
     { id: "falar", ok: (s.falar || 0) >= 3, rotulo: "Falar" },
+    { id: "neuro", ok: (s.neuro || 0) >= 1, rotulo: "Neuro" },
   ];
   const feitos = passos.filter((p) => p.ok).length;
   return { passos, feitos, total: passos.length };
