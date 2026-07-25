@@ -20,21 +20,21 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=2.19.0" />
+  <link rel="stylesheet" href="style.css?v=2.20.0" />
 </head>
 <body>
   <div class="ambiente">
     <main class="app">
       <header class="cabecalho">
         <div class="cabecalho-marca">
-          <p class="marca">Agenda</p>
-          <h1 class="titulo-dia">Seu dia</h1>
+          <p class="marca" data-i18n="header.brand">Agenda</p>
+          <h1 class="titulo-dia" data-i18n="header.day">Seu dia</h1>
           <p id="data-hoje" class="data-hoje"></p>
         </div>
-        <button id="botao-tema" class="botao-tema" aria-label="Alternar tema" type="button">☾</button>
+        <button id="botao-tema" class="botao-tema" data-i18n-aria="theme.aria" aria-label="Alternar tema" type="button">☾</button>
       </header>
 
-      <nav class="nav-paineis" aria-label="Seções do app">
+      <nav class="nav-paineis" data-i18n-aria="nav.aria" aria-label="Seções do app">
         <button type="button" class="nav-item ativo" data-painel="hoje">Hoje</button>
         <button type="button" class="nav-item" data-painel="guia">Guia</button>
         <button type="button" class="nav-item" data-painel="estudo">Estudo</button>
@@ -49,7 +49,7 @@
 
       <!-- CHEGUEI: 2 opções só (acesso pelo Guia, Hoje ou atalho) -->
       <section id="painel-cheguei" class="painel" aria-label="E agora?" hidden>
-        <button type="button" id="cheguei-voltar-guia" class="guia-voltar" hidden>← Voltar ao Guia</button>
+        <button type="button" id="cheguei-voltar-guia" class="guia-voltar" data-i18n="cheguei.voltar" hidden>← Voltar ao Guia</button>
         <div id="cheguei-root" class="cheguei-root"></div>
       </section>
 
@@ -150,19 +150,19 @@
       <!-- HOJE: checklist do dia -->
       <section id="painel-hoje" class="painel ativo" aria-label="Hoje">
         <div id="guia-chamada" class="guia-chamada" hidden>
-          <p class="guia-chamada-texto">
+          <p class="guia-chamada-texto" data-i18n-html="guia.chamada.html">
             <strong>Nova aqui?</strong> O <strong>Guia</strong> tem o roteiro de 5 min para mostrar o app com confiança.
           </p>
           <div class="guia-chamada-acoes">
-            <button type="button" id="guia-chamada-abrir" class="botao-primario">Abrir Guia</button>
-            <button type="button" id="guia-chamada-fechar" class="botao-texto">Depois</button>
+            <button type="button" id="guia-chamada-abrir" class="botao-primario" data-i18n="guia.chamada.abrir">Abrir Guia</button>
+            <button type="button" id="guia-chamada-fechar" class="botao-texto" data-i18n="guia.chamada.depois">Depois</button>
           </div>
         </div>
         <div id="dica-inicio" class="dica-inicio" hidden>
-          <p class="dica-inicio-texto">
+          <p class="dica-inicio-texto" data-i18n-html="dica.inicio.html">
             <strong>Hoje</strong> é sua aba principal: <strong>Agora</strong> diz o próximo passo. Marque até <strong>3 prioridades</strong> com ☆.
           </p>
-          <button type="button" id="dica-fechar" class="botao-secundario dica-fechar">Entendi</button>
+          <button type="button" id="dica-fechar" class="botao-secundario dica-fechar" data-i18n="dica.entendi">Entendi</button>
         </div>
         <div id="barra-relogio" class="barra-relogio" aria-live="polite">
           <span id="relogio-atual" class="relogio-atual">--:--:--</span>
@@ -182,30 +182,31 @@
         </div>
 
         <section class="bloco bloco-manha" aria-label="Revisão da manhã">
-          <h2 class="bloco-titulo">Manhã — 2 min</h2>
-          <p class="bloco-apoio">O que importa hoje? Três linhas no máximo.</p>
+          <h2 class="bloco-titulo" data-i18n="hoje.manha.titulo">Manhã — 2 min</h2>
+          <p class="bloco-apoio" data-i18n="hoje.manha.apoio">O que importa hoje? Três linhas no máximo.</p>
           <div id="resumo-nao-esqueci" class="resumo-nao-esqueci" hidden></div>
-          <label class="revisao-label" for="manha-foco1">Prioridade 1</label>
+          <label class="revisao-label" for="manha-foco1" data-i18n="hoje.prioridade1">Prioridade 1</label>
           <input type="text" id="manha-foco1" class="campo-opcao revisao-campo" maxlength="80" />
-          <label class="revisao-label" for="manha-foco2">Prioridade 2</label>
+          <label class="revisao-label" for="manha-foco2" data-i18n="hoje.prioridade2">Prioridade 2</label>
           <input type="text" id="manha-foco2" class="campo-opcao revisao-campo" maxlength="80" />
-          <label class="revisao-label" for="manha-foco3">Prioridade 3</label>
+          <label class="revisao-label" for="manha-foco3" data-i18n="hoje.prioridade3">Prioridade 3</label>
           <input type="text" id="manha-foco3" class="campo-opcao revisao-campo" maxlength="80" />
         </section>
 
         <div class="linha-tema-semana">
-          <label class="tema-semana-label" for="entrada-tema-semana">Tema da semana</label>
+          <label class="tema-semana-label" for="entrada-tema-semana" data-i18n="hoje.tema">Tema da semana</label>
           <input
             type="text"
             id="entrada-tema-semana"
             class="campo-opcao tema-semana-input"
+            data-i18n-placeholder="hoje.tema.placeholder"
             placeholder="Ex.: Conhecimento e rotina"
             maxlength="80"
           />
         </div>
 
         <section id="bloco-agora" class="bloco bloco-agora" aria-label="O que fazer agora">
-          <p class="secao-rotulo">Agora</p>
+          <p class="secao-rotulo" data-i18n="hoje.agora">Agora</p>
           <div id="agora-conteudo" class="agora-conteudo"></div>
         </section>
 
@@ -214,21 +215,22 @@
         </section>
 
         <section class="bloco bloco-inbox" aria-label="Caixa de entrada">
-          <h2 class="bloco-titulo">Inbox — captura rápida</h2>
-          <p class="bloco-apoio">Qualquer pensamento em 10 segundos. Organize depois — sem pressão.</p>
+          <h2 class="bloco-titulo" data-i18n="hoje.inbox.titulo">Inbox — captura rápida</h2>
+          <p class="bloco-apoio" data-i18n="hoje.inbox.apoio">Qualquer pensamento em 10 segundos. Organize depois — sem pressão.</p>
           <div class="inbox-linha">
             <input
               type="text"
               id="entrada-inbox"
               class="inbox-entrada"
+              data-i18n-placeholder="hoje.inbox.placeholder"
               placeholder="Ex.: ligar pro médico, ideia do trabalho..."
               maxlength="200"
             />
-            <button type="button" id="botao-inbox" class="botao-secundario">Anotar</button>
+            <button type="button" id="botao-inbox" class="botao-secundario" data-i18n="hoje.inbox.anotar">Anotar</button>
           </div>
           <ul id="lista-inbox" class="lista-inbox"></ul>
-          <p id="inbox-vazio" class="mensagem-vazia inbox-vazio">Nada na inbox. Quando surgir algo, jogue aqui.</p>
-          <button type="button" id="botao-arquivar-inbox" class="botao-texto inbox-arquivar" hidden>
+          <p id="inbox-vazio" class="mensagem-vazia inbox-vazio" data-i18n="hoje.inbox.vazio">Nada na inbox. Quando surgir algo, jogue aqui.</p>
+          <button type="button" id="botao-arquivar-inbox" class="botao-texto inbox-arquivar" data-i18n="hoje.inbox.arquivar" hidden>
             Guardar tudo e limpar a cabeça
           </button>
         </section>
@@ -236,8 +238,8 @@
         <div id="agenda-resumo" class="agenda-resumo" aria-live="polite"></div>
 
         <section class="bloco bloco-avisos" aria-label="Avisos do dia">
-          <h2 class="bloco-titulo">Avisos</h2>
-          <p class="bloco-apoio">
+          <h2 class="bloco-titulo" data-i18n="hoje.avisos.titulo">Avisos</h2>
+          <p class="bloco-apoio" data-i18n-html="hoje.avisos.apoio">
             Lembretes com data e hora — como no calendário. Ative notificações em <strong>Ajustes</strong>.
           </p>
           <form id="form-aviso" class="aviso-form">
@@ -245,6 +247,7 @@
               type="text"
               id="aviso-titulo"
               class="campo-opcao aviso-titulo"
+              data-i18n-placeholder="hoje.avisos.placeholder"
               placeholder="Ex.: Entregar trabalho, consulta médica..."
               maxlength="120"
               required
@@ -253,17 +256,17 @@
               <input type="date" id="aviso-data" class="campo-opcao" aria-label="Data do aviso" required />
               <input type="time" id="aviso-hora" class="campo-opcao" aria-label="Hora do aviso" required />
             </div>
-            <button type="submit" class="botao-secundario">Adicionar aviso</button>
+            <button type="submit" class="botao-secundario" data-i18n="hoje.avisos.adicionar">Adicionar aviso</button>
           </form>
           <ul id="lista-avisos" class="lista-avisos"></ul>
-          <p id="avisos-vazio" class="mensagem-vazia avisos-vazio" hidden>Nenhum aviso para hoje.</p>
+          <p id="avisos-vazio" class="mensagem-vazia avisos-vazio" data-i18n="hoje.avisos.vazio" hidden>Nenhum aviso para hoje.</p>
         </section>
 
         <blockquote id="filosofia-dia" class="filosofia-dia" aria-label="Citação do dia"></blockquote>
 
         <section class="resumo">
           <div class="resumo-topo">
-            <span class="resumo-rotulo">Compromissos de hoje</span>
+            <span class="resumo-rotulo" data-i18n="hoje.compromissos">Compromissos de hoje</span>
             <span class="resumo-valor">
               <span id="contador-feitos">0</span>/<span id="contador-total">0</span>
             </span>
@@ -275,7 +278,7 @@
 
         <section class="grafico-bloco" aria-label="Ritmo da semana">
           <div class="grafico-cabecalho">
-            <p class="secao-rotulo">Ritmo da semana</p>
+            <p class="secao-rotulo" data-i18n="hoje.ritmo">Ritmo da semana</p>
             <span id="grafico-media" class="grafico-media"></span>
           </div>
           <div id="grafico-hoje" class="grafico-barras grafico-compacto"></div>
@@ -544,9 +547,18 @@
           </div>
         </section>
 
+        <section class="bloco bloco-idioma">
+          <h2 class="bloco-titulo" data-i18n="ajustes.idioma.titulo">Idioma</h2>
+          <p class="bloco-apoio" data-i18n="ajustes.idioma.apoio">Por enquanto: português e inglês. O app lembra sua escolha.</p>
+          <div class="idioma-opcoes" role="group" aria-label="Idioma">
+            <button type="button" class="idioma-chip" data-idioma="pt" aria-pressed="true">Português</button>
+            <button type="button" class="idioma-chip" data-idioma="en" aria-pressed="false">English</button>
+          </div>
+        </section>
+
         <section class="bloco">
-          <h2 class="bloco-titulo">Sobre</h2>
-          <p class="bloco-apoio">
+          <h2 class="bloco-titulo" data-i18n="ajustes.sobre.titulo">Sobre</h2>
+          <p class="bloco-apoio" data-i18n="ajustes.sobre.apoio">
             Sua agenda pessoal — compromissos, anotações e visão da semana.
             Use pouco. Use todo dia.
           </p>
@@ -554,7 +566,7 @@
             Se a versão não mudar sozinha, toque em <strong>Buscar atualização</strong> abaixo.
           </p>
           <p id="info-versao" class="info-versao"></p>
-          <button type="button" id="botao-atualizar-app" class="botao-secundario">
+          <button type="button" id="botao-atualizar-app" class="botao-secundario" data-i18n="ajustes.atualizar">
             Buscar atualização
           </button>
         </section>
@@ -592,7 +604,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
-  <script type="module" src="js/main.js?v=2.19.0"></script>
+  <script type="module" src="js/main.js?v=2.20.0"></script>
   <script defer src="sync.js?v=6"></script>
 </body>
 </html>

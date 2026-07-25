@@ -4124,3 +4124,32 @@ body.modo-barulho-ativo .bloco-revisao {
   font-size: 0.84rem;
 }
 
+.idioma-opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.idioma-chip {
+  border: 1px solid var(--borda);
+  background: var(--superficie-elevada, var(--superficie));
+  color: var(--preto-suave, inherit);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+}
+
+.idioma-chip:hover {
+  border-color: color-mix(in srgb, var(--marca) 40%, var(--borda));
+}
+
+.idioma-chip.ativo {
+  background: var(--marca);
+  border-color: var(--marca);
+  color: var(--bege-claro, #fff);
+}
+

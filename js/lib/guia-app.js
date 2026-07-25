@@ -1,7 +1,8 @@
 /** Guia integrado — roteiro de demonstração e referência do app. */
 
 import { APP_VERSION } from "../config.js";
-import { faixaDoDia, rotuloFaixa } from "./contexto-tempo.js";
+import { faixaDoDia } from "./contexto-tempo.js";
+import { rotuloFaixaI18n, t, localeTag } from "./i18n.js";
 
 const CHAVE_PROGRESSO = "guia-app-progresso-v1";
 const CHAVE_VISTO = "guia-app-visto-v1";
@@ -17,104 +18,58 @@ export const ROTEIRO_DEMO = [
   {
     id: "hoje",
     emoji: "☀️",
-    titulo: "Hoje — centro do dia",
-    falar:
-      "Hábitos, progresso da semana e a sugestão do momento. Mostre marcar um hábito e o bloco Agora.",
+    tituloKey: "guia.rota.hoje.titulo",
+    falarKey: "guia.rota.hoje.falar",
     painel: "hoje",
-    tempo: "1 min",
+    tempoKey: "guia.tempo.1min",
   },
   {
     id: "cheguei",
     emoji: "🎯",
-    titulo: "E agora? — só 2 opções",
-    falar:
-      "Quando a cabeça trava, o app oferece no máximo duas escolhas contextuais — sem lista infinita.",
+    tituloKey: "guia.rota.cheguei.titulo",
+    falarKey: "guia.rota.cheguei.falar",
     painel: "cheguei",
     chegueiOpcoes: true,
-    tempo: "1 min",
+    tempoKey: "guia.tempo.1min",
   },
   {
     id: "neuro",
     emoji: "🧠",
-    titulo: "Estudo → Neuro",
-    falar:
-      "Trilha de neurociência: ler, explicar com voz ou texto e receber feedback. Módulo TDAH impressiona.",
+    tituloKey: "guia.rota.neuro.titulo",
+    falarKey: "guia.rota.neuro.falar",
     painel: "estudo",
     estudoAba: "neuro",
-    tempo: "2 min",
+    tempoKey: "guia.tempo.2min",
   },
   {
     id: "diario",
     emoji: "📓",
-    titulo: "Diário com IA",
-    falar:
-      "Anotações do dia ficam seguras. Toque em Organizar com IA para um resumo gentil.",
+    tituloKey: "guia.rota.diario.titulo",
+    falarKey: "guia.rota.diario.falar",
     painel: "diario",
-    tempo: "1 min",
+    tempoKey: "guia.tempo.1min",
   },
   {
     id: "insights",
     emoji: "✨",
-    titulo: "Insights — streak gentil",
-    falar:
-      "Sem culpa: sequências e padrões mostram progresso real, não cobrança.",
+    tituloKey: "guia.rota.insights.titulo",
+    falarKey: "guia.rota.insights.falar",
     painel: "insights",
-    tempo: "30 s",
+    tempoKey: "guia.tempo.30s",
   },
 ];
 
 export const REFERENCIA_ABAS = [
-  {
-    id: "hoje",
-    rotulo: "Hoje",
-    emoji: "☀️",
-    texto: "Checklist, Agora, inbox, avisos e revisão do dia.",
-  },
-  {
-    id: "estudo",
-    rotulo: "Estudo",
-    emoji: "📚",
-    texto: "Neuro, livros, vídeos, prática de inglês e pronúncia.",
-  },
-  {
-    id: "rotina",
-    rotulo: "Rotina",
-    emoji: "🔄",
-    texto: "Montar hábitos com IA ou editar a rotina completa.",
-  },
-  {
-    id: "semana",
-    rotulo: "Semana",
-    emoji: "📅",
-    texto: "Visão da semana e plano inteligente.",
-  },
-  {
-    id: "diario",
-    rotulo: "Diário",
-    emoji: "📓",
-    texto: "Notas por dia — dados sagrados, com histórico.",
-  },
-  {
-    id: "insights",
-    rotulo: "Insights",
-    emoji: "📊",
-    texto: "Sequências, taxa de conclusão e calendário de hábitos.",
-  },
-  {
-    id: "ajustes",
-    rotulo: "Ajustes",
-    emoji: "⚙️",
-    texto: "Sync, lembretes, exportar dados e versão do app.",
-  },
+  { id: "hoje", rotuloKey: "nav.hoje", emoji: "☀️", textoKey: "guia.ref.hoje" },
+  { id: "estudo", rotuloKey: "nav.estudo", emoji: "📚", textoKey: "guia.ref.estudo" },
+  { id: "rotina", rotuloKey: "nav.rotina", emoji: "🔄", textoKey: "guia.ref.rotina" },
+  { id: "semana", rotuloKey: "nav.semana", emoji: "📅", textoKey: "guia.ref.semana" },
+  { id: "diario", rotuloKey: "nav.diario", emoji: "📓", textoKey: "guia.ref.diario" },
+  { id: "insights", rotuloKey: "nav.insights", emoji: "📊", textoKey: "guia.ref.insights" },
+  { id: "ajustes", rotuloKey: "nav.ajustes", emoji: "⚙️", textoKey: "guia.ref.ajustes" },
 ];
 
-export const DICAS_APRESENTACAO = [
-  "Use Chrome ou Safari no celular — voz e instalação na tela inicial funcionam melhor.",
-  "Permita o microfone na primeira vez (Estudo → Neuro → Explicar só com voz).",
-  "Se algo parecer antigo, segure o botão de recarregar para atualizar a versão.",
-  "O app funciona offline; IA (quando configurada) precisa de internet no Vercel.",
-  "Para impressionar: comece pelo roteiro abaixo — leva cerca de 5 minutos.",
-];
+const DICAS_KEYS = ["guia.dica.1", "guia.dica.2", "guia.dica.3", "guia.dica.4", "guia.dica.5"];
 
 export function carregarProgressoGuia() {
   try {
@@ -158,30 +113,33 @@ export function progressoRoteiro(mapa = carregarProgressoGuia()) {
 
 function saudacaoGuia() {
   const faixa = faixaDoDia();
-  const rotulo = rotuloFaixa(faixa);
-  const hora = new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  const rotulo = rotuloFaixaI18n(faixa);
+  const hora = new Date().toLocaleTimeString(localeTag(), { hour: "2-digit", minute: "2-digit" });
   return { faixa, rotulo, hora };
 }
 
 function renderPassoDemo(passo, indice, mapa, demoIndice) {
   const feito = Boolean(mapa[passo.id]);
   const ativoDemo = demoIndice === indice;
+  const titulo = t(passo.tituloKey);
+  const falar = t(passo.falarKey);
+  const tempo = t(passo.tempoKey);
   return `
     <article class="guia-passo ${feito ? "feito" : ""} ${ativoDemo ? "ativo-demo" : ""}" data-guia-passo="${passo.id}">
       <div class="guia-passo-num">${indice + 1}</div>
       <div class="guia-passo-corpo">
         <header class="guia-passo-cab">
           <span class="guia-passo-emoji">${passo.emoji}</span>
-          <h3 class="guia-passo-titulo">${esc(passo.titulo)}</h3>
-          <span class="guia-passo-tempo">${esc(passo.tempo)}</span>
+          <h3 class="guia-passo-titulo">${esc(titulo)}</h3>
+          <span class="guia-passo-tempo">${esc(tempo)}</span>
         </header>
-        <p class="guia-passo-falar"><strong>O que dizer:</strong> ${esc(passo.falar)}</p>
+        <p class="guia-passo-falar">${t("guia.passo.falar", { texto: esc(falar) })}</p>
         <div class="guia-passo-acoes">
           <button type="button" class="botao-primario" data-guia-ir="${esc(passo.painel)}" data-guia-passo-id="${passo.id}" data-guia-cheguei="${passo.chegueiOpcoes ? "1" : ""}" data-guia-estudo-aba="${passo.estudoAba || ""}">
-            Abrir e mostrar →
+            ${esc(t("guia.passo.abrir"))}
           </button>
           <button type="button" class="botao-secundario" data-guia-marcar="${passo.id}">
-            ${feito ? "✓ Feito" : "Marcar como feito"}
+            ${feito ? esc(t("guia.passo.feito")) : esc(t("guia.passo.marcar"))}
           </button>
         </div>
       </div>
@@ -199,20 +157,20 @@ export function renderPainelGuia({ iaAtiva = false, demoIndice = null } = {}) {
     (a) => `
     <button type="button" class="guia-ref-card" data-guia-ir="${a.id}">
       <span class="guia-ref-emoji">${a.emoji}</span>
-      <span class="guia-ref-rotulo">${esc(a.rotulo)}</span>
-      <span class="guia-ref-texto">${esc(a.texto)}</span>
+      <span class="guia-ref-rotulo">${esc(t(a.rotuloKey))}</span>
+      <span class="guia-ref-texto">${esc(t(a.textoKey))}</span>
     </button>`
   ).join("");
 
-  const dicas = DICAS_APRESENTACAO.map((d) => `<li>${esc(d)}</li>`).join("");
+  const dicas = DICAS_KEYS.map((k) => `<li>${esc(t(k))}</li>`).join("");
 
   const demoBanner =
     demoIndice != null && demoIndice >= 0 && demoIndice < ROTEIRO_DEMO.length
       ? `<div class="guia-demo-banner" role="status">
-          <p>Modo apresentação — passo <strong>${demoIndice + 1}</strong> de ${total}</p>
+          <p>${t("guia.demo.banner", { atual: demoIndice + 1, total })}</p>
           <div class="guia-demo-banner-acoes">
-            <button type="button" class="botao-secundario" data-guia-demo-proximo="1">Próximo passo →</button>
-            <button type="button" class="botao-texto" data-guia-demo-parar="1">Sair do modo</button>
+            <button type="button" class="botao-secundario" data-guia-demo-proximo="1">${esc(t("guia.demo.proximo"))}</button>
+            <button type="button" class="botao-texto" data-guia-demo-parar="1">${esc(t("guia.demo.sair"))}</button>
           </div>
         </div>`
       : "";
@@ -221,51 +179,55 @@ export function renderPainelGuia({ iaAtiva = false, demoIndice = null } = {}) {
     <div class="guia-painel">
       ${demoBanner}
       <header class="guia-hero">
-        <p class="guia-hero-kicker">Guia do app · v${esc(APP_VERSION)}</p>
-        <h2 class="guia-hero-titulo">Tudo que você precisa mostrar — em um lugar só</h2>
-        <p class="guia-hero-apoio">
-          ${esc(rotulo)} · ${esc(hora)}. App feito para TDAH: poucas escolhas, passos pequenos, sem culpa.
-        </p>
+        <p class="guia-hero-kicker">${esc(t("guia.hero.kicker", { versao: APP_VERSION }))}</p>
+        <h2 class="guia-hero-titulo">${esc(t("guia.hero.titulo"))}</h2>
+        <p class="guia-hero-apoio">${esc(t("guia.hero.apoio", { faixa: rotulo, hora }))}</p>
         <div class="guia-hero-acoes">
           <button type="button" class="botao-primario guia-cta-demo" data-guia-demo-iniciar="1">
-            ▶ Iniciar roteiro de 5 min
+            ${esc(t("guia.demo.iniciar"))}
           </button>
           <button type="button" class="botao-secundario" data-guia-ir="cheguei" data-guia-cheguei="1">
-            E agora? — 2 opções
+            ${esc(t("guia.cheguei.btn"))}
           </button>
         </div>
       </header>
 
-      <section class="guia-bloco guia-progresso-bloco" aria-label="Progresso do roteiro">
+      <section class="guia-bloco guia-progresso-bloco" aria-label="${esc(t("guia.progresso"))}">
         <div class="guia-progresso-topo">
-          <span class="guia-progresso-rotulo">Roteiro de demonstração</span>
+          <span class="guia-progresso-rotulo">${esc(t("guia.progresso"))}</span>
           <span class="guia-progresso-valor">${feitos}/${total} · ${pct}%</span>
         </div>
         <div class="guia-progresso-barra" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100">
           <div class="guia-progresso-preenchido" style="width:${pct}%"></div>
         </div>
         <div class="guia-roteiro-passos">${passos}</div>
-        <button type="button" class="botao-texto guia-reset" data-guia-reset="1">Zerar progresso do roteiro</button>
+        <button type="button" class="botao-texto guia-reset" data-guia-reset="1">${esc(t("guia.reset"))}</button>
       </section>
 
-      <section class="guia-bloco" aria-label="Mapa das abas">
-        <h3 class="guia-bloco-titulo">Mapa rápido das abas</h3>
-        <p class="guia-bloco-apoio">Toque para ir direto. <em>E agora?</em> não está na barra — fica aqui e em Hoje.</p>
+      <section class="guia-bloco" aria-label="${esc(t("guia.mapa.titulo"))}">
+        <h3 class="guia-bloco-titulo">${esc(t("guia.mapa.titulo"))}</h3>
+        <p class="guia-bloco-apoio">${t("guia.mapa.apoio")}</p>
         <div class="guia-ref-grid">${refCards}</div>
       </section>
 
-      <section class="guia-bloco guia-dicas-bloco" aria-label="Dicas para apresentar">
-        <h3 class="guia-bloco-titulo">Antes de mostrar para alguém</h3>
+      <section class="guia-bloco guia-dicas-bloco" aria-label="${esc(t("guia.dicas.titulo"))}">
+        <h3 class="guia-bloco-titulo">${esc(t("guia.dicas.titulo"))}</h3>
         <ul class="guia-dicas-lista">${dicas}</ul>
         <p class="guia-ia-status ${iaAtiva ? "ativa" : ""}">
-          ${iaAtiva ? "✨ IA ativa no servidor — Neuro, Diário e Agora podem usar inteligência." : "ℹ️ IA local ativa — funciona sem chave; configure GROQ no Vercel para IA completa."}
+          ${esc(iaAtiva ? t("guia.ia.ativa") : t("guia.ia.local"))}
         </p>
       </section>
     </div>`;
 }
 
 export function passoDemoPorIndice(indice) {
-  return ROTEIRO_DEMO[indice] ?? null;
+  const passo = ROTEIRO_DEMO[indice];
+  if (!passo) return null;
+  return {
+    ...passo,
+    titulo: t(passo.tituloKey),
+    falar: t(passo.falarKey),
+  };
 }
 
 export function indicePassoDemo(id) {
