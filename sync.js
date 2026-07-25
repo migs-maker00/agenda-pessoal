@@ -82,6 +82,7 @@
   async function enviarParaNuvem() {
     if (!pronto || !syncId || aplicandoRemoto) return;
     try {
+      marcarEscritaLocal();
       await db.collection("sync").doc(syncId).set(payloadAtual(), { merge: true });
       atualizarUI("Sincronizado agora.");
     } catch (erro) {
@@ -96,7 +97,24 @@
     timerSync = setTimeout(enviarParaNuvem, 700);
   }
 
+  /** Envio imediato após mudança local importante (ex.: remontar rotina). */
+  async function forcarSyncNuvem() {
+    if (!pronto || !syncId || aplicandoRemoto) return;
+    clearTimeout(timerSync);
+    await enviarParaNuvem();
+  }
+
+  let ignorarRemotoAte = 0;
+
+  function marcarEscritaLocal(ms = 2500) {
+    ignorarRemotoAte = Date.now() + ms;
+  }
+
+  window.forcarSyncNuvem = forcarSyncNuvem;
+  window.marcarEscritaLocalSync = marcarEscritaLocal;
+
   function aplicarDadosRemotos(dados) {
+    if (Date.now() < ignorarRemotoAte) return;
     if (!dados || typeof window.aplicarEstadoRemoto !== "function") return;
     aplicandoRemoto = true;
     try {

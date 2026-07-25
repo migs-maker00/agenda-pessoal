@@ -4153,3 +4153,21 @@ body.modo-barulho-ativo .bloco-revisao {
   color: var(--bege-claro, #fff);
 }
 
+.rotina-ajustes-status {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.rotina-ajustes-status--ok {
+  background: color-mix(in srgb, #2d8a4e 10%, var(--superficie));
+  border: 1px solid color-mix(in srgb, #2d8a4e 35%, var(--borda));
+}
+
+.rotina-ajustes-status--erro {
+  background: color-mix(in srgb, #c0392b 8%, var(--superficie));
+  border: 1px solid color-mix(in srgb, #c0392b 30%, var(--borda));
+}
+

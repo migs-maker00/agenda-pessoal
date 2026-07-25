@@ -321,6 +321,7 @@ const resumoNaoEsqueci = document.getElementById("resumo-nao-esqueci");
 const entradaTemaSemana = document.getElementById("entrada-tema-semana");
 const perfilResumo = document.getElementById("perfil-resumo");
 const botaoRotinaPersonalizada = document.getElementById("botao-rotina-personalizada");
+const rotinaAjustesStatus = document.getElementById("rotina-ajustes-status");
 const diarioResumoIa = document.getElementById("diario-resumo-ia");
 const diarioResumoPainel = document.getElementById("diario-resumo-painel");
 const botaoPlanoSemana = document.getElementById("botao-plano-semana");
@@ -3218,7 +3219,19 @@ function desenharBannerTarde() {
 function desenharPerfilAjustes() {
   if (!perfilResumo) return;
   const perfil = carregarPerfil();
-  perfilResumo.textContent = `Acorda ${perfil.acordar}, escola seg–sex, tarde difícil ${perfil.tardeDificilInicio}–${perfil.tardeDificilFim}. Prioridades: ${(perfil.prioridadesVida || []).join(", ")}.`;
+  perfilResumo.textContent = t("ajustes.rotina.perfil", {
+    acordar: perfil.acordar,
+    tardeIni: perfil.tardeDificilInicio,
+    tardeFim: perfil.tardeDificilFim,
+    prioridades: (perfil.prioridadesVida || []).join(", "),
+  });
+}
+
+function mostrarStatusRotinaAjustes(texto, tipo = "ok") {
+  if (!rotinaAjustesStatus) return;
+  rotinaAjustesStatus.textContent = texto;
+  rotinaAjustesStatus.className = `rotina-ajustes-status rotina-ajustes-status--${tipo}`;
+  rotinaAjustesStatus.hidden = !texto;
 }
 
 function aplicarRotinaCompleta(silencioso = false) {
@@ -3312,14 +3325,42 @@ function aplicarRotinaCompleta(silencioso = false) {
   desenhar();
 
   if (!silencioso) {
-    mostrarFeedback(
-      `Rotina montada! ${adicionados} novo(s), ${atualizados} atualizado(s). Vá em Ajustes → Ativar lembretes.`
-    );
+    if (typeof window.marcarEscritaLocalSync === "function") {
+      window.marcarEscritaLocalSync(4000);
+    }
+    if (typeof window.forcarSyncNuvem === "function") {
+      void window.forcarSyncNuvem();
+    }
+    const msg = t("ajustes.rotina.ok", {
+      novos: adicionados,
+      atualizados,
+    });
+    mostrarStatusRotinaAjustes(msg, "ok");
+    mostrarFeedback(msg, "ok");
   }
+  return { adicionados, atualizados };
 }
 
 function aplicarRotinaPersonalizada() {
-  aplicarRotinaCompleta(false);
+  if (!confirm(t("ajustes.rotina.confirmar"))) return;
+
+  const botao = botaoRotinaPersonalizada;
+  if (botao) botao.disabled = true;
+
+  try {
+    const { adicionados, atualizados } = aplicarRotinaCompleta(false);
+    desenharPerfilAjustes();
+    ativarPainel("hoje");
+    if (adicionados === 0 && atualizados === 0) {
+      mostrarStatusRotinaAjustes(t("ajustes.rotina.ok", { novos: 0, atualizados: 0 }), "ok");
+    }
+  } catch (erro) {
+    console.error("aplicarRotinaPersonalizada:", erro);
+    mostrarStatusRotinaAjustes(t("ajustes.rotina.erro"), "erro");
+    mostrarFeedback(t("ajustes.rotina.erro"), "aviso");
+  } finally {
+    if (botao) botao.disabled = false;
+  }
 }
 
 function salvarEstudoLocal(novo, opts = {}) {
