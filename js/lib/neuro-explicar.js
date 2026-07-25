@@ -2,18 +2,60 @@
 
 import { normalizarTexto } from "./habitos.js";
 
-const CHAVE = "neuro-explicacoes-v1";
+export const CHAVE_NEURO_EXPLICACOES = "neuro-explicacoes-v1";
 
 function carregarMapa() {
   try {
-    return JSON.parse(localStorage.getItem(CHAVE) || "{}");
+    return JSON.parse(localStorage.getItem(CHAVE_NEURO_EXPLICACOES) || "{}");
   } catch {
     return {};
   }
 }
 
 function salvarMapa(mapa) {
-  localStorage.setItem(CHAVE, JSON.stringify(mapa));
+  localStorage.setItem(CHAVE_NEURO_EXPLICACOES, JSON.stringify(mapa));
+}
+
+function agendarSync() {
+  if (window.syncEstaAplicandoRemoto?.()) return;
+  if (typeof window.agendarSyncNuvem === "function") window.agendarSyncNuvem();
+}
+
+export function carregarExplicacoesNeuro() {
+  return carregarMapa();
+}
+
+export function aplicarExplicacoesNeuro(mapa) {
+  salvarMapa(mapa && typeof mapa === "object" ? mapa : {});
+}
+
+/** Mantém a versão mais recente de cada módulo/dia. */
+export function mesclarExplicacoesNeuro(local = {}, remoto = {}) {
+  const resultado = { ...(local && typeof local === "object" ? local : {}) };
+  if (!remoto || typeof remoto !== "object") return resultado;
+
+  for (const [chave, remotoItem] of Object.entries(remoto)) {
+    if (!remotoItem || typeof remotoItem !== "object") continue;
+    const localItem = resultado[chave];
+    if (!localItem || typeof localItem !== "object") {
+      resultado[chave] = remotoItem;
+      continue;
+    }
+
+    const emLocal = Number(localItem.em) || 0;
+    const emRemoto = Number(remotoItem.em) || 0;
+    if (emRemoto > emLocal) {
+      resultado[chave] = remotoItem;
+      continue;
+    }
+    if (emRemoto < emLocal) continue;
+
+    const lenLocal = String(localItem.texto ?? "").trim().length;
+    const lenRemoto = String(remotoItem.texto ?? "").trim().length;
+    if (lenRemoto > lenLocal) resultado[chave] = remotoItem;
+  }
+
+  return resultado;
 }
 
 export function explicacaoSalva(moduloId, chaveDia) {
@@ -29,6 +71,7 @@ export function salvarExplicacao(moduloId, chaveDia, texto, avaliacao) {
     em: Date.now(),
   };
   salvarMapa(mapa);
+  agendarSync();
 }
 
 export function modulosExplicadosNoDia(chaveDia) {

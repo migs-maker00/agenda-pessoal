@@ -1,5 +1,5 @@
-import { APP_VERSION } from "./config.js?v=2.13.0";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.13.0";
+import { APP_VERSION } from "./config.js?v=2.13.1";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.13.1";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.13.0";
+} from "./lib/avisos-agenda.js?v=2.13.1";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.13.0";
+} from "./lib/habitos.js?v=2.13.1";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.13.0";
+} from "./lib/perfil.js?v=2.13.1";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,32 +54,32 @@ import {
   PRIORIDADES_PRESET,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.13.0";
+} from "./lib/rotina-preset.js?v=2.13.1";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.13.0";
+} from "./lib/aprender.js?v=2.13.1";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.13.0";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.13.0";
+} from "./lib/estudo-hub.js?v=2.13.1";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.13.1";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.13.0";
+} from "./lib/estudo-ui.js?v=2.13.1";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.13.0";
+} from "./lib/cheguei.js?v=2.13.1";
 import {
   arquivarVersaoNota,
   carregarHistoricoCompleto,
@@ -89,26 +89,31 @@ import {
   mesclarNotasDoHistorico,
   restaurarVersaoHistorico,
   rotuloMotivoVersao,
-} from "./lib/diario-historico.js?v=2.13.0";
+} from "./lib/diario-historico.js?v=2.13.1";
+import {
+  aplicarExplicacoesNeuro,
+  carregarExplicacoesNeuro,
+  mesclarExplicacoesNeuro,
+} from "./lib/neuro-explicar.js?v=2.13.1";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.13.0";
+} from "./lib/tarde.js?v=2.13.1";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.13.0";
+} from "./lib/inteligencia.js?v=2.13.1";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.13.0";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.13.0";
+} from "./lib/lembretes.js?v=2.13.1";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.13.1";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -123,12 +128,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.13.0";
+} from "./lib/foco.js?v=2.13.1";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.13.0";
+} from "./lib/rotina-local.js?v=2.13.1";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -161,7 +166,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.13.0";
+} from "./lib/tdah.js?v=2.13.1";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -1600,10 +1605,11 @@ function impedirArrasteNoBotao(botao) {
 function exportarDados() {
   flushNotasParaDisco();
   const dados = {
-    versao: 5,
+    versao: 6,
     habitos,
     notas,
     historicoNotas: carregarHistoricoCompleto(),
+    neuroExplicacoes: carregarExplicacoesNeuro(),
     avisos,
     inbox: carregarInbox(),
     prioridades: carregarPrioridades(),
@@ -1634,6 +1640,9 @@ function importarDados(evento) {
       habitos = dados.habitos;
       notas = dados.notas || {};
       if (Array.isArray(dados.historicoNotas)) importarHistoricoNotas(dados.historicoNotas);
+      if (dados.neuroExplicacoes && typeof dados.neuroExplicacoes === "object") {
+        aplicarExplicacoesNeuro(dados.neuroExplicacoes);
+      }
       if (Array.isArray(dados.inbox)) {
         localStorage.setItem("inbox-captura", JSON.stringify(dados.inbox));
       }
@@ -3538,6 +3547,7 @@ export function getEstadoExportavel() {
     habitos,
     notas,
     avisos,
+    neuroExplicacoes: carregarExplicacoesNeuro(),
     tema: localStorage.getItem("tema") || "claro",
   };
 }
@@ -3558,12 +3568,18 @@ export function aplicarEstadoRemoto(dados) {
   notas = mesclarNotasDiario(notas, dados.notas);
   notas = migrarNotasDiario(notas);
   avisos = Array.isArray(dados.avisos) ? dados.avisos : carregarAvisos();
+  const neuroMesclado = mesclarExplicacoesNeuro(
+    carregarExplicacoesNeuro(),
+    dados.neuroExplicacoes
+  );
+  aplicarExplicacoesNeuro(neuroMesclado);
   localStorage.setItem("meus-habitos", JSON.stringify(habitos));
   localStorage.setItem("notas-diarias", JSON.stringify(notas));
   salvarAvisosStorage(avisos);
   if (dados.tema) aplicarTema(dados.tema);
   carregarNotaHoje();
   carregarNotaDiario(dataDiarioSelecionada || hojeStr());
+  if (painelAtivo === "estudo") desenharPainelEstudo();
   desenhar();
 }
 
