@@ -1,5 +1,5 @@
-import { APP_VERSION } from "./config.js?v=2.11.2";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.11.2";
+import { APP_VERSION } from "./config.js?v=2.11.3";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.11.3";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.11.2";
+} from "./lib/avisos-agenda.js?v=2.11.3";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.11.2";
+} from "./lib/habitos.js?v=2.11.3";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.11.2";
+} from "./lib/perfil.js?v=2.11.3";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,51 +54,51 @@ import {
   PRIORIDADES_PRESET,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.11.2";
+} from "./lib/rotina-preset.js?v=2.11.3";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.11.2";
+} from "./lib/aprender.js?v=2.11.3";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.11.2";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.11.2";
+} from "./lib/estudo-hub.js?v=2.11.3";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.11.3";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.11.2";
+} from "./lib/estudo-ui.js?v=2.11.3";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.11.2";
+} from "./lib/cheguei.js?v=2.11.3";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.11.2";
+} from "./lib/tarde.js?v=2.11.3";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.11.2";
+} from "./lib/inteligencia.js?v=2.11.3";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.11.2";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.11.2";
+} from "./lib/lembretes.js?v=2.11.3";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.11.3";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -113,12 +113,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.11.2";
+} from "./lib/foco.js?v=2.11.3";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.11.2";
+} from "./lib/rotina-local.js?v=2.11.3";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -151,7 +151,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.11.2";
+} from "./lib/tdah.js?v=2.11.3";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -616,6 +616,20 @@ function carregarNotaDiario(chave) {
   desenharListaDiario();
 }
 
+function dataInicialDiario() {
+  const hoje = hojeStr();
+  if ((notas[hoje] || "").trim()) return hoje;
+
+  const ontem = ontemStr();
+  if ((notas[ontem] || "").trim()) return ontem;
+
+  const chaves = Object.keys(notas)
+    .filter((chave) => chaveNotaValida(chave) && (notas[chave] || "").trim())
+    .sort()
+    .reverse();
+  return chaves[0] || hoje;
+}
+
 function desenharRecuperacaoDiario() {
   const banner = document.getElementById("diario-recuperar");
   if (!banner) return;
@@ -630,12 +644,12 @@ function desenharRecuperacaoDiario() {
   if (!temAlguma && temPrev) {
     banner.hidden = false;
     banner.innerHTML = `
-      <p>Encontramos um backup local com entradas que sumiram (provavelmente após sincronizar). Toque para restaurar.</p>
+      <p>Encontramos um backup local com entradas que sumiram. Toque para restaurar.</p>
       <button type="button" id="diario-recuperar-btn" class="botao-secundario">Restaurar anotações</button>`;
     banner.querySelector("#diario-recuperar-btn")?.addEventListener("click", () => {
       if (restaurarNotasPerdidas()) {
         mostrarFeedback("Anotações restauradas do backup local.");
-        carregarNotaDiario(ontem);
+        carregarNotaDiario(dataInicialDiario());
         desenharListaDiario();
         desenharRecuperacaoDiario();
       } else {
@@ -645,9 +659,14 @@ function desenharRecuperacaoDiario() {
     return;
   }
 
-  if (!temOntem && temAlguma) {
+  if (temOntem && dataDiarioSelecionada === hojeStr() && !(notas[hojeStr()] || "").trim()) {
     banner.hidden = false;
-    banner.innerHTML = `<p>Sua nota de ontem pode estar em outra data. Veja em <strong>Entradas salvas</strong> abaixo.</p>`;
+    banner.innerHTML = `
+      <p>Sua entrada de <strong>ontem</strong> está salva. Toque para abrir.</p>
+      <button type="button" id="diario-ir-ontem-btn" class="botao-secundario">Abrir nota de ontem</button>`;
+    banner.querySelector("#diario-ir-ontem-btn")?.addEventListener("click", () => {
+      carregarNotaDiario(ontem);
+    });
     return;
   }
 
@@ -663,7 +682,7 @@ function desenharListaDiario() {
     .reverse();
 
   listaDiario.innerHTML = "";
-  diarioVazio.hidden = chaves.length > 0;
+  if (diarioVazio) diarioVazio.hidden = chaves.length > 0;
 
   chaves.forEach((chave) => {
     const botao = document.createElement("button");
@@ -1345,7 +1364,7 @@ function importarDados(evento) {
       salvar();
       salvarNotas();
       carregarNotaHoje();
-      carregarNotaDiario(hojeStr());
+      carregarNotaDiario(dataInicialDiario());
       desenhar();
     } catch (erro) {
       alert("Arquivo inválido. Escolha um backup exportado por este app.");
@@ -1987,7 +2006,8 @@ function ativarPainel(nome) {
     desenharCheguei();
   }
   if (nome === "diario") {
-    carregarNotaDiario(hojeStr());
+    restaurarNotasPerdidas();
+    carregarNotaDiario(dataInicialDiario());
   }
 }
 
@@ -3181,7 +3201,7 @@ export function initApp() {
   if (avisoData) avisoData.value = hojeStr();
   carregarCamposRotina();
   carregarNotaHoje();
-  carregarNotaDiario(hojeStr());
+  carregarNotaDiario(dataInicialDiario());
   ligarTodosEventos();
   iniciarVozes(() => {
     if (painelAtivo === "estudo") desenharPainelEstudo();
