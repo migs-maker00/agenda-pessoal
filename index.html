@@ -20,7 +20,7 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=2.10.0" />
+  <link rel="stylesheet" href="style.css?v=2.11.0" />
 </head>
 <body>
   <div class="ambiente">
@@ -36,6 +36,7 @@
 
       <nav class="nav-paineis" aria-label="Seções do app">
         <button type="button" class="nav-item ativo" data-painel="hoje">Hoje</button>
+        <button type="button" class="nav-item" data-painel="cheguei">Cheguei</button>
         <button type="button" class="nav-item" data-painel="estudo">Estudo</button>
         <button type="button" class="nav-item" data-painel="rotina">Rotina</button>
         <button type="button" class="nav-item" data-painel="semana">Semana</button>
@@ -45,6 +46,11 @@
       </nav>
 
       <p id="feedback-global" class="feedback-global" hidden role="status" aria-live="polite"></p>
+
+      <!-- CHEGUEI: 2 opções só -->
+      <section id="painel-cheguei" class="painel" aria-label="Cheguei em casa" hidden>
+        <div id="cheguei-root" class="cheguei-root"></div>
+      </section>
 
       <!-- ESTUDO: vídeo, áudio, prática e falar -->
       <section id="painel-estudo" class="painel" aria-label="Estudo" hidden>
@@ -484,7 +490,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
-  <script type="module" src="js/main.js?v=2.10.0"></script>
+  <script type="module" src="js/main.js?v=2.11.0"></script>
   <script defer src="sync.js?v=4"></script>
 </body>
 </html>

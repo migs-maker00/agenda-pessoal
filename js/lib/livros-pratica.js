@@ -5,7 +5,7 @@ import {
   TODOS_LIVROS,
   CATEGORIAS_LIVRO,
   temaPorId,
-} from "./livros-dados.js?v=2.10.0";
+} from "./livros-dados.js?v=2.11.0";
 
 export { LIVRO_PADRAO, TODOS_LIVROS, CATEGORIAS_LIVRO };
 export const LIVROS_DISPONIVEIS = TODOS_LIVROS;

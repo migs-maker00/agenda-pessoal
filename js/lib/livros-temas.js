@@ -1,2 +1,2 @@
 // Compat — temas agora vivem em livros-dados.js
-export { TEMAS_LIVRO, temaPorId } from "./livros-dados.js?v=2.10.0";
+export { TEMAS_LIVRO, temaPorId } from "./livros-dados.js?v=2.11.0";
