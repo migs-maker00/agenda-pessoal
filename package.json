@@ -1,0 +1,8 @@
+{
+  "name": "projeto-1-criar",
+  "private": true,
+  "description": "App de hábitos + API Neuro IA no Vercel",
+  "engines": {
+    "node": ">=18"
+  }
+}

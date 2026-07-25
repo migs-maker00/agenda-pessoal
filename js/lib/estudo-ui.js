@@ -60,6 +60,7 @@ import {
   modulosExplicadosNoDia,
   salvarExplicacao,
 } from "./neuro-explicar.js";
+import { iaNeuroDisponivel, pedirFeedbackIaNeuro } from "./neuro-ia.js";
 
 function esc(s) {
   return String(s)
@@ -520,8 +521,14 @@ function renderNeuro(dados, chaveDia) {
     .join("");
 
   let feedbackHtml = "";
-  if (fb) {
+  if (dados.neuroIaCarregando) {
+    feedbackHtml = `
+      <div class="neuro-feedback neuro-feedback-ia-carregando" role="status">
+        <p class="neuro-fb-msg">✨ A IA está lendo sua explicação…</p>
+      </div>`;
+  } else if (fb) {
     const cls = fb.ok ? "ok" : fb.curto ? "aviso" : "parcial";
+    const fonteIa = fb.fonte === "ia";
     const acertos =
       fb.acertos?.length > 0
         ? `<p class="neuro-fb-lista"><strong>Você mencionou:</strong> ${fb.acertos.map(esc).join(" · ")}</p>`
@@ -530,12 +537,16 @@ function renderNeuro(dados, chaveDia) {
       fb.faltou?.length > 0
         ? `<p class="neuro-fb-lista neuro-fb-faltou"><strong>Ainda vale incluir:</strong> ${fb.faltou.map(esc).join(" · ")}</p>`
         : "";
+    const pergunta = fb.perguntaSeguinte
+      ? `<p class="neuro-fb-pergunta"><strong>Pra pensar:</strong> ${esc(fb.perguntaSeguinte)}</p>`
+      : "";
     feedbackHtml = `
-      <div class="neuro-feedback ${cls}" role="status">
-        <p class="neuro-fb-pct">${fb.pct ?? 0}% do essencial</p>
+      <div class="neuro-feedback ${cls} ${fonteIa ? "neuro-feedback-ia" : ""}" role="status">
+        ${fonteIa ? `<p class="neuro-fb-fonte">Correção com IA ✨</p>` : `<p class="neuro-fb-pct">${fb.pct ?? 0}% do essencial</p>`}
         <p class="neuro-fb-msg">${esc(fb.feedback)}</p>
         ${acertos}
         ${faltou}
+        ${pergunta}
       </div>`;
   }
 
@@ -553,7 +564,7 @@ function renderNeuro(dados, chaveDia) {
   return `
     <section class="estudo-bloco neuro-painel" data-neuro-painel="1">
       <h2 class="bloco-titulo">Neuro — aprender explicando</h2>
-      <p class="bloco-apoio">Leia → explique com suas palavras → veja o que pegou. Hoje: ${explicadosHoje}/${MODULOS_NEURO.length} módulos.</p>
+      <p class="bloco-apoio">Leia → explique → feedback${iaNeuroDisponivel() ? " com IA" : ""}. Hoje: ${explicadosHoje}/${MODULOS_NEURO.length} módulos.</p>
       <div class="neuro-modulos-nav" role="tablist" aria-label="Módulos de neurociência">${chips}</div>
       <article class="neuro-modulo-card">
         <header class="neuro-modulo-cab">
@@ -585,7 +596,9 @@ function renderNeuro(dados, chaveDia) {
         >${esc(rascunho)}</textarea>
         ${dictadoStatus}
         <div class="neuro-explicar-botoes">
-          <button type="button" class="botao-primario" data-neuro-verificar="1">Verificar minha explicação</button>
+          <button type="button" class="botao-primario" data-neuro-verificar="1" ${dados.neuroIaCarregando ? "disabled" : ""}>
+            ${iaNeuroDisponivel() ? "Verificar com IA ✨" : "Verificar minha explicação"}
+          </button>
           ${micBtn}
           <button type="button" class="botao-secundario" data-estudo-timer="10">Timer 10 min</button>
           ${prox ? `<button type="button" class="botao-texto" data-neuro-proximo="${prox.id}">Próximo: ${esc(prox.titulo)} →</button>` : ""}
@@ -742,31 +755,7 @@ export function ligarPainelEstudo(root, getState, setState, opts = {}) {
     }
 
     if (alvo.dataset.neuroVerificar !== undefined) {
-      const campo = root.querySelector("[data-neuro-explicacao]");
-      const texto = campo?.value?.trim() || "";
-      const mod = moduloNeuroPorId(dados.neuroModuloAtivo);
-      const avaliacao = avaliarExplicacao(texto, mod);
-      salvarExplicacao(mod.id, chaveDia(), texto, avaliacao);
-
-      let atual = {
-        ...dados,
-        neuroRascunho: texto,
-        neuroFeedback: avaliacao,
-        neuroDictadoStatus: null,
-      };
-
-      if (avaliacao.ok) {
-        const neuro = Math.max(atual.sessao?.neuro || 0, 1);
-        atual = marcarSessao({ ...atual, sessao: { ...atual.sessao, data: chaveDia(), neuro } }, "neuro", neuro);
-        mostrarFeedback?.("Boa explicação! Ensinar fixa o conhecimento.");
-        onAtualizarHoje?.();
-      } else if (avaliacao.curto) {
-        mostrarFeedback?.("Escreva um pouco mais antes de verificar.", "aviso");
-      } else {
-        mostrarFeedback?.("Quase lá — releia e tente incluir o que faltou.", "aviso");
-      }
-
-      setState(atual);
+      void processarVerificacaoNeuro(root, chaveDia, getState, setState, mostrarFeedback, onAtualizarHoje);
       return;
     }
 
@@ -1005,6 +994,81 @@ export function ligarPainelEstudo(root, getState, setState, opts = {}) {
       mostrarFeedback?.("Palavra adicionada!");
     }
   });
+}
+
+async function processarVerificacaoNeuro(root, chaveDia, getState, setState, mostrarFeedback, onAtualizarHoje) {
+  const dados = getState();
+  const campo = root.querySelector("[data-neuro-explicacao]");
+  const texto = campo?.value?.trim() || dados.neuroRascunho?.trim() || "";
+  const mod = moduloNeuroPorId(dados.neuroModuloAtivo);
+  const chave = chaveDia();
+
+  if (texto.length < 25) {
+    const avaliacao = avaliarExplicacao(texto, mod);
+    setState({
+      ...dados,
+      neuroRascunho: texto,
+      neuroFeedback: avaliacao,
+      neuroIaCarregando: false,
+      neuroDictadoStatus: null,
+    });
+    mostrarFeedback?.("Escreva um pouco mais antes de verificar.", "aviso");
+    return;
+  }
+
+  if (!iaNeuroDisponivel()) {
+    const avaliacao = avaliarExplicacao(texto, mod);
+    salvarExplicacao(mod.id, chave, texto, avaliacao);
+    finalizarVerificacaoNeuro(getState, setState, texto, avaliacao, chave, mostrarFeedback, onAtualizarHoje);
+    return;
+  }
+
+  setState({
+    ...dados,
+    neuroRascunho: texto,
+    neuroIaCarregando: true,
+    neuroDictadoStatus: null,
+  });
+
+  const resultado = await pedirFeedbackIaNeuro(mod, texto);
+
+  let avaliacao;
+  if (resultado.ok && resultado.avaliacao) {
+    avaliacao = resultado.avaliacao;
+  } else {
+    avaliacao = avaliarExplicacao(texto, mod);
+    avaliacao.feedback = `${resultado.erro || "IA indisponível."} ${avaliacao.feedback}`;
+  }
+
+  salvarExplicacao(mod.id, chave, texto, avaliacao);
+  finalizarVerificacaoNeuro(getState, setState, texto, avaliacao, chave, mostrarFeedback, onAtualizarHoje);
+}
+
+function finalizarVerificacaoNeuro(getState, setState, texto, avaliacao, chave, mostrarFeedback, onAtualizarHoje) {
+  let atual = {
+    ...getState(),
+    neuroRascunho: texto,
+    neuroFeedback: avaliacao,
+    neuroIaCarregando: false,
+    neuroDictadoStatus: null,
+  };
+
+  if (avaliacao.ok) {
+    const neuro = Math.max(atual.sessao?.neuro || 0, 1);
+    atual = marcarSessao({ ...atual, sessao: { ...atual.sessao, data: chave, neuro } }, "neuro", neuro);
+    mostrarFeedback?.(
+      avaliacao.fonte === "ia"
+        ? "Boa explicação! A IA confirmou o essencial."
+        : "Boa explicação! Ensinar fixa o conhecimento."
+    );
+    onAtualizarHoje?.();
+  } else if (avaliacao.curto) {
+    mostrarFeedback?.("Escreva um pouco mais antes de verificar.", "aviso");
+  } else {
+    mostrarFeedback?.("Quase lá — use o feedback e tente de novo.", "aviso");
+  }
+
+  setState(atual);
 }
 
 function confirmarPratica(root, chave, mostrarFeedback, getState, setState, onAtualizarHoje, indiceEscolhido) {

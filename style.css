@@ -3342,7 +3342,47 @@ body {
   border-color: color-mix(in srgb, var(--marca) 35%, var(--borda));
 }
 
-.neuro-fb-pct {
+.neuro-feedback-ia {
+  border-color: color-mix(in srgb, #6b4ce6 35%, var(--borda));
+  background: color-mix(in srgb, #6b4ce6 8%, var(--superficie));
+}
+
+.neuro-feedback-ia-carregando {
+  border-style: dashed;
+  animation: neuro-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes neuro-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}
+
+.neuro-fb-fonte {
+  margin: 0 0 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #6b4ce6;
+}
+
+.neuro-fb-pergunta {
+  margin: 10px 0 0;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  background: color-mix(in srgb, var(--marca) 6%, var(--superficie));
+}
+
+.neuro-explicar-botoes .botao-primario:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
   margin: 0 0 6px;
   font-size: 0.78rem;
   font-weight: 700;
