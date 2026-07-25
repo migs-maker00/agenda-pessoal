@@ -1,5 +1,5 @@
-import { APP_VERSION, hostAtual } from "./config.js?v=2.16.0";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.16.0";
+import { APP_VERSION, hostAtual } from "./config.js?v=2.16.1";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.16.1";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.16.0";
+} from "./lib/avisos-agenda.js?v=2.16.1";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.16.0";
+} from "./lib/habitos.js?v=2.16.1";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.16.0";
+} from "./lib/perfil.js?v=2.16.1";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,38 +54,38 @@ import {
   PRIORIDADES_PRESET,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.16.0";
+} from "./lib/rotina-preset.js?v=2.16.1";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.16.0";
+} from "./lib/aprender.js?v=2.16.1";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.16.0";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.16.0";
+} from "./lib/estudo-hub.js?v=2.16.1";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.16.1";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.16.0";
+} from "./lib/estudo-ui.js?v=2.16.1";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.16.0";
+} from "./lib/cheguei.js?v=2.16.1";
 import {
   aplicarSugestaoIa,
   montarPayloadContextoIa,
   pedirOpcoesContexto,
-} from "./lib/contexto-ia.js?v=2.16.0";
-import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.16.0";
+} from "./lib/contexto-ia.js?v=2.16.1";
+import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.16.1";
 import {
   arquivarVersaoNota,
   carregarHistoricoCompleto,
@@ -95,38 +95,38 @@ import {
   mesclarNotasDoHistorico,
   restaurarVersaoHistorico,
   rotuloMotivoVersao,
-} from "./lib/diario-historico.js?v=2.16.0";
+} from "./lib/diario-historico.js?v=2.16.1";
 import {
   aplicarExplicacoesNeuro,
   carregarExplicacoesNeuro,
   mesclarExplicacoesNeuro,
-} from "./lib/neuro-explicar.js?v=2.16.0";
+} from "./lib/neuro-explicar.js?v=2.16.1";
 import {
   esconderBannerMigracaoHost,
   ligarMigracaoHost,
   mostrarAvisoGithubParaVercel,
   mostrarBannerMigracaoHost,
   precisaConectarSyncNesteHost,
-} from "./lib/migracao-host.js?v=2.16.0";
+} from "./lib/migracao-host.js?v=2.16.1";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.16.0";
+} from "./lib/tarde.js?v=2.16.1";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.16.0";
+} from "./lib/inteligencia.js?v=2.16.1";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.16.0";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.16.0";
+} from "./lib/lembretes.js?v=2.16.1";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.16.1";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -141,12 +141,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.16.0";
+} from "./lib/foco.js?v=2.16.1";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.16.0";
+} from "./lib/rotina-local.js?v=2.16.1";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -179,7 +179,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.16.0";
+} from "./lib/tdah.js?v=2.16.1";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -293,6 +293,7 @@ let chegueiExcluidos = [];
 let chegueiOpcoesAtuais = null;
 let chegueiContexto = "chegada";
 let chegueiIaToken = 0;
+let agoraTraveiHabitoId = null;
 let filtroCategoria = "Todas";
 let idArrastando = null;
 let painelAtivo = "hoje";
@@ -2566,12 +2567,25 @@ function obterSugestaoAgora() {
   });
 }
 
+function mostrarPlanoBAgora(habito) {
+  if (!habito) return;
+  agoraTraveiHabitoId = habito.id;
+  desenharAgora();
+  document.getElementById("bloco-agora")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function fecharPlanoBAgora() {
+  agoraTraveiHabitoId = null;
+  desenharAgora();
+}
+
 function desenharAgora() {
   if (!agoraConteudo) return;
 
   const sugestao = obterSugestaoAgora();
 
   if (!sugestao) {
+    agoraTraveiHabitoId = null;
     agoraConteudo.innerHTML = `
       <p class="agora-texto agora-vazio">Nada pendente agora. Descanse ou revise a inbox.</p>`;
     return;
@@ -2625,6 +2639,18 @@ function desenharAgora() {
         <button type="button" class="botao-secundario agora-travei" data-travei="${habito.id}">Travei</button>
       </div>`;
 
+  const traveiAberto = !virtual && agoraTraveiHabitoId != null && String(agoraTraveiHabitoId) === String(habito.id);
+  const traveiHtml = traveiAberto
+    ? `<div class="agora-travei-painel" role="status" aria-live="polite">
+        <p class="agora-travei-titulo">Travou? Plano B — só o mínimo</p>
+        <p class="agora-travei-texto">${textoPlanoB(habito).replace(/&/g, "&amp;").replace(/</g, "&lt;")}</p>
+        <div class="agora-travei-acoes">
+          <button type="button" class="botao-secundario" id="agora-travei-30s">Só 30 segundos</button>
+          <button type="button" class="botao-texto" id="agora-travei-fechar">Ok, entendi</button>
+        </div>
+      </div>`
+    : "";
+
   agoraConteudo.innerHTML = `
     ${timerHtml}
     <p class="agora-motivo">${motivo}</p>
@@ -2632,6 +2658,7 @@ function desenharAgora() {
     ${dicaPasso}
     ${prepHtml}
     ${acoesExtras}
+    ${traveiHtml}
     <p class="agora-dica">Um passo só. Sem precisar fazer tudo.</p>`;
 
   if (virtual) {
@@ -2659,7 +2686,14 @@ function desenharAgora() {
       comecarCronometro(habito);
     });
     agoraConteudo.querySelector(".agora-travei")?.addEventListener("click", () => {
-      mostrarFeedback(textoPlanoB(habito), "aviso");
+      mostrarPlanoBAgora(habito);
+    });
+    agoraConteudo.querySelector("#agora-travei-30s")?.addEventListener("click", () => {
+      fecharPlanoBAgora();
+      comecarTimer(30, habito, "30 segundos");
+    });
+    agoraConteudo.querySelector("#agora-travei-fechar")?.addEventListener("click", () => {
+      fecharPlanoBAgora();
     });
   }
   agoraConteudo.querySelector("#agora-cancelar-timer")?.addEventListener("click", () => {
