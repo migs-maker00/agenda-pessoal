@@ -1,5 +1,5 @@
 /** Versão do app — usada para cache-bust de CSS/JS no index.html */
-export const APP_VERSION = "2.16.0";
+export const APP_VERSION = "2.16.1";
 
 /** URL principal no Vercel (GitHub Pages continua como espelho). */
 export const APP_URL_VERCEL = "https://projeto-1-criar.vercel.app";
