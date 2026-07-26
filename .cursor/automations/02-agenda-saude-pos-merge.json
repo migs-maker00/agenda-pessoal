@@ -1,0 +1,27 @@
+{
+  "name": "Agenda — saúde pós-merge",
+  "description": "Após push em main: deploy Vercel, app live e 4 APIs Groq saudáveis.",
+  "workflow": {
+    "triggers": [
+      {
+        "git": {
+          "push": {
+            "branch": "main"
+          }
+        }
+      }
+    ],
+    "actions": [],
+    "prompts": [
+      {
+        "text": "Após cada push na branch main do repositório migs-maker00/agenda-pessoal, verifique a saúde de produção.\n\nURL: https://projeto-1-criar.vercel.app\n\nPassos:\n1. Aguarde até 3 minutos pelo deploy Vercel (deployment Ready)\n2. GET / — esperado 200\n3. Saúde IA — GET em cada endpoint; ok:true e ia diferente de \"nenhuma\":\n   - /api/neuro-feedback\n   - /api/diario-resumo\n   - /api/semana-agente\n   - /api/contexto-sugestao\n4. (Opcional) GET https://migs-maker00.github.io/agenda-pessoal/\n\nSe ia:\"nenhuma\": GROQ_API_KEY ausente no Vercel — avise para configurar e redeploy.\n\nResumo Passou/Falhou em português. Não abra PR."
+      }
+    ],
+    "gitConfig": {
+      "repo": "migs-maker00/agenda-pessoal",
+      "branch": "main"
+    },
+    "agentOptions": { "skipInstall": true },
+    "memoryEnabled": true
+  }
+}

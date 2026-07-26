@@ -1,0 +1,29 @@
+{
+  "name": "Agenda — revisão de PR",
+  "description": "Revisa PRs do agenda-pessoal: versão, i18n, IA Groq, secrets e APIs Vercel.",
+  "workflow": {
+    "triggers": [
+      {
+        "git": {
+          "pullRequest": {
+            "action": "GIT_PULL_REQUEST_ACTION_OPENED",
+            "repos": ["migs-maker00/agenda-pessoal"],
+            "ignoreDraftPrs": true
+          }
+        }
+      }
+    ],
+    "actions": [{ "prComment": {} }],
+    "prompts": [
+      {
+        "text": "Você revisa pull requests do repositório migs-maker00/agenda-pessoal (PWA estático + APIs serverless no Vercel).\n\nAnalise o diff do PR e publique UM comentário conciso no PR, agrupado por severidade: Crítico / Deveria corrigir / Opcional.\n\nSempre verifique:\n1. Versão: APP_VERSION em js/config.js igual ao CACHE em sw.js, ?v= em index.html, js/main.js e todos os imports ?v= em js/app.js\n2. i18n: novas strings têm chaves em js/lib/traducoes.js (pt e en); HTML usa data-i18n / data-i18n-html / data-i18n-placeholder\n3. IA: sem fallback local quando a API Vercel falha; locale enviado nos POSTs\n4. Secrets: nada de .env, chaves API ou credenciais no diff\n5. API: arquivos em api/ mantêm GET de saúde {ok,servico,ia}; CORS inclui projeto-1-criar.vercel.app e github.io\n6. PWA: sw.js CACHE atualizado quando JS/CSS mudam de verdade\n\nNão peça suite de testes pesada. Aprove mentalmente se não houver itens Críticos.\n\nEscreva o comentário em português do Brasil."
+      }
+    ],
+    "gitConfig": {
+      "repo": "migs-maker00/agenda-pessoal",
+      "branch": "main"
+    },
+    "agentOptions": { "skipInstall": true },
+    "memoryEnabled": true
+  }
+}
