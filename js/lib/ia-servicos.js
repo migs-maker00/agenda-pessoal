@@ -1,20 +1,16 @@
-/** Clientes IA — diário, semana, genérico. */
+/** Clientes IA — diário, semana, genérico (backend Vercel). */
 
-import { hostAtual } from "../config.js";
-
-function urlApi(path) {
-  if (typeof location === "undefined") return "";
-  return new URL(path, location.origin).href;
-}
+import { iaVercelConfigurada, sondarIaVercel, urlApiVercel } from "../config.js";
 
 export function iaDisponivel() {
-  return hostAtual() === "vercel";
+  return iaVercelConfigurada();
 }
 
 async function postApi(path, payload) {
-  if (!iaDisponivel()) return { ok: false, erro: "IA só no app Vercel." };
+  const iaAtiva = iaVercelConfigurada() || (await sondarIaVercel());
+  if (!iaAtiva) return { ok: false, erro: "IA indisponível — configure GROQ no Vercel." };
   try {
-    const res = await fetch(urlApi(path), {
+    const res = await fetch(urlApiVercel(path), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

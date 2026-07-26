@@ -1,45 +1,31 @@
-/** Cliente — feedback da trilha Neuro via API Vercel + Gemini. */
+/** Cliente — feedback da trilha Neuro via API Vercel + Groq/Gemini. */
 
-import { NEURO_IA_API_URL, hostAtual } from "../config.js";
-
-let iaNeuroNoServidor = null;
+import {
+  NEURO_IA_API_URL,
+  iaVercelConfigurada,
+  sondarIaVercel,
+  urlApiVercel,
+} from "../config.js";
 
 export function urlApiNeuro() {
-  const base = String(NEURO_IA_API_URL || "").trim();
-  if (!base) return "";
-  if (base.startsWith("http://") || base.startsWith("https://")) return base;
-  if (typeof location !== "undefined") {
-    return new URL(base, location.origin).href;
-  }
-  return base;
+  return urlApiVercel(NEURO_IA_API_URL);
 }
 
-/** Sonda o servidor uma vez — evita prometer IA sem GROQ/Gemini configurado. */
+/** Sonda o Vercel uma vez — evita prometer IA sem GROQ/Gemini configurado. */
 export async function sondarIaNeuro() {
-  if (hostAtual() !== "vercel" || !urlApiNeuro()) {
-    iaNeuroNoServidor = false;
-    return false;
-  }
-  try {
-    const resposta = await fetch(urlApiNeuro());
-    const dados = await resposta.json().catch(() => ({}));
-    iaNeuroNoServidor = Boolean(dados.ia && dados.ia !== "nenhuma");
-  } catch {
-    iaNeuroNoServidor = false;
-  }
-  return iaNeuroNoServidor;
+  return sondarIaVercel();
 }
 
-/** IA só no Vercel e com chave configurada no servidor. */
+/** IA disponível quando o backend Vercel tem chave configurada. */
 export function iaNeuroDisponivel() {
-  return iaNeuroNoServidor === true;
+  return iaVercelConfigurada();
 }
 
 export async function pedirFeedbackIaNeuro(modulo, explicacao) {
   const url = urlApiNeuro();
-  const iaAtiva = iaNeuroNoServidor ?? (await sondarIaNeuro());
+  const iaAtiva = iaVercelConfigurada() || (await sondarIaNeuro());
   if (!iaAtiva || !url) {
-    return { ok: false, erro: "IA disponível no app Vercel." };
+    return { ok: false, erro: "IA indisponível — configure GROQ no Vercel." };
   }
 
   try {

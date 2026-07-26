@@ -1,8 +1,16 @@
 # Agenda Pessoal
 
-Agenda pessoal no navegador — compromissos do dia, anotações e visão da semana. Os dados ficam no `localStorage` do aparelho.
+Agenda pessoal no navegador — compromissos do dia, anotações e visão da semana. Os dados ficam no `localStorage` do aparelho (sync Firebase opcional).
 
-**Online:** https://projeto-1-criar.vercel.app · [GitHub Pages](https://migs-maker00.github.io/agenda-pessoal/)
+**App principal (Vercel):** https://projeto-1-criar.vercel.app  
+**Espelho (GitHub Pages):** https://migs-maker00.github.io/agenda-pessoal/
+
+## Deploy
+
+- **Vercel** — deploy automático a cada push em `main` (app estático + APIs `/api/*` com Groq/Gemini).
+- **GitHub Pages** — espelho estático; as APIs de IA chamam o backend Vercel.
+
+Configure no Vercel: `GROQ_API_KEY`, opcional `GEMINI_API_KEY`, `ALLOWED_ORIGIN`.
 
 ## Funcionalidades
 
