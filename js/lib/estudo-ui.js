@@ -60,7 +60,7 @@ import {
   modulosExplicadosNoDia,
   salvarExplicacao,
 } from "./neuro-explicar.js";
-import { iaNeuroDisponivel, pedirFeedbackIaNeuro } from "./neuro-ia.js";
+import { iaNeuroDisponivel, pedirFeedbackIaNeuro, sondarIaNeuro } from "./neuro-ia.js";
 import { t } from "./i18n.js";
 import {
   dictadoExplicacaoNeuro,
@@ -624,7 +624,7 @@ function renderNeuro(dados, chaveDia) {
         ${dictadoStatus}
         <div class="neuro-explicar-botoes">
           <button type="button" class="botao-primario" data-neuro-verificar="1" ${dados.neuroIaCarregando ? "disabled" : ""}>
-            ${iaNeuroDisponivel() ? esc(t("neuro.verificar.ia")) : esc(t("neuro.verificar.local"))}
+            ${esc(t("neuro.verificar.ia"))}
           </button>
           <button type="button" class="botao-secundario" data-estudo-timer="10">${esc(t("neuro.timer"))}</button>
           ${prox ? `<button type="button" class="botao-texto" data-neuro-proximo="${prox.id}">${esc(t("neuro.proximo", { titulo: prox.titulo }))}</button>` : ""}
@@ -1120,10 +1120,16 @@ async function processarVerificacaoNeuro(root, chaveDia, getState, setState, mos
     return;
   }
 
-  if (!iaNeuroDisponivel()) {
-    const avaliacao = avaliarExplicacao(texto, mod);
-    salvarExplicacao(mod.id, chave, texto, avaliacao);
-    finalizarVerificacaoNeuro(getState, setState, texto, avaliacao, chave, mostrarFeedback, onAtualizarHoje);
+  const iaAtiva = iaNeuroDisponivel() || (await sondarIaNeuro());
+  if (!iaAtiva) {
+    setState({
+      ...dados,
+      neuroRascunho: texto,
+      neuroFeedback: null,
+      neuroIaCarregando: false,
+      neuroDictadoStatus: null,
+    });
+    mostrarFeedback?.("IA indisponível — configure GROQ no Vercel.", "aviso");
     return;
   }
 
@@ -1136,16 +1142,21 @@ async function processarVerificacaoNeuro(root, chaveDia, getState, setState, mos
 
   const resultado = await pedirFeedbackIaNeuro(mod, texto);
 
-  let avaliacao;
   if (resultado.ok && resultado.avaliacao) {
-    avaliacao = resultado.avaliacao;
-  } else {
-    avaliacao = avaliarExplicacao(texto, mod);
-    avaliacao.feedback = `${resultado.erro || "IA indisponível."} ${avaliacao.feedback}`;
+    const avaliacao = { ...resultado.avaliacao, fonte: "ia" };
+    salvarExplicacao(mod.id, chave, texto, avaliacao);
+    finalizarVerificacaoNeuro(getState, setState, texto, avaliacao, chave, mostrarFeedback, onAtualizarHoje);
+    return;
   }
 
-  salvarExplicacao(mod.id, chave, texto, avaliacao);
-  finalizarVerificacaoNeuro(getState, setState, texto, avaliacao, chave, mostrarFeedback, onAtualizarHoje);
+  setState({
+    ...getState(),
+    neuroRascunho: texto,
+    neuroFeedback: null,
+    neuroIaCarregando: false,
+    neuroDictadoStatus: null,
+  });
+  mostrarFeedback?.(resultado.erro || "IA indisponível. Tente de novo.", "aviso");
 }
 
 function finalizarVerificacaoNeuro(getState, setState, texto, avaliacao, chave, mostrarFeedback, onAtualizarHoje) {

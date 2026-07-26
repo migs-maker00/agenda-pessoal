@@ -7,7 +7,7 @@ import {
   urlApiVercel,
 } from "../config.js";
 import { faixaDoDia } from "./contexto-tempo.js";
-import { locale } from "./i18n.js";
+import { locale, localeTag } from "./i18n.js";
 
 export function urlApiContexto() {
   return urlApiVercel(CONTEXTO_IA_API_URL);
@@ -36,7 +36,7 @@ export function montarPayloadContextoIa({ contexto, opcoes, perfil, fala = "" })
     locale: locale(),
     fala: String(fala || opcoes?.fala || "").slice(0, 300),
     faixa: opcoes?.faixa || faixaDoDia(agora),
-    horaLocal: agora.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
+    horaLocal: agora.toLocaleTimeString(localeTag(), { hour: "2-digit", minute: "2-digit" }),
     diaSemana: DIAS[agora.getDay()],
     perfil: {
       acordar: perfil?.acordar || "",

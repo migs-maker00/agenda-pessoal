@@ -98,7 +98,7 @@ export const TRADUCOES = {
     "guia.dicas.titulo": "Antes de mostrar para alguém",
     "guia.ia.ativa": "✨ IA ativa no servidor — Neuro, Diário e Agora podem usar inteligência.",
     "guia.ia.local":
-      "ℹ️ IA local ativa — funciona sem chave; configure GROQ no Vercel para IA completa.",
+      "⚠️ IA offline — configure GROQ_API_KEY no Vercel para Neuro, Diário e Cheguei.",
     "guia.demo.banner": "Modo apresentação — passo <strong>{{atual}}</strong> de {{total}}",
     "guia.demo.proximo": "Próximo passo →",
     "guia.demo.sair": "Sair do modo",
@@ -232,7 +232,7 @@ export const TRADUCOES = {
     "vercel.apoio": "URL recomendada no iPhone e no Mac — app completo + IA + deploy automático a cada git push:",
     "vercel.apoio.html":
       "URL recomendada no iPhone e no Mac — app completo + IA + deploy automático a cada <code>git push</code>: <a href=\"https://projeto-1-criar.vercel.app\" target=\"_blank\" rel=\"noopener noreferrer\">projeto-1-criar.vercel.app</a>",
-    "vercel.dica": "Use o <strong>mesmo código de sync</strong> em todos os aparelhos. IA via <strong>Groq</strong> no Vercel; se offline, o app usa fallback local.",
+    "vercel.dica": "Use o <strong>mesmo código de sync</strong> em todos os aparelhos. IA via <strong>Groq</strong> no Vercel — sem fallback local.",
     "backup.titulo": "Backup dos dados",
     "backup.apoio": "Mesmo com sync, exporte de vez em quando. O backup é uma cópia de segurança extra.",
     "backup.exportar": "Exportar",
@@ -373,7 +373,7 @@ export const TRADUCOES = {
     "guia.dicas.titulo": "Before showing someone",
     "guia.ia.ativa": "✨ AI active on server — Neuro, Journal and Now can use intelligence.",
     "guia.ia.local":
-      "ℹ️ Local mode active — works without a key; set GROQ on Vercel for full AI.",
+      "⚠️ AI offline — set GROQ_API_KEY on Vercel for Neuro, Journal and What now?",
     "guia.demo.banner": "Presentation mode — step <strong>{{atual}}</strong> of {{total}}",
     "guia.demo.proximo": "Next step →",
     "guia.demo.sair": "Exit mode",
@@ -506,7 +506,7 @@ export const TRADUCOES = {
     "vercel.apoio": "Recommended URL on iPhone and Mac — full app + AI + auto deploy on every git push:",
     "vercel.apoio.html":
       "Recommended URL on iPhone and Mac — full app + AI + auto deploy on every <code>git push</code>: <a href=\"https://projeto-1-criar.vercel.app\" target=\"_blank\" rel=\"noopener noreferrer\">projeto-1-criar.vercel.app</a>",
-    "vercel.dica": "Use the <strong>same sync code</strong> on all devices. AI via <strong>Groq</strong> on Vercel; offline uses local fallback.",
+    "vercel.dica": "Use the <strong>same sync code</strong> on all devices. AI via <strong>Groq</strong> on Vercel — no local fallback.",
     "backup.titulo": "Data backup",
     "backup.apoio": "Even with sync, export once in a while. Backup is an extra safety copy.",
     "backup.exportar": "Export",

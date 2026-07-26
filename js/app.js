@@ -2051,6 +2051,10 @@ async function gerarPlanoSemanaIa() {
     },
     padroes
   );
+  if (!resp.ok) {
+    planoSemanaPainel.innerHTML = `<p class="plano-semana-erro">${resp.erro || "IA indisponível."}</p>`;
+    return;
+  }
   const linhas = (resp.linhas || []).map((l) => `<li>${l}</li>`).join("");
   planoSemanaPainel.innerHTML = `
     <div class="plano-semana-card">
@@ -2058,7 +2062,7 @@ async function gerarPlanoSemanaIa() {
       <ul class="plano-semana-lista">${linhas}</ul>
       ${resp.focoPrincipal ? `<p class="plano-semana-foco"><strong>Foco:</strong> ${resp.focoPrincipal}</p>` : ""}
       ${resp.fraseMotivacao ? `<p class="plano-semana-motiv">${resp.fraseMotivacao}</p>` : ""}
-      <p class="plano-semana-fonte">${resp.fonte === "ia" ? "✨ IA" : "Local"}</p>
+      <p class="plano-semana-fonte">✨ IA</p>
     </div>`;
 }
 
@@ -2074,6 +2078,10 @@ async function gerarResumoDiarioIa() {
   diarioResumoPainel.hidden = false;
   diarioResumoPainel.innerHTML = `<p class="diario-resumo-carregando">Organizando…</p>`;
   const resp = await pedirResumoDiario(texto, revisao);
+  if (!resp.ok) {
+    diarioResumoPainel.innerHTML = `<p class="diario-resumo-erro">${resp.erro || "IA indisponível."}</p>`;
+    return;
+  }
   const feito = (resp.feito || []).map((f) => `<li>${f}</li>`).join("");
   const pesou = (resp.pesou || []).map((p) => `<li>${p}</li>`).join("");
   diarioResumoPainel.innerHTML = `
@@ -2083,7 +2091,7 @@ async function gerarResumoDiarioIa() {
       ${pesou ? `<p class="diario-resumo-sec"><strong>Ficou na cabeça</strong></p><ul>${pesou}</ul>` : ""}
       ${resp.amanha ? `<p class="diario-resumo-amanha"><strong>Amanhã:</strong> ${resp.amanha}</p>` : ""}
       <p class="diario-resumo-nota">Seu texto original não foi alterado.</p>
-      <p class="diario-resumo-fonte">${resp.fonte === "ia" ? "✨ IA" : "Local"}</p>
+      <p class="diario-resumo-fonte">✨ IA</p>
     </div>`;
 }
 

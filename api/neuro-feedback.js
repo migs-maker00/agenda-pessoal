@@ -285,7 +285,7 @@ module.exports = async (req, res) => {
   } catch (erro) {
     console.error("neuro-feedback:", erro);
     return res.status(503).json({
-      erro: "IA temporariamente indisponível. O app usa correção local automaticamente.",
+      erro: "IA temporariamente indisponível. Tente de novo em instantes.",
       codigo: "ia_indisponivel",
     });
   }

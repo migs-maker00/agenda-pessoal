@@ -50,7 +50,13 @@ function instrucaoIdioma(locale) {
     : "Todos os textos para a usuária no JSON devem estar em português do Brasil.";
 }
 
-async function chamarGroq(prompt, maxTokens = 500) {
+function systemGroq(locale = "pt") {
+  return locale === "en"
+    ? "Reply with valid JSON only. No markdown."
+    : "Responda só JSON válido. Sem markdown.";
+}
+
+async function chamarGroq(prompt, maxTokens = 500, locale = "pt") {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) return null;
 
@@ -65,8 +71,9 @@ async function chamarGroq(prompt, maxTokens = 500) {
       model: modelo,
       temperature: 0.4,
       max_tokens: maxTokens,
+      response_format: { type: "json_object" },
       messages: [
-        { role: "system", content: "Responda só JSON válido em português do Brasil." },
+        { role: "system", content: systemGroq(locale) },
         { role: "user", content: prompt },
       ],
     }),
@@ -131,10 +138,10 @@ async function chamarGemini(prompt, maxTokens = 500) {
   throw err;
 }
 
-async function chamarIA(prompt, maxTokens = 500) {
+async function chamarIA(prompt, maxTokens = 500, locale = "pt") {
   if (process.env.GROQ_API_KEY) {
     try {
-      return { raw: await chamarGroq(prompt, maxTokens), provedor: "groq" };
+      return { raw: await chamarGroq(prompt, maxTokens, locale), provedor: "groq" };
     } catch (erro) {
       console.warn("Groq falhou:", erro.message);
       if (!process.env.GEMINI_API_KEY) throw erro;
@@ -187,7 +194,8 @@ function criarHandlerApi({ servico, montarPrompt, normalizar, validar }) {
 
     try {
       const prompt = montarPrompt(corpo);
-      const { raw, provedor } = await chamarIA(prompt);
+      const locale = localeDoCorpo(corpo);
+      const { raw, provedor } = await chamarIA(prompt, 500, locale);
       return res.status(200).json({ ok: true, ...normalizar(raw, corpo, provedor) });
     } catch (erro) {
       const status = erro.status || 500;

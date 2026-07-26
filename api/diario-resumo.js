@@ -59,7 +59,6 @@ function normalizar(raw) {
     pesou: Array.isArray(raw.pesou) ? raw.pesou.map(String).slice(0, 3) : [],
     amanha: String(raw.amanha || "").slice(0, 200),
     fraseApoio: String(raw.fraseApoio || "Você escreveu — isso já é um passo.").slice(0, 200),
-    provedor: raw.provedor,
   };
 }
 
