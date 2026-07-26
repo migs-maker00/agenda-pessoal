@@ -1,6 +1,7 @@
 /** Clientes IA — diário, semana, genérico (backend Vercel). */
 
 import { iaVercelConfigurada, sondarIaVercel, urlApiVercel } from "../config.js";
+import { locale } from "./i18n.js";
 
 export function iaDisponivel() {
   return iaVercelConfigurada();
@@ -13,7 +14,7 @@ async function postApi(path, payload) {
     const res = await fetch(urlApiVercel(path), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ ...payload, locale: locale() }),
     });
     const dados = await res.json().catch(() => ({}));
     if (!res.ok) return { ok: false, erro: dados.erro || "IA indisponível." };

@@ -40,6 +40,16 @@ function parseJsonResposta(texto) {
   return JSON.parse(jsonMatch ? jsonMatch[0] : limpo);
 }
 
+function localeDoCorpo(corpo) {
+  return corpo?.locale === "en" ? "en" : "pt";
+}
+
+function instrucaoIdioma(locale) {
+  return locale === "en"
+    ? "All user-facing strings in the JSON must be in English."
+    : "Todos os textos para a usuária no JSON devem estar em português do Brasil.";
+}
+
 async function chamarGroq(prompt, maxTokens = 500) {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) return null;
@@ -190,6 +200,8 @@ module.exports = {
   aplicarCors,
   chamarIA,
   criarHandlerApi,
+  instrucaoIdioma,
   lerCorpo,
+  localeDoCorpo,
   parseJsonResposta,
 };

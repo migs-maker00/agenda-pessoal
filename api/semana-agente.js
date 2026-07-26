@@ -1,10 +1,43 @@
 /** Vercel — agente de semana (plano leve em 5 linhas). */
 
-const { criarHandlerApi } = require("./ia-shared");
+const { criarHandlerApi, instrucaoIdioma, localeDoCorpo } = require("./ia-shared");
 
 function montarPrompt(corpo) {
+  const locale = localeDoCorpo(corpo);
   const stats = corpo.stats || {};
   const padroes = (corpo.padroes || []).slice(0, 8);
+  const padroesTxt =
+    padroes
+      .map(
+        (p) =>
+          `- ${p.nome}: ${locale === "en" ? "avg time" : "horário médio"} ${p.horarioMedio || "?"}, ${locale === "en" ? "ignored reminders" : "ignorou lembretes"} ${p.ignorados || 0}x`
+      )
+      .join("\n") || (locale === "en" ? "(still learning)" : "(ainda aprendendo)");
+
+  if (locale === "en") {
+    return `You are a productivity coach for Erica, 16, with ADHD.
+
+Week stats:
+- Done: ${stats.feitosSemana ?? "?"}/${stats.totalPossivel ?? "?"}
+- 30-day rate: ${stats.taxa30 ?? "?"}%
+- Streak: ${stats.streak ?? 0} days
+- Weekly priorities: ${(stats.prioridades || []).join(", ") || "none"}
+
+Patterns:
+${padroesTxt}
+
+Build a WEEK plan in at most 5 short lines. No giant list. Warm tone.
+${instrucaoIdioma("en")}
+
+JSON:
+{
+  "titulo": "short week title",
+  "linhas": ["line 1", "up to 5"],
+  "focoPrincipal": "1 habit or theme to prioritize",
+  "fraseMotivacao": "1 guilt-free sentence"
+}`;
+  }
+
   return `Você é uma coach de produtividade para Erica, 16 anos, com TDAH.
 
 Estatísticas da semana:
@@ -14,9 +47,10 @@ Estatísticas da semana:
 - Prioridades da semana: ${(stats.prioridades || []).join(", ") || "nenhuma"}
 
 Padrões detectados:
-${padroes.map((p) => `- ${p.nome}: horário médio ${p.horarioMedio || "?"}, ignorou lembretes ${p.ignorados || 0}x`).join("\n") || "(ainda aprendendo)"}
+${padroesTxt}
 
 Monte um plano da SEMANA em no máximo 5 linhas curtas. Sem lista gigante. Tom acolhedor.
+${instrucaoIdioma("pt")}
 
 JSON:
 {

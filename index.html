@@ -20,7 +20,7 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=2.22.0" />
+  <link rel="stylesheet" href="style.css?v=2.23.0" />
 </head>
 <body>
   <div class="ambiente">
@@ -66,43 +66,44 @@
       <!-- ROTINA: adicionar hábitos (simples) -->
       <section id="painel-rotina" class="painel" aria-label="Rotina" hidden>
         <section class="bloco bloco-primeiro adicionar-card rotina-simples">
-          <h2 class="bloco-titulo">Adicionar hábito</h2>
-          <p class="rotina-resumo">Toque num atalho ou escreva o nome. Use a aba <strong>Hoje</strong> para marcar.</p>
+          <h2 class="bloco-titulo" data-i18n="rotina.adicionar.titulo">Adicionar hábito</h2>
+          <p class="rotina-resumo" data-i18n-html="rotina.adicionar.apoio.html">Toque num atalho ou escreva o nome. Use a aba <strong>Hoje</strong> para marcar.</p>
 
           <div class="atalhos-rapidos">
-            <button type="button" class="atalho" data-atalho="agua">💧 Água</button>
-            <button type="button" class="atalho" data-atalho="academia">🏋️ Academia</button>
-            <button type="button" class="atalho" data-atalho="estudo">🎧 Aprender</button>
-            <button type="button" class="atalho" data-atalho="vocabulario">🗣️ Vocabulário</button>
-            <button type="button" class="atalho" data-atalho="praticalivro">📖 Prática</button>
-            <button type="button" class="atalho" data-atalho="meditar">🧘 Meditar</button>
+            <button type="button" class="atalho" data-atalho="agua" data-i18n="rotina.atalho.agua">💧 Água</button>
+            <button type="button" class="atalho" data-atalho="academia" data-i18n="rotina.atalho.academia">🏋️ Academia</button>
+            <button type="button" class="atalho" data-atalho="estudo" data-i18n="rotina.atalho.estudo">🎧 Aprender</button>
+            <button type="button" class="atalho" data-atalho="vocabulario" data-i18n="rotina.atalho.vocabulario">🗣️ Vocabulário</button>
+            <button type="button" class="atalho" data-atalho="praticalivro" data-i18n="rotina.atalho.praticalivro">📖 Prática</button>
+            <button type="button" class="atalho" data-atalho="meditar" data-i18n="rotina.atalho.meditar">🧘 Meditar</button>
           </div>
 
           <div class="adicionar-linha">
             <input
               type="text"
               id="entrada-habito"
+              data-i18n-placeholder="rotina.adicionar.placeholder"
               placeholder="Nome do hábito..."
               maxlength="60"
             />
-            <button id="botao-adicionar" type="button">Adicionar</button>
+            <button id="botao-adicionar" type="button" data-i18n="rotina.adicionar.btn">Adicionar</button>
           </div>
 
           <details class="rotina-opcoes">
-            <summary>Horário e importância (opcional)</summary>
+            <summary data-i18n="rotina.opcoes.summary">Horário e importância (opcional)</summary>
             <div class="adicionar-opcoes adicionar-opcoes-simples">
               <input type="time" id="entrada-horario" class="campo-opcao" aria-label="Horário" />
               <select id="entrada-importancia" class="campo-opcao" aria-label="Importância">
-                <option value="1">Essencial</option>
-                <option value="2">Importante</option>
-                <option value="3" selected>Normal</option>
+                <option value="1" data-i18n="rotina.importancia.1">Essencial</option>
+                <option value="2" data-i18n="rotina.importancia.2">Importante</option>
+                <option value="3" selected data-i18n="rotina.importancia.3">Normal</option>
               </select>
             </div>
           </details>
 
           <div id="sugestao-habito" class="sugestao-habito" hidden>
             <p id="sugestao-texto" class="sugestao-texto"></p>
-            <button type="button" id="botao-usar-sugestao" class="botao-secundario botao-sugestao">
+            <button type="button" id="botao-usar-sugestao" class="botao-secundario botao-sugestao" data-i18n="rotina.sugestao.usar">
               Usar sugestão
             </button>
           </div>
@@ -306,8 +307,8 @@
         </p>
 
         <section class="bloco bloco-revisao" aria-label="Revisão do dia">
-          <h2 class="bloco-titulo">Revisão do dia — 2 min</h2>
-          <p class="bloco-apoio">Sem perfeccionismo. Três linhas bastam.</p>
+          <h2 class="bloco-titulo" data-i18n="hoje.revisao.titulo">Revisão do dia — 2 min</h2>
+          <p class="bloco-apoio" data-i18n="hoje.revisao.apoio">O que ficou? O que amanhã? Sem julgamento.</p>
           <label class="revisao-label" for="revisao-feito">O que você fez hoje?</label>
           <input type="text" id="revisao-feito" class="campo-opcao revisao-campo" maxlength="200" />
           <label class="revisao-label" for="revisao-ficou">O que ficou pendente?</label>
@@ -317,8 +318,8 @@
         </section>
 
         <section class="bloco">
-          <h2 class="bloco-titulo">Anotações do dia</h2>
-          <p class="bloco-apoio">
+          <h2 class="bloco-titulo" data-i18n="hoje.nota.titulo">Anotações do dia</h2>
+          <p class="bloco-apoio" data-i18n-html="hoje.nota.apoio.html">
             O que marcou este dia? O histórico fica na aba <strong>Diário</strong> — é a mesma
             entrada de hoje.
           </p>
@@ -326,10 +327,11 @@
             id="nota-hoje"
             class="nota-campo"
             rows="3"
+            data-i18n-placeholder="hoje.nota.placeholder"
             placeholder="Anotações, lembretes, como foi o dia…"
           ></textarea>
           <div class="diario-acoes">
-            <button type="button" id="nota-hoje-salvar" class="botao-secundario">Salvar anotações</button>
+            <button type="button" id="nota-hoje-salvar" class="botao-secundario" data-i18n="hoje.nota.salvar">Salvar anotações</button>
             <p id="nota-hoje-status" class="diario-status" aria-live="polite"></p>
           </div>
         </section>
@@ -338,8 +340,8 @@
       <!-- DIÁRIO: notas salvas por data -->
       <section id="painel-diario" class="painel" aria-label="Diário" hidden>
         <section class="bloco bloco-primeiro">
-          <h2 class="bloco-titulo">Diário</h2>
-          <p class="bloco-apoio">
+          <h2 class="bloco-titulo" data-i18n="diario.titulo">Diário</h2>
+          <p class="bloco-apoio" data-i18n-html="diario.apoio.html">
             Cada dia guarda uma entrada. É o <strong>mesmo texto</strong> de
             <strong>Hoje → Anotações do dia</strong>. Salva sozinho a cada alteração —
             <strong>uma versão nova a cada salvamento</strong> fica em <strong>Histórico</strong>.
@@ -347,11 +349,11 @@
 
           <div class="diario-controles">
             <label class="diario-label" for="diario-data">
-              Data
+              <span data-i18n="diario.data">Data</span>
               <input type="date" id="diario-data" class="campo-opcao diario-data" />
             </label>
-            <button type="button" id="diario-hoje" class="botao-secundario">Ir para hoje</button>
-            <button type="button" id="diario-ontem" class="botao-secundario">Ver ontem</button>
+            <button type="button" id="diario-hoje" class="botao-secundario" data-i18n="diario.hoje">Ir para hoje</button>
+            <button type="button" id="diario-ontem" class="botao-secundario" data-i18n="diario.ontem">Ver ontem</button>
           </div>
 
           <div id="diario-recuperar" class="diario-recuperar" hidden></div>
@@ -362,46 +364,47 @@
             id="diario-texto"
             class="nota-campo"
             rows="6"
+            data-i18n-placeholder="diario.placeholder"
             placeholder="Escreva sobre este dia…"
           ></textarea>
           <div class="diario-acoes">
-            <button type="button" id="diario-salvar" class="botao-secundario">Salvar entrada</button>
-            <button type="button" id="diario-resumo-ia" class="botao-secundario">Organizar com IA</button>
+            <button type="button" id="diario-salvar" class="botao-secundario" data-i18n="diario.salvar">Salvar entrada</button>
+            <button type="button" id="diario-resumo-ia" class="botao-secundario" data-i18n="diario.resumo.ia">Organizar com IA</button>
             <p id="diario-status" class="diario-status" aria-live="polite"></p>
           </div>
           <div id="diario-resumo-painel" class="diario-resumo-painel" hidden></div>
         </section>
 
         <section class="bloco">
-          <h2 class="bloco-titulo">Histórico</h2>
-          <p class="bloco-apoio">
+          <h2 class="bloco-titulo" data-i18n="diario.historico">Histórico</h2>
+          <p class="bloco-apoio" data-i18n="diario.historico.apoio">
             Uma versão nova a cada salvamento automático ou manual. Toque para restaurar.
           </p>
           <div id="lista-historico-diario" class="lista-historico-diario"></div>
-          <p id="diario-historico-vazio" class="mensagem-vazia">
+          <p id="diario-historico-vazio" class="mensagem-vazia" data-i18n="diario.historico.vazio">
             Ainda sem versões guardadas para esta data. Escreva um pouco — o app salva automaticamente.
           </p>
         </section>
 
         <section class="bloco">
-          <h2 class="bloco-titulo">Busca de texto antigo</h2>
-          <p class="bloco-apoio">
+          <h2 class="bloco-titulo" data-i18n="diario.busca.titulo">Busca de texto antigo</h2>
+          <p class="bloco-apoio" data-i18n="diario.busca.apoio">
             Vasculha o histórico e todo o navegador por textos longos que possam ter sumido.
           </p>
-          <button type="button" id="diario-buscar-antiga-btn" class="botao-secundario">
+          <button type="button" id="diario-buscar-antiga-btn" class="botao-secundario" data-i18n="diario.busca.btn">
             Procurar agora
           </button>
           <div id="lista-busca-diario" class="lista-historico-diario" hidden></div>
-          <p id="diario-busca-vazio" class="mensagem-vazia">
+          <p id="diario-busca-vazio" class="mensagem-vazia" data-i18n-html="diario.busca.vazio">
             Nenhum resultado ainda. Toque em <strong>Procurar agora</strong>.
           </p>
         </section>
 
         <section class="bloco">
-          <h2 class="bloco-titulo">Entradas salvas</h2>
-          <p class="bloco-apoio">Toque numa data para abrir aquela nota.</p>
+          <h2 class="bloco-titulo" data-i18n="diario.entradas">Entradas salvas</h2>
+          <p class="bloco-apoio" data-i18n="diario.entradas.apoio">Toque numa data para abrir aquela nota.</p>
           <div id="lista-diario" class="lista-diario"></div>
-          <p id="diario-vazio" class="mensagem-vazia" hidden>
+          <p id="diario-vazio" class="mensagem-vazia" data-i18n-html="diario.vazio" hidden>
             Nenhuma entrada ainda. Escreva na aba Hoje ou aqui — elas aparecem automaticamente.
             Se você escreveu ontem e sumiu, toque em <strong>Ver ontem</strong> ou use
             <strong>Restaurar anotações</strong> se aparecer acima.
@@ -412,14 +415,14 @@
       <!-- SEMANA: visão executiva da semana -->
       <section id="painel-semana" class="painel" aria-label="Semana" hidden>
         <section class="bloco bloco-primeiro">
-          <h2 class="bloco-titulo">Últimos 7 dias</h2>
-          <p class="bloco-apoio">Porcentagem de hábitos concluídos por dia.</p>
+          <h2 class="bloco-titulo" data-i18n="semana.grafico">Últimos 7 dias</h2>
+          <p class="bloco-apoio" data-i18n="semana.grafico.apoio">Porcentagem de hábitos concluídos por dia.</p>
           <div id="grafico-barras" class="grafico-barras"></div>
         </section>
 
         <section class="bloco">
-          <h2 class="bloco-titulo">Metas da semana</h2>
-          <p class="bloco-apoio">Quanto falta para cumprir cada meta semanal.</p>
+          <h2 class="bloco-titulo" data-i18n="semana.metas">Metas da semana</h2>
+          <p class="bloco-apoio" data-i18n="semana.metas.apoio">Quanto falta para cumprir cada meta semanal.</p>
           <div id="lista-metas-semana" class="lista-metas"></div>
         </section>
       </section>
@@ -427,21 +430,21 @@
       <!-- INSIGHTS: corrente e visão do mês -->
       <section id="painel-insights" class="painel" aria-label="Insights" hidden>
         <section class="bloco bloco-primeiro">
-          <h2 class="bloco-titulo">Resumo</h2>
+          <h2 class="bloco-titulo" data-i18n="semana.resumo">Resumo</h2>
           <div id="cards-insights" class="cards-insights"></div>
         </section>
 
         <section class="bloco">
-          <h2 class="bloco-titulo">Resumo da semana</h2>
-          <p class="bloco-apoio">Uma leitura do seu último ciclo de 7 dias.</p>
+          <h2 class="bloco-titulo" data-i18n="semana.resumo.titulo">Resumo da semana</h2>
+          <p class="bloco-apoio" data-i18n="semana.resumo.apoio">Uma leitura do seu último ciclo de 7 dias.</p>
           <p id="resumo-semana" class="resumo-semana"></p>
-          <button type="button" id="botao-plano-semana" class="botao-secundario">Plano inteligente da semana</button>
+          <button type="button" id="botao-plano-semana" class="botao-secundario" data-i18n="semana.plano.ia">Plano inteligente da semana</button>
           <div id="plano-semana-painel" class="plano-semana-painel" hidden></div>
         </section>
 
         <section class="bloco">
-          <h2 class="bloco-titulo">Este mês — não quebre a corrente</h2>
-          <p class="bloco-apoio">Intensidade = quanto da agenda do dia você concluiu.</p>
+          <h2 class="bloco-titulo" data-i18n="insights.mes">Este mês — não quebre a corrente</h2>
+          <p class="bloco-apoio" data-i18n="insights.mes.apoio">Intensidade = quanto da agenda do dia você concluiu.</p>
           <div class="calendario-cabecalho">
             <span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span><span>D</span>
           </div>
@@ -452,12 +455,12 @@
       <!-- AJUSTES -->
       <section id="painel-ajustes" class="painel" aria-label="Ajustes" hidden>
         <section class="bloco bloco-primeiro">
-          <h2 class="bloco-titulo">Sincronizar Mac e iPhone</h2>
-          <p class="bloco-apoio">
+          <h2 class="bloco-titulo" data-i18n="sync.titulo">Sincronizar Mac e iPhone</h2>
+          <p class="bloco-apoio" data-i18n-html="sync.apoio.html">
             Crie um código neste aparelho e digite o mesmo código no outro.
             Assim hábitos, diário e trilha Neuro ficam iguais — inclusive ao trocar de endereço (GitHub → Vercel).
           </p>
-          <p id="sync-status" class="sync-status">Carregando…</p>
+          <p id="sync-status" class="sync-status" data-i18n="sync.carregando">Carregando…</p>
           <p id="sync-aviso-config" class="bloco-apoio" hidden>
             Ainda falta configurar o Firebase (é grátis). Peça ao assistente o passo a passo
             ou cole a config em <code>firebase-config.js</code>.
@@ -465,7 +468,7 @@
 
           <div id="sync-desconectado" hidden>
             <div class="dados-botoes">
-              <button id="botao-sync-criar" class="botao-secundario" type="button">
+              <button id="botao-sync-criar" class="botao-secundario" type="button" data-i18n="sync.criar">
                 Criar sincronização
               </button>
             </div>
@@ -475,11 +478,12 @@
                 class="campo-opcao"
                 type="text"
                 maxlength="12"
+                data-i18n-placeholder="sync.placeholder"
                 placeholder="Código do outro aparelho"
                 autocomplete="off"
                 spellcheck="false"
               />
-              <button id="botao-sync-entrar" class="botao-secundario" type="button">
+              <button id="botao-sync-entrar" class="botao-secundario" type="button" data-i18n="sync.entrar">
                 Entrar com código
               </button>
             </div>
@@ -487,14 +491,14 @@
 
           <div id="sync-conectado" hidden>
             <p class="sync-codigo-linha">
-              Código:
+              <span data-i18n="sync.codigo">Código:</span>
               <strong id="sync-codigo-atual">————</strong>
             </p>
             <div class="dados-botoes">
-              <button id="botao-sync-copiar" class="botao-secundario" type="button">
+              <button id="botao-sync-copiar" class="botao-secundario" type="button" data-i18n="sync.copiar">
                 Copiar código
               </button>
-              <button id="botao-sync-desconectar" class="botao-secundario" type="button">
+              <button id="botao-sync-desconectar" class="botao-secundario" type="button" data-i18n="sync.desconectar">
                 Desconectar
               </button>
             </div>
@@ -502,13 +506,13 @@
         </section>
 
         <section class="bloco">
-          <h2 class="bloco-titulo">Lembretes no celular</h2>
-          <p class="bloco-apoio">
+          <h2 class="bloco-titulo" data-i18n="lembretes.titulo">Lembretes no celular</h2>
+          <p class="bloco-apoio" data-i18n-html="lembretes.apoio.html">
             Instale o app na tela inicial para receber avisos mesmo com o navegador fechado.
             Abra o menu do navegador → <strong>Adicionar à tela inicial</strong>.
           </p>
           <p id="lembretes-status" class="lembretes-status"></p>
-          <button type="button" id="botao-lembretes" class="botao-secundario">Ativar lembretes</button>
+          <button type="button" id="botao-lembretes" class="botao-secundario" data-i18n="lembretes.btn">Ativar lembretes</button>
         </section>
 
         <section class="bloco" id="bloco-rotina-ajustes">
@@ -549,29 +553,29 @@
         </section>
 
         <section class="bloco bloco-vercel">
-          <h2 class="bloco-titulo">App principal (Vercel)</h2>
-          <p class="bloco-apoio">
+          <h2 class="bloco-titulo" data-i18n="vercel.titulo">App principal (Vercel)</h2>
+          <p class="bloco-apoio" data-i18n-html="vercel.apoio.html">
             URL recomendada no iPhone e no Mac — app completo + IA + deploy automático a cada
             <code>git push</code>:
             <a href="https://projeto-1-criar.vercel.app" target="_blank" rel="noopener noreferrer"
               >projeto-1-criar.vercel.app</a
             >
           </p>
-          <p class="bloco-apoio bloco-vercel-dica">
+          <p class="bloco-apoio bloco-vercel-dica" data-i18n-html="vercel.dica">
             Use o <strong>mesmo código de sync</strong> em todos os aparelhos. IA via
             <strong>Groq</strong> no Vercel; se offline, o app usa fallback local.
           </p>
         </section>
 
         <section class="bloco">
-          <h2 class="bloco-titulo">Backup dos dados</h2>
-          <p class="bloco-apoio">
+          <h2 class="bloco-titulo" data-i18n="backup.titulo">Backup dos dados</h2>
+          <p class="bloco-apoio" data-i18n="backup.apoio">
             Mesmo com sync, exporte de vez em quando. O backup é uma cópia de segurança extra.
           </p>
           <div class="dados-botoes">
-            <button id="botao-exportar" class="botao-secundario" type="button">Exportar</button>
+            <button id="botao-exportar" class="botao-secundario" type="button" data-i18n="backup.exportar">Exportar</button>
             <label class="botao-secundario">
-              Importar
+              <span data-i18n="backup.importar">Importar</span>
               <input type="file" id="entrada-importar" accept="application/json" hidden />
             </label>
           </div>
@@ -605,7 +609,7 @@
   </div>
 
   <div id="migracao-github-aviso" class="migracao-github-aviso" hidden role="status">
-    <p>
+    <p data-i18n-html="migracao.github.html">
       Nova versão com IA:
       <a id="migracao-link-vercel" data-migracao-link-vercel href="https://projeto-1-criar.vercel.app">projeto-1-criar.vercel.app</a>
       — use o <strong>mesmo código de sync</strong>.
@@ -615,17 +619,17 @@
 
   <div id="migracao-host" class="migracao-host" hidden role="dialog" aria-modal="true" aria-labelledby="migracao-host-titulo">
     <div class="migracao-host-card">
-      <h2 id="migracao-host-titulo" class="migracao-host-titulo">Restaurar seus dados</h2>
-      <p class="migracao-host-texto">
+      <h2 id="migracao-host-titulo" class="migracao-host-titulo" data-i18n="migracao.host.titulo">Restaurar seus dados</h2>
+      <p class="migracao-host-texto" data-i18n-html="migracao.host.texto.html">
         Este endereço é novo neste aparelho. Seu <strong>diário</strong>, hábitos e trilha Neuro estão seguros na
         <strong>sincronização</strong> — entre com o mesmo código que você já usa no celular.
       </p>
-      <p class="migracao-host-alerta">
+      <p class="migracao-host-alerta" data-i18n="migracao.host.alerta">
         ⚠️ Antes de escrever no diário aqui, conecte o sync para não sobrescrever a nuvem com texto vazio.
       </p>
       <div class="migracao-host-botoes">
-        <button type="button" id="migracao-ir-ajustes" class="botao-primario">Ir para Ajustes → Sync</button>
-        <button type="button" id="migracao-exportar" class="botao-secundario">Exportar backup</button>
+        <button type="button" id="migracao-ir-ajustes" class="botao-primario" data-i18n="migracao.host.ajustes">Ir para Ajustes → Sync</button>
+        <button type="button" id="migracao-exportar" class="botao-secundario" data-i18n="migracao.host.exportar">Exportar backup</button>
       </div>
     </div>
   </div>
@@ -634,7 +638,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
-  <script type="module" src="js/main.js?v=2.22.0"></script>
+  <script type="module" src="js/main.js?v=2.23.0"></script>
   <script defer src="sync.js?v=6"></script>
 </body>
 </html>

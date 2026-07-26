@@ -3328,6 +3328,21 @@ body {
   color: var(--marca);
 }
 
+.neuro-mod-fase,
+.neuro-modulo-fase {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+  background: color-mix(in srgb, var(--marca) 15%, var(--superficie));
+  color: var(--marca);
+  border: 1px solid color-mix(in srgb, var(--marca) 35%, var(--borda));
+}
+
 .neuro-modulo-card {
   margin: 0 0 14px;
   padding: 12px;

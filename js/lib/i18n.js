@@ -80,6 +80,11 @@ export function aplicarIdiomaHtml(raiz = document) {
     if (chave) el.setAttribute("aria-label", t(chave));
   });
 
+  raiz.querySelectorAll("option[data-i18n]").forEach((el) => {
+    const chave = el.dataset.i18n;
+    if (chave) el.textContent = t(chave);
+  });
+
   const navMap = {
     hoje: "nav.hoje",
     guia: "nav.guia",
