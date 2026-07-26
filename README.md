@@ -1,8 +1,8 @@
-# Agenda
+# Agenda Pessoal
 
 Agenda pessoal no navegador — compromissos do dia, anotações e visão da semana. Os dados ficam no `localStorage` do aparelho.
 
-**Online:** https://migs-maker00.github.io/projeto-1-criar/
+**Online:** https://agenda-pessoal.vercel.app · [GitHub Pages](https://migs-maker00.github.io/agenda-pessoal/)
 
 ## Funcionalidades
 
@@ -36,8 +36,8 @@ Agenda pessoal no navegador — compromissos do dia, anotações e visão da sem
 ## Desenvolvimento local
 
 ```bash
-cd "/Users/ericafaustino/Projeto 1 - Criar"
-python3 -m http.server 5173
+cd agenda-pessoal
+npx serve -p 5173
 ```
 
 Abra http://localhost:5173
