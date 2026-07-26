@@ -6,6 +6,7 @@ import {
   sondarIaVercel,
   urlApiVercel,
 } from "../config.js";
+import { locale } from "./i18n.js";
 
 export function urlApiNeuro() {
   return urlApiVercel(NEURO_IA_API_URL);
@@ -38,6 +39,7 @@ export async function pedirFeedbackIaNeuro(modulo, explicacao) {
         textoModulo: modulo.texto,
         pontosChave: modulo.pontosChave,
         explicacao,
+        locale: locale(),
       }),
     });
 

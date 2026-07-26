@@ -246,6 +246,131 @@ O cérebro fortalece conexões quando quase esquece e precisa recuperar. Por iss
     vocab: { en: "spaced repetition", pt: "repetição espaçada" },
     dicaApp: "Volte a este módulo em 3 dias — explique de novo.",
   },
+  {
+    id: "rede-default",
+    titulo: "Rede default e ruminação",
+    tempo: "4 min",
+    emoji: "💭",
+    fase: "D",
+    texto: `A “rede default” liga quando a mente divaga — pensamentos sobre o passado, futuro ou preocupações. Um pouco é normal; muito tempo nela cansa e rouba foco.
+
+No TDAH, voltar ao presente costuma exigir ação concreta: mover o corpo, timer curto ou anotar a preocupação na inbox para tirar da cabeça.`,
+    pontosChave: [
+      "Ativa quando a mente divaga",
+      "Ruminação e preocupação consomem energia",
+      "Ação concreta ajuda a sair do loop",
+      "Anotar libera a memória de trabalho",
+    ],
+    gabarito: [
+      { id: "default", rotulo: "Rede default / divagar", termos: ["default", "divag", "mente", "pensament"] },
+      { id: "rumina", rotulo: "Ruminação / preocupação", termos: ["rumin", "preocup", "passado", "futur"] },
+      { id: "presente", rotulo: "Voltar ao presente", termos: ["present", "agora", "foco", "atual"] },
+      { id: "anotar", rotulo: "Anotar / inbox", termos: ["anot", "inbox", "escrev", "tirar"] },
+    ],
+    perguntaExplicar: "O que é a rede default e como ela atrapalha o foco?",
+    vocab: { en: "default mode network", pt: "rede default" },
+    dicaApp: "Jogue a preocupação na Inbox de Hoje — volte depois.",
+  },
+  {
+    id: "efeito-teste",
+    titulo: "Efeito teste (active recall)",
+    tempo: "3 min",
+    emoji: "✍️",
+    fase: "D",
+    texto: `Testar a memória — explicar, responder perguntas, fazer flashcards — fixa mais do que reler passivamente. O cérebro fortalece o que consegue recuperar.
+
+Por isso o fluxo Neuro pede que você explique com suas palavras: isso é recuperação ativa, não só leitura.`,
+    pontosChave: [
+      "Recuperar > reler passivamente",
+      "Explicar = teste de memória",
+      "Erro na recuperação ajuda a aprender",
+      "Flashcards e perguntas funcionam",
+    ],
+    gabarito: [
+      { id: "teste", rotulo: "Efeito teste / testar", termos: ["teste", "test", "recuper", "active recall"] },
+      { id: "passivo", rotulo: "Reler passivo (pior)", termos: ["passiv", "reler", "só ler", "highlight"] },
+      { id: "explicar", rotulo: "Explicar / Feynman", termos: ["explic", "feynman", "palavra"] },
+      { id: "flash", rotulo: "Flashcards / perguntas", termos: ["flash", "pergunt", "quiz"] },
+    ],
+    perguntaExplicar: "Por que explicar o módulo ajuda mais do que só ler de novo?",
+    vocab: { en: "testing effect", pt: "efeito teste" },
+    dicaApp: "Feche o texto e explique de memória antes de pedir feedback.",
+  },
+  {
+    id: "intercalado",
+    titulo: "Estudo intercalado",
+    tempo: "3 min",
+    emoji: "🔀",
+    fase: "D",
+    texto: `Alternar tipos de conteúdo (ex.: vocabulário → neuro → prática) numa sessão curta pode parecer mais difícil, mas fixa melhor a longo prazo do que bloques longos do mesmo tema.
+
+Para TDAH, sessões de 10–15 min com variedade mantêm a dopamina e reduzem tédio.`,
+    pontosChave: [
+      "Alternar temas > maratonar um só",
+      "Parece mais difícil, aprende melhor",
+      "Sessões curtas com variedade",
+      "Combina com pausas ativas",
+    ],
+    gabarito: [
+      { id: "inter", rotulo: "Intercalado / alternar", termos: ["intercal", "altern", "mistur", "vari"] },
+      { id: "bloque", rotulo: "Bloque longo (pior)", termos: ["bloque", "maraton", "só um", "mesmo tema"] },
+      { id: "curto", rotulo: "Sessão curta 10–15 min", termos: ["curt", "10", "15", "minut"] },
+      { id: "dopamina", rotulo: "Variedade / dopamina", termos: ["dopamin", "tédio", "nov"] },
+    ],
+    perguntaExplicar: "O que é estudo intercalado e por que ajuda?",
+    vocab: { en: "interleaving", pt: "intercalado" },
+    dicaApp: "Na aba Estudo, faça Neuro → Vocabulário → Prática na mesma sessão.",
+  },
+  {
+    id: "estresse-memoria",
+    titulo: "Estresse e memória",
+    tempo: "3 min",
+    emoji: "😰",
+    fase: "D",
+    texto: `Estresse agudo (prova amanhã) pode até focar por urgência; estresse crônico (semanas de pressão) libera cortisol em excesso e atrapalha hipocampo e sono.
+
+Proteger rotina de sono, pausas e metas pequenas reduz o “modo ameaça” e libera espaço para aprender.`,
+    pontosChave: [
+      "Estresse crônico prejudica memória",
+      "Cortisol alto afeta hipocampo",
+      "Metas pequenas reduzem pressão",
+      "Sono e pausa são proteção",
+    ],
+    gabarito: [
+      { id: "cortisol", rotulo: "Cortisol / estresse", termos: ["cortisol", "estress", "press"] },
+      { id: "cronico", rotulo: "Crônico vs agudo", termos: ["crôn", "cronic", "semana", "agud"] },
+      { id: "hipocampo", rotulo: "Hipocampo / memória", termos: ["hipocamp", "memór"] },
+      { id: "protecao", rotulo: "Sono / pausas / metas pequenas", termos: ["sono", "pausa", "pequen", "metas"] },
+    ],
+    perguntaExplicar: "Como estresse demais atrapalha o que você estuda?",
+    vocab: { en: "chronic stress", pt: "estresse crônico" },
+    dicaApp: "No Diário, anote o que gerou pressão — tira peso da cabeça.",
+  },
+  {
+    id: "atencao-plena-curta",
+    titulo: "Atenção plena em 2 min",
+    tempo: "2 min",
+    emoji: "🌬️",
+    fase: "D",
+    texto: `Mindfulness curto não é “parar pensamentos” — é notar que a mente saiu e gentilmente voltar (respiração, sensação dos pés, som).
+
+Dois minutos antes de estudar reduzem o ruído inicial e preparam o córtex pré-frontal.`,
+    pontosChave: [
+      "Notar distração sem culpa",
+      "Voltar ao respirar ou corpo",
+      "2 minutos já ajudam",
+      "Prepara foco antes do estudo",
+    ],
+    gabarito: [
+      { id: "plena", rotulo: "Atenção plena / mindfulness", termos: ["plena", "mindful", "present"] },
+      { id: "nao-parar", rotulo: "Não é parar pensamentos", termos: ["parar", "pensament", "culpa", "notar"] },
+      { id: "respir", rotulo: "Respiração / corpo", termos: ["respir", "corpo", "pés", "som"] },
+      { id: "antes", rotulo: "Antes de estudar", termos: ["antes", "prepar", "estud", "início"] },
+    ],
+    perguntaExplicar: "O que é uma pausa de atenção plena de 2 minutos?",
+    vocab: { en: "mindfulness", pt: "atenção plena" },
+    dicaApp: "Timer de 2 min em Hoje antes de abrir Estudo.",
+  },
 ];
 
 export function moduloNeuroPorId(id) {

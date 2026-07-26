@@ -31,8 +31,39 @@ function aplicarCors(res, origin) {
   res.setHeader("Access-Control-Max-Age", "86400");
 }
 
-function montarPrompt({ titulo, textoModulo, pontosChave, explicacao }) {
+function montarPrompt({ titulo, textoModulo, pontosChave, explicacao, locale = "pt" }) {
   const pontos = (pontosChave || []).map((p) => `- ${p}`).join("\n");
+  if (locale === "en") {
+    return `You are a neuroscience tutor for a 16-year-old student (Erica) with ADHD.
+She learns best by EXPLAINING in her own words (Feynman technique).
+
+Module: "${titulo}"
+Reference text:
+${textoModulo || ""}
+
+Key points she should cover:
+${pontos}
+
+Her explanation:
+"""
+${explicacao}
+"""
+
+Evaluate with empathy. Respond ONLY valid JSON, no markdown:
+{
+  "ok": true,
+  "pct": 75,
+  "feedback": "2-4 sentences in English, encouraging tone",
+  "acertos": ["what she got right"],
+  "faltou": ["missing concepts"],
+  "perguntaSeguinte": "one short follow-up question"
+}
+
+Rules:
+- ok=true if pct >= 55
+- Be specific; celebrate effort
+- Max 4 items in acertos and faltou`;
+  }
   return `Você é uma tutora de neurociência para uma estudante de 16 anos (Erica), com TDAH.
 Ela aprende melhor EXPLICANDO com as próprias palavras (técnica Feynman).
 
@@ -246,6 +277,7 @@ module.exports = async (req, res) => {
       textoModulo: String(corpo.textoModulo || "").slice(0, 3000),
       pontosChave: Array.isArray(corpo.pontosChave) ? corpo.pontosChave.slice(0, 12) : [],
       explicacao,
+      locale: corpo.locale === "en" ? "en" : "pt",
     });
 
     const { raw, provedor } = await chamarIA(prompt);
@@ -253,7 +285,7 @@ module.exports = async (req, res) => {
   } catch (erro) {
     console.error("neuro-feedback:", erro);
     return res.status(503).json({
-      erro: "IA temporariamente indisponível. O app usa correção local automaticamente.",
+      erro: "IA temporariamente indisponível. Tente de novo em instantes.",
       codigo: "ia_indisponivel",
     });
   }

@@ -60,7 +60,8 @@ import {
   modulosExplicadosNoDia,
   salvarExplicacao,
 } from "./neuro-explicar.js";
-import { iaNeuroDisponivel, pedirFeedbackIaNeuro } from "./neuro-ia.js";
+import { iaNeuroDisponivel, pedirFeedbackIaNeuro, sondarIaNeuro } from "./neuro-ia.js";
+import { t } from "./i18n.js";
 import {
   dictadoExplicacaoNeuro,
   falarPortugues,
@@ -519,7 +520,11 @@ function renderNeuro(dados, chaveDia) {
 
   const chips = MODULOS_NEURO.map((m) => {
     const feito = Boolean(explicacaoSalva(m.id, chaveDia));
-    return `<button type="button" class="neuro-mod-chip ${m.id === mod.id ? "ativo" : ""} ${feito ? "feito" : ""}" data-neuro-modulo="${m.id}">${m.emoji} ${esc(m.titulo)}${feito ? " ✓" : ""}</button>`;
+    const fase =
+      m.fase === "D"
+        ? ` <span class="neuro-mod-fase" title="${esc(t("neuro.fase"))}">${esc(m.fase)}</span>`
+        : "";
+    return `<button type="button" class="neuro-mod-chip ${m.id === mod.id ? "ativo" : ""} ${feito ? "feito" : ""}" data-neuro-modulo="${m.id}">${m.emoji} ${esc(m.titulo)}${fase}${feito ? " ✓" : ""}</button>`;
   }).join("");
 
   const pontos = mod.pontosChave
@@ -530,30 +535,30 @@ function renderNeuro(dados, chaveDia) {
   if (dados.neuroIaCarregando) {
     feedbackHtml = `
       <div class="neuro-feedback neuro-feedback-ia-carregando" role="status">
-        <p class="neuro-fb-msg">✨ A IA está lendo sua explicação…</p>
+        <p class="neuro-fb-msg">${esc(t("neuro.ia.carregando"))}</p>
       </div>`;
   } else if (fb) {
     const cls = fb.ok ? "ok" : fb.curto ? "aviso" : "parcial";
     const fonteIa = fb.fonte === "ia";
     const acertos =
       fb.acertos?.length > 0
-        ? `<p class="neuro-fb-lista"><strong>Você mencionou:</strong> ${fb.acertos.map(esc).join(" · ")}</p>`
+        ? `<p class="neuro-fb-lista"><strong>${esc(t("neuro.fb.acertos"))}</strong> ${fb.acertos.map(esc).join(" · ")}</p>`
         : "";
     const faltou =
       fb.faltou?.length > 0
-        ? `<p class="neuro-fb-lista neuro-fb-faltou"><strong>Ainda vale incluir:</strong> ${fb.faltou.map(esc).join(" · ")}</p>`
+        ? `<p class="neuro-fb-lista neuro-fb-faltou"><strong>${esc(t("neuro.fb.faltou"))}</strong> ${fb.faltou.map(esc).join(" · ")}</p>`
         : "";
     const pergunta = fb.perguntaSeguinte
-      ? `<p class="neuro-fb-pergunta"><strong>Pra pensar:</strong> ${esc(fb.perguntaSeguinte)}</p>`
+      ? `<p class="neuro-fb-pergunta"><strong>${esc(t("neuro.fb.pergunta"))}</strong> ${esc(fb.perguntaSeguinte)}</p>`
       : "";
     const acoesFb = `
       <div class="neuro-fb-acoes">
-        <button type="button" class="botao-secundario" data-neuro-ouvir-feedback="1">🔊 Ouvir feedback</button>
-        ${fb.perguntaSeguinte && suportaVozNeuro() ? `<button type="button" class="botao-secundario" data-neuro-responder-pergunta="1">🎤 Responder pergunta</button>` : ""}
+        <button type="button" class="botao-secundario" data-neuro-ouvir-feedback="1">${esc(t("neuro.fb.ouvir"))}</button>
+        ${fb.perguntaSeguinte && suportaVozNeuro() ? `<button type="button" class="botao-secundario" data-neuro-responder-pergunta="1">${esc(t("neuro.fb.responder"))}</button>` : ""}
       </div>`;
     feedbackHtml = `
       <div class="neuro-feedback ${cls} ${fonteIa ? "neuro-feedback-ia" : ""}" role="status">
-        ${fonteIa ? `<p class="neuro-fb-fonte">Correção com IA ✨</p>` : `<p class="neuro-fb-pct">${fb.pct ?? 0}% do essencial</p>`}
+        ${fonteIa ? `<p class="neuro-fb-fonte">${esc(t("neuro.fb.fonte"))}</p>` : `<p class="neuro-fb-pct">${esc(t("neuro.fb.pct", { pct: fb.pct ?? 0 }))}</p>`}
         <p class="neuro-fb-msg">${esc(fb.feedback)}</p>
         ${acertos}
         ${faltou}
@@ -564,10 +569,10 @@ function renderNeuro(dados, chaveDia) {
 
   const micBtns = suportaVozNeuro()
     ? `<div class="neuro-voz-botoes">
-        <button type="button" class="botao-primario neuro-voz-destaque" data-neuro-voz-completa="1">🎤 Explicar só com voz</button>
-        <button type="button" class="botao-secundario" data-neuro-dictado="1">🎤 Acrescentar por voz</button>
+        <button type="button" class="botao-primario neuro-voz-destaque" data-neuro-voz-completa="1">${esc(t("neuro.voz.completa"))}</button>
+        <button type="button" class="botao-secundario" data-neuro-dictado="1">${esc(t("neuro.voz.dictado"))}</button>
       </div>`
-    : `<p class="neuro-voz-indisponivel">Microfone indisponível — escreva abaixo.</p>`;
+    : `<p class="neuro-voz-indisponivel">${esc(t("neuro.voz.indisponivel"))}</p>`;
 
   const dictadoStatus =
     dados.neuroDictadoStatus
@@ -576,16 +581,22 @@ function renderNeuro(dados, chaveDia) {
 
   const prox = proximoModuloNeuro(mod.id);
 
+  const trilhaApoio = t("neuro.trilha.apoio", {
+    total: MODULOS_NEURO.length,
+    hoje: explicadosHoje,
+    ia: iaNeuroDisponivel() ? t("neuro.trilha.ia") : "",
+  });
+
   return `
     <section class="estudo-bloco neuro-painel" data-neuro-painel="1">
-      <h2 class="bloco-titulo">Neuro — aprender explicando</h2>
-      <p class="bloco-apoio">Trilha com ${MODULOS_NEURO.length} módulos · leia → explique (voz ou texto) → feedback${iaNeuroDisponivel() ? " com IA" : ""}. Hoje: ${explicadosHoje}/${MODULOS_NEURO.length}.</p>
+      <h2 class="bloco-titulo">${esc(t("neuro.titulo"))}</h2>
+      <p class="bloco-apoio">${esc(trilhaApoio)}</p>
       <div class="neuro-modulos-nav" role="tablist" aria-label="Módulos de neurociência">${chips}</div>
       <article class="neuro-modulo-card">
         <header class="neuro-modulo-cab">
           <span class="neuro-modulo-emoji">${mod.emoji}</span>
           <div>
-            <h3 class="neuro-modulo-titulo">${esc(mod.titulo)}</h3>
+            <h3 class="neuro-modulo-titulo">${esc(mod.titulo)}${mod.fase === "D" ? ` <span class="neuro-modulo-fase">${esc(t("neuro.fase"))}</span>` : ""}</h3>
             <p class="neuro-modulo-meta">${esc(mod.tempo)} · ${esc(mod.vocab.pt)} <span class="neuro-vocab-en">(${esc(mod.vocab.en)})</span></p>
           </div>
         </header>
@@ -594,13 +605,13 @@ function renderNeuro(dados, chaveDia) {
           .map((p) => `<p>${esc(p)}</p>`)
           .join("")}</div>
         <details class="neuro-pontos">
-          <summary>Pontos-chave</summary>
+          <summary>${esc(t("neuro.pontos"))}</summary>
           <ul>${pontos}</ul>
         </details>
       </article>
       <div class="neuro-explicar">
         <label class="estudo-form-rotulo" for="neuro-explicacao">${esc(mod.perguntaExplicar)}</label>
-        <p class="neuro-explicar-dica">Como se estivesse ensinando uma amiga — voz ou texto.</p>
+        <p class="neuro-explicar-dica">${esc(t("neuro.explicar.dica"))}</p>
         ${micBtns}
         <textarea
           id="neuro-explicacao"
@@ -608,15 +619,15 @@ function renderNeuro(dados, chaveDia) {
           data-neuro-explicacao
           rows="5"
           maxlength="2500"
-          placeholder="Escreva ou use o microfone acima..."
+          placeholder="${esc(t("neuro.placeholder"))}"
         >${esc(rascunho)}</textarea>
         ${dictadoStatus}
         <div class="neuro-explicar-botoes">
           <button type="button" class="botao-primario" data-neuro-verificar="1" ${dados.neuroIaCarregando ? "disabled" : ""}>
-            ${iaNeuroDisponivel() ? "Verificar com IA ✨" : "Verificar minha explicação"}
+            ${esc(t("neuro.verificar.ia"))}
           </button>
-          <button type="button" class="botao-secundario" data-estudo-timer="10">Timer 10 min</button>
-          ${prox ? `<button type="button" class="botao-texto" data-neuro-proximo="${prox.id}">Próximo: ${esc(prox.titulo)} →</button>` : ""}
+          <button type="button" class="botao-secundario" data-estudo-timer="10">${esc(t("neuro.timer"))}</button>
+          ${prox ? `<button type="button" class="botao-texto" data-neuro-proximo="${prox.id}">${esc(t("neuro.proximo", { titulo: prox.titulo }))}</button>` : ""}
         </div>
         ${feedbackHtml}
         <p class="neuro-dica-app">💡 ${esc(mod.dicaApp)}</p>
@@ -1109,10 +1120,16 @@ async function processarVerificacaoNeuro(root, chaveDia, getState, setState, mos
     return;
   }
 
-  if (!iaNeuroDisponivel()) {
-    const avaliacao = avaliarExplicacao(texto, mod);
-    salvarExplicacao(mod.id, chave, texto, avaliacao);
-    finalizarVerificacaoNeuro(getState, setState, texto, avaliacao, chave, mostrarFeedback, onAtualizarHoje);
+  const iaAtiva = iaNeuroDisponivel() || (await sondarIaNeuro());
+  if (!iaAtiva) {
+    setState({
+      ...dados,
+      neuroRascunho: texto,
+      neuroFeedback: null,
+      neuroIaCarregando: false,
+      neuroDictadoStatus: null,
+    });
+    mostrarFeedback?.("IA indisponível — configure GROQ no Vercel.", "aviso");
     return;
   }
 
@@ -1125,16 +1142,21 @@ async function processarVerificacaoNeuro(root, chaveDia, getState, setState, mos
 
   const resultado = await pedirFeedbackIaNeuro(mod, texto);
 
-  let avaliacao;
   if (resultado.ok && resultado.avaliacao) {
-    avaliacao = resultado.avaliacao;
-  } else {
-    avaliacao = avaliarExplicacao(texto, mod);
-    avaliacao.feedback = `${resultado.erro || "IA indisponível."} ${avaliacao.feedback}`;
+    const avaliacao = { ...resultado.avaliacao, fonte: "ia" };
+    salvarExplicacao(mod.id, chave, texto, avaliacao);
+    finalizarVerificacaoNeuro(getState, setState, texto, avaliacao, chave, mostrarFeedback, onAtualizarHoje);
+    return;
   }
 
-  salvarExplicacao(mod.id, chave, texto, avaliacao);
-  finalizarVerificacaoNeuro(getState, setState, texto, avaliacao, chave, mostrarFeedback, onAtualizarHoje);
+  setState({
+    ...getState(),
+    neuroRascunho: texto,
+    neuroFeedback: null,
+    neuroIaCarregando: false,
+    neuroDictadoStatus: null,
+  });
+  mostrarFeedback?.(resultado.erro || "IA indisponível. Tente de novo.", "aviso");
 }
 
 function finalizarVerificacaoNeuro(getState, setState, texto, avaliacao, chave, mostrarFeedback, onAtualizarHoje) {
