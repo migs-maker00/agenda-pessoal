@@ -2,7 +2,7 @@
 
 const ORIGENS_PADRAO = [
   "https://migs-maker00.github.io",
-  "https://agenda-pessoal.vercel.app",
+  "https://projeto-1-criar.vercel.app",
   "http://localhost:3000",
   "http://127.0.0.1:3000",
   "http://localhost:5173",

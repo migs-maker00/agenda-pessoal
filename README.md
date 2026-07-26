@@ -2,7 +2,7 @@
 
 Agenda pessoal no navegador — compromissos do dia, anotações e visão da semana. Os dados ficam no `localStorage` do aparelho.
 
-**Online:** https://agenda-pessoal.vercel.app · [GitHub Pages](https://migs-maker00.github.io/agenda-pessoal/)
+**Online:** https://projeto-1-criar.vercel.app · [GitHub Pages](https://migs-maker00.github.io/agenda-pessoal/)
 
 ## Funcionalidades
 
