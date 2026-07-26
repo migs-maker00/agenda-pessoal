@@ -1,18 +1,19 @@
 /** Cliente — sugestões contextuais via API Vercel (Groq). */
 
-import { CONTEXTO_IA_API_URL, hostAtual } from "../config.js";
+import {
+  CONTEXTO_IA_API_URL,
+  iaVercelConfigurada,
+  sondarIaVercel,
+  urlApiVercel,
+} from "../config.js";
 import { faixaDoDia } from "./contexto-tempo.js";
 
 export function urlApiContexto() {
-  const base = String(CONTEXTO_IA_API_URL || "").trim();
-  if (!base) return "";
-  if (base.startsWith("http")) return base;
-  if (typeof location !== "undefined") return new URL(base, location.origin).href;
-  return base;
+  return urlApiVercel(CONTEXTO_IA_API_URL);
 }
 
 export function contextoIaDisponivel() {
-  return hostAtual() === "vercel" && Boolean(urlApiContexto());
+  return iaVercelConfigurada();
 }
 
 const DIAS = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"];
@@ -63,8 +64,9 @@ export function aplicarSugestaoIa(opcoesBase, resposta) {
 
 export async function pedirOpcoesContexto(payload) {
   const url = urlApiContexto();
-  if (!contextoIaDisponivel() || !url) {
-    return { ok: false, erro: "IA contextual só no app Vercel." };
+  const iaAtiva = iaVercelConfigurada() || (await sondarIaVercel());
+  if (!iaAtiva || !url) {
+    return { ok: false, erro: "IA indisponível — configure GROQ no Vercel." };
   }
 
   try {

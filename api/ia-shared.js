@@ -6,6 +6,7 @@ const ORIGENS_PADRAO = [
   "http://localhost:3000",
   "http://127.0.0.1:3000",
   "http://localhost:5173",
+  "http://127.0.0.1:5173",
 ];
 
 const MODELOS_GEMINI = ["gemini-2.0-flash-lite", "gemini-1.5-flash", "gemini-2.0-flash"];
