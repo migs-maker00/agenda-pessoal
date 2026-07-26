@@ -2,10 +2,10 @@
 export const APP_VERSION = "2.21.0";
 
 /** URL principal no Vercel (GitHub Pages continua como espelho). */
-export const APP_URL_VERCEL = "https://projeto-1-criar.vercel.app";
+export const APP_URL_VERCEL = "https://agenda-pessoal.vercel.app";
 
 export const APP_URL_GITHUB =
-  "https://migs-maker00.github.io/projeto-1-criar/";
+  "https://migs-maker00.github.io/agenda-pessoal/";
 
 /**
  * API Neuro — caminho relativo (mesma origem no Vercel).
