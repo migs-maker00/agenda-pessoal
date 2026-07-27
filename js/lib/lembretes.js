@@ -1,3 +1,5 @@
+import { t } from "./i18n.js";
+
 // Lembretes nativos — verificação a cada minuto enquanto o app está aberto
 
 const CHAVE_ATIVO = "lembretes-nativos";
@@ -13,21 +15,21 @@ export function definirLembretes(ativo) {
 
 export async function pedirPermissaoLembretes() {
   if (!("Notification" in window)) {
-    return { ok: false, mensagem: "Este navegador não suporta notificações." };
+    return { ok: false, mensagem: t("lembretes.perm.indisponivel") };
   }
   if (Notification.permission === "granted") {
     definirLembretes(true);
-    return { ok: true, mensagem: "Lembretes ativados." };
+    return { ok: true, mensagem: t("lembretes.perm.ativado") };
   }
   if (Notification.permission === "denied") {
-    return { ok: false, mensagem: "Permissão negada. Ative nas configurações do navegador." };
+    return { ok: false, mensagem: t("lembretes.perm.negado") };
   }
   const resultado = await Notification.requestPermission();
   if (resultado === "granted") {
     definirLembretes(true);
-    return { ok: true, mensagem: "Lembretes ativados." };
+    return { ok: true, mensagem: t("lembretes.perm.ativado") };
   }
-  return { ok: false, mensagem: "Permissão não concedida." };
+  return { ok: false, mensagem: t("lembretes.perm.nao_concedida") };
 }
 
 function carregarEnviados(chave) {

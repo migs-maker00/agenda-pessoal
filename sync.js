@@ -7,9 +7,18 @@
   let timerSync = null;
   let db = null;
   let pronto = false;
+  let ultimaChaveStatus = "sync.carregando";
+  let ultimaVarsStatus = {};
 
   function $(id) {
     return document.getElementById(id);
+  }
+
+  function traduzir(chave, vars = {}) {
+    if (typeof window.traduzir === "function") {
+      return window.traduzir(chave, vars);
+    }
+    return chave;
   }
 
   function gerarCodigo() {
@@ -28,7 +37,11 @@
       .slice(0, 12);
   }
 
-  function atualizarUI(mensagem) {
+  function atualizarUI(chave, vars = {}) {
+    if (chave) {
+      ultimaChaveStatus = chave;
+      ultimaVarsStatus = vars;
+    }
     const status = $("sync-status");
     const codigoEl = $("sync-codigo-atual");
     const painelConectado = $("sync-conectado");
@@ -38,7 +51,7 @@
     if (!status) return;
 
     if (!window.firebaseConfigurado || !window.firebaseConfigurado()) {
-      status.textContent = "Firebase ainda não configurado.";
+      status.textContent = traduzir("sync.status.firebase");
       if (avisoConfig) avisoConfig.hidden = false;
       if (painelConectado) painelConectado.hidden = true;
       if (painelDesconectado) painelDesconectado.hidden = true;
@@ -51,14 +64,21 @@
       if (painelConectado) painelConectado.hidden = false;
       if (painelDesconectado) painelDesconectado.hidden = true;
       if (codigoEl) codigoEl.textContent = syncId;
-      status.textContent = mensagem || "Sincronização ativa neste aparelho.";
+      const chave =
+        ultimaChaveStatus === "sync.carregando" || ultimaChaveStatus === "sync.status.sem"
+          ? "sync.status.ativo"
+          : ultimaChaveStatus;
+      status.textContent = traduzir(chave, ultimaVarsStatus);
     } else {
       if (painelConectado) painelConectado.hidden = true;
       if (painelDesconectado) painelDesconectado.hidden = false;
-      status.textContent =
-        mensagem || "Sem sincronização. Crie um código ou entre com um existente.";
+      status.textContent = traduzir(ultimaChaveStatus, ultimaVarsStatus);
     }
   }
+
+  window.atualizarSyncIdioma = function () {
+    atualizarUI();
+  };
 
   function lerEstado() {
     if (typeof window.getEstadoHabitos === "function") {
@@ -84,10 +104,10 @@
     try {
       marcarEscritaLocal();
       await db.collection("sync").doc(syncId).set(payloadAtual(), { merge: true });
-      atualizarUI("Sincronizado agora.");
+      atualizarUI("sync.status.sincronizado");
     } catch (erro) {
       console.error(erro);
-      atualizarUI("Falha ao enviar para a nuvem. Tente de novo.");
+      atualizarUI("sync.status.falha_envio");
     }
   }
 
@@ -133,11 +153,11 @@
       (snap) => {
         if (!snap.exists) return;
         aplicarDadosRemotos(snap.data());
-        atualizarUI("Atualizado da nuvem.");
+        atualizarUI("sync.status.atualizado_nuvem");
       },
       (erro) => {
         console.error(erro);
-        atualizarUI("Erro ao ouvir a nuvem.");
+        atualizarUI("sync.status.erro_ouvir");
       }
     );
   }
@@ -145,7 +165,7 @@
   async function conectar(codigo, { criar }) {
     const id = normalizarCodigo(codigo);
     if (id.length < 6) {
-      atualizarUI("Código inválido. Use pelo menos 6 caracteres.");
+      atualizarUI("sync.status.codigo_invalido");
       return;
     }
 
@@ -154,7 +174,7 @@
 
     if (!snap.exists) {
       if (!criar) {
-        atualizarUI("Código não encontrado. Confira ou crie uma sincronização nova.");
+        atualizarUI("sync.status.codigo_nao_encontrado");
         return;
       }
       await ref.set(payloadAtual());
@@ -166,11 +186,7 @@
     localStorage.setItem(CHAVE_SYNC, syncId);
     escutarSync(syncId);
     await enviarParaNuvem();
-    atualizarUI(
-      criar
-        ? "Sincronização criada. Use este código no outro aparelho."
-        : "Conectado. Dados sincronizados."
-    );
+    atualizarUI(criar ? "sync.status.criado" : "sync.status.conectado");
     window.dispatchEvent(new CustomEvent("habitos-sync-conectado"));
   }
 
@@ -190,16 +206,16 @@
     }
     syncId = "";
     localStorage.removeItem(CHAVE_SYNC);
-    atualizarUI("Sincronização desligada neste aparelho. Os dados locais continuam aqui.");
+    atualizarUI("sync.status.desconectado");
   }
 
   async function copiarCodigo() {
     if (!syncId) return;
     try {
       await navigator.clipboard.writeText(syncId);
-      atualizarUI("Código copiado. Cole no outro aparelho.");
+      atualizarUI("sync.status.copiado");
     } catch (erro) {
-      atualizarUI("Não deu para copiar. Anote o código: " + syncId);
+      atualizarUI("sync.status.copia_falha", { codigo: syncId });
     }
   }
 
@@ -209,18 +225,21 @@
   };
 
   window.initHabitosSync = async function initHabitosSync() {
-    atualizarUI();
+    if (initHabitosSync._feito) return;
+    initHabitosSync._feito = true;
+
+    atualizarUI("sync.carregando");
 
     $("botao-sync-criar")?.addEventListener("click", () => {
       criarSync().catch((e) => {
         console.error(e);
-        atualizarUI("Erro ao criar sincronização.");
+        atualizarUI("sync.status.erro_criar");
       });
     });
     $("botao-sync-entrar")?.addEventListener("click", () => {
       entrarComCodigo().catch((e) => {
         console.error(e);
-        atualizarUI("Erro ao conectar.");
+        atualizarUI("sync.status.erro_conectar");
       });
     });
     $("botao-sync-desconectar")?.addEventListener("click", desconectar);
@@ -230,7 +249,7 @@
 
     if (!window.firebaseConfigurado || !window.firebaseConfigurado()) return;
     if (typeof firebase === "undefined") {
-      atualizarUI("Biblioteca Firebase não carregou.");
+      atualizarUI("sync.status.firebase_lib");
       return;
     }
 
@@ -242,13 +261,11 @@
       if (syncId) {
         await conectar(syncId, { criar: true });
       } else {
-        atualizarUI();
+        atualizarUI("sync.status.sem");
       }
     } catch (erro) {
       console.error(erro);
-      atualizarUI("Não foi possível iniciar o Firebase. Confira a configuração.");
+      atualizarUI("sync.status.firebase_init");
     }
   };
-
-  window.initHabitosSync();
 })();
