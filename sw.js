@@ -1,24 +1,88 @@
-/* Service worker — lembretes agendados + cache do app (PWA) */
+/* Service worker — lembretes agendados + cache offline (PWA) */
 
-const CACHE = "agenda-v2.23.2";
+const CACHE = "agenda-v2.23.3";
+const APP_VERSION = "2.23.3";
+
 const alarmes = new Map();
 
-const ARQUIVOS_CACHE = [
-  "./manifest.webmanifest",
-  "./icon-192.png",
-  "./favicon-32.png",
-  "./favicon-16.png",
-  "./apple-touch-icon.png",
+const LIBS = [
+  "agenda-notif",
+  "aprender",
+  "avisos-agenda",
+  "cheguei",
+  "contexto-ia",
+  "contexto-tempo",
+  "diario-historico",
+  "estudo-fala",
+  "estudo-hub",
+  "estudo-links-sugeridos",
+  "estudo-parceiro",
+  "estudo-ui",
+  "filosofia",
+  "foco",
+  "guia-app",
+  "habitos",
+  "i18n",
+  "ia-servicos",
+  "inteligencia",
+  "lembretes",
+  "livros-dados",
+  "livros-extras",
+  "livros-pratica",
+  "livros-temas",
+  "livros-trechos",
+  "migracao-host",
+  "modo-barulho",
+  "neuro-explicar",
+  "neuro-ia",
+  "neuro-modulos",
+  "neuro-voz",
+  "padroes",
+  "perfil",
+  "preparar-amanha",
+  "rotina-inteligente",
+  "rotina-local",
+  "rotina-preset",
+  "streak-gentil",
+  "tarde",
+  "tdah",
+  "traducoes",
+  "transicao-coach",
+  "voz-contexto",
+  "voz-sintese",
 ];
 
-function ehArquivoDoApp(url) {
-  const caminho = url.pathname;
-  if (caminho.endsWith("/") || caminho.endsWith("/index.html")) return true;
-  if (caminho.includes("/js/")) return true;
-  if (caminho.endsWith("/style.css")) return true;
-  if (caminho.endsWith("/sync.js")) return true;
-  if (caminho.endsWith("/firebase-config.js")) return true;
-  return false;
+function urlsPrecache() {
+  const raiz = [
+    "./",
+    "./index.html",
+    `./style.css?v=${APP_VERSION}`,
+    "./sync.js?v=6",
+    "./firebase-config.js",
+    "./manifest.webmanifest",
+    "./icon-192.png",
+    "./icon-512.png",
+    "./favicon-32.png",
+    "./favicon-16.png",
+    "./apple-touch-icon.png",
+    `./js/main.js?v=${APP_VERSION}`,
+    `./js/config.js?v=${APP_VERSION}`,
+    `./js/app.js?v=${APP_VERSION}`,
+  ];
+
+  const libs = [];
+  for (const nome of LIBS) {
+    const caminho = `./js/lib/${nome}.js`;
+    libs.push(`${caminho}?v=${APP_VERSION}`, `${caminho}?v=2.11.0`, caminho);
+  }
+
+  return [...raiz, ...libs];
+}
+
+async function matchCache(request) {
+  const exato = await caches.match(request);
+  if (exato) return exato;
+  return caches.match(request, { ignoreSearch: true });
 }
 
 async function networkFirst(request) {
@@ -30,14 +94,14 @@ async function networkFirst(request) {
     }
     return response;
   } catch {
-    const cached = await caches.match(request);
+    const cached = await matchCache(request);
     if (cached) return cached;
     throw new Error("offline");
   }
 }
 
 async function cacheFirst(request) {
-  const cached = await caches.match(request);
+  const cached = await matchCache(request);
   if (cached) return cached;
   const response = await fetch(request);
   if (response.ok) {
@@ -47,8 +111,50 @@ async function cacheFirst(request) {
   return response;
 }
 
+async function navegacaoOffline(request) {
+  try {
+    const response = await fetch(request);
+    if (response.ok) {
+      const cache = await caches.open(CACHE);
+      cache.put(request, response.clone());
+      cache.put("./index.html", response.clone());
+    }
+    return response;
+  } catch {
+    const cached =
+      (await matchCache(request)) ||
+      (await matchCache(new Request(new URL("./index.html", self.location.href).href)));
+    if (cached) return cached;
+    throw new Error("offline");
+  }
+}
+
+async function precacheInstalacao() {
+  const cache = await caches.open(CACHE);
+  const urls = urlsPrecache();
+  await Promise.allSettled(
+    urls.map(async (url) => {
+      try {
+        await cache.add(url);
+      } catch (erro) {
+        console.warn("[sw] precache:", url, erro);
+      }
+    })
+  );
+}
+
+function ehArquivoDoApp(url) {
+  const caminho = url.pathname;
+  if (caminho.endsWith("/") || caminho.endsWith("/index.html")) return true;
+  if (caminho.includes("/js/")) return true;
+  if (caminho.endsWith("/style.css")) return true;
+  if (caminho.endsWith("/sync.js")) return true;
+  if (caminho.endsWith("/firebase-config.js")) return true;
+  return false;
+}
+
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ARQUIVOS_CACHE)));
+  event.waitUntil(precacheInstalacao().then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", (event) => {
@@ -64,6 +170,11 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+
+  if (event.request.mode === "navigate") {
+    event.respondWith(navegacaoOffline(event.request));
+    return;
+  }
 
   if (ehArquivoDoApp(url)) {
     event.respondWith(networkFirst(event.request));
