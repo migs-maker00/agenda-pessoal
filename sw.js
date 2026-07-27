@@ -1,7 +1,7 @@
 /* Service worker — lembretes agendados + cache offline (PWA) */
 
-const CACHE = "agenda-v2.23.3";
-const APP_VERSION = "2.23.3";
+const CACHE = "agenda-v2.23.4";
+const APP_VERSION = "2.23.4";
 
 const alarmes = new Map();
 
@@ -52,6 +52,10 @@ const LIBS = [
   "voz-sintese",
 ];
 
+function urlAbs(caminho) {
+  return new URL(caminho, self.location.href).href;
+}
+
 function urlsPrecache() {
   const raiz = [
     "./",
@@ -76,7 +80,7 @@ function urlsPrecache() {
     libs.push(`${caminho}?v=${APP_VERSION}`, `${caminho}?v=2.11.0`, caminho);
   }
 
-  return [...raiz, ...libs];
+  return [...raiz, ...libs].map(urlAbs);
 }
 
 async function matchCache(request) {
@@ -85,24 +89,23 @@ async function matchCache(request) {
   return caches.match(request, { ignoreSearch: true });
 }
 
-async function networkFirst(request) {
-  try {
-    const response = await fetch(request);
-    if (response.ok) {
-      const cache = await caches.open(CACHE);
-      cache.put(request, response.clone());
-    }
-    return response;
-  } catch {
-    const cached = await matchCache(request);
-    if (cached) return cached;
-    throw new Error("offline");
-  }
+function atualizarCacheEmSegundoPlano(request) {
+  fetch(request)
+    .then((response) => {
+      if (!response.ok) return;
+      return caches.open(CACHE).then((cache) => cache.put(request, response));
+    })
+    .catch(() => {});
 }
 
-async function cacheFirst(request) {
+/** Cache-first — evita timeout do Safari offline ao esperar rede. */
+async function cacheFirstComAtualizacao(request) {
   const cached = await matchCache(request);
-  if (cached) return cached;
+  if (cached) {
+    atualizarCacheEmSegundoPlano(request);
+    return cached;
+  }
+
   const response = await fetch(request);
   if (response.ok) {
     const cache = await caches.open(CACHE);
@@ -112,21 +115,57 @@ async function cacheFirst(request) {
 }
 
 async function navegacaoOffline(request) {
+  const indexReq = new Request(urlAbs("./index.html"));
+  const cached = (await matchCache(request)) || (await matchCache(indexReq));
+
+  if (cached) {
+    atualizarCacheEmSegundoPlano(request);
+    return cached;
+  }
+
   try {
     const response = await fetch(request);
     if (response.ok) {
       const cache = await caches.open(CACHE);
       cache.put(request, response.clone());
-      cache.put("./index.html", response.clone());
+      cache.put(indexReq, response.clone());
     }
     return response;
   } catch {
-    const cached =
-      (await matchCache(request)) ||
-      (await matchCache(new Request(new URL("./index.html", self.location.href).href)));
-    if (cached) return cached;
-    throw new Error("offline");
+    return respostaOfflineMinima();
   }
+}
+
+function respostaOfflineMinima() {
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agenda — Offline</title>
+  <style>
+    body{font-family:system-ui,sans-serif;max-width:22rem;margin:3rem auto;padding:1.5rem;text-align:center;line-height:1.5;color:#2a2826;background:#e8dfd1}
+    h1{font-size:1.1rem;margin:0 0 .75rem;color:#1b365d}
+    p{margin:0 0 1rem;font-size:.95rem}
+  </style>
+</head>
+<body>
+  <h1>Agenda offline</h1>
+  <p>Abra com internet uma vez para preparar o cache, depois use o ícone na tela inicial.</p>
+  <p>Se já fez isso, reconecte, abra o app e tente de novo.</p>
+</body>
+</html>`;
+  return new Response(html, {
+    status: 200,
+    headers: { "Content-Type": "text/html; charset=utf-8" },
+  });
+}
+
+async function avisarPrecachePronto() {
+  const clientes = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+  clientes.forEach((cliente) => {
+    cliente.postMessage({ type: "PRECACHE_OK", version: APP_VERSION });
+  });
 }
 
 async function precacheInstalacao() {
@@ -141,6 +180,7 @@ async function precacheInstalacao() {
       }
     })
   );
+  await avisarPrecachePronto();
 }
 
 function ehArquivoDoApp(url) {
@@ -163,6 +203,7 @@ self.addEventListener("activate", (event) => {
       .keys()
       .then((chaves) => Promise.all(chaves.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
+      .then(() => avisarPrecachePronto())
   );
 });
 
@@ -177,11 +218,11 @@ self.addEventListener("fetch", (event) => {
   }
 
   if (ehArquivoDoApp(url)) {
-    event.respondWith(networkFirst(event.request));
+    event.respondWith(cacheFirstComAtualizacao(event.request));
     return;
   }
 
-  event.respondWith(cacheFirst(event.request));
+  event.respondWith(cacheFirstComAtualizacao(event.request));
 });
 
 function limparAlarmes() {
@@ -212,6 +253,10 @@ self.addEventListener("message", (event) => {
   if (!dados) return;
   if (dados.type === "SKIP_WAITING") {
     self.skipWaiting();
+    return;
+  }
+  if (dados.type === "PRECACHE_CHECK") {
+    event.waitUntil(avisarPrecachePronto());
     return;
   }
   if (dados.type !== "AGENDAR") return;
