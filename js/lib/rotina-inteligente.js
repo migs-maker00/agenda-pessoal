@@ -5,6 +5,7 @@ import {
   PLANO_B_APRENDER,
   PLANO_B_VOCABULARIO,
 } from "./aprender.js";
+import { t } from "./i18n.js";
 import { PERFIL_PADRAO, hhmmParaMinutos } from "./perfil.js";
 
 const HORARIOS_AGUA_FALLBACK = [
@@ -47,7 +48,26 @@ export function horariosAguaDoPerfil(perfil) {
   return [...new Set(slots)];
 }
 
-/** Prioridades do dia conforme o que a pessoa disse que importa */
+/** Nome traduzido do preset (preview e rotina gerada). */
+function nomePreset(presetId, fallback) {
+  const chave = `rotina.preset.${presetId}`;
+  const trad = t(chave);
+  return trad === chave ? fallback : trad;
+}
+
+function rotuloDias(h) {
+  if (h.diasAtivos?.length === 7 || !h.diasAtivos) return t("rotina.dias.todo");
+  if (
+    h.diasAtivos.length === 5 &&
+    h.diasAtivos.join() === "1,2,3,4,5"
+  ) {
+    return t("rotina.dias.segsex");
+  }
+  if (h.diasAtivos.length === 2 && h.diasAtivos.join() === "0,6") {
+    return t("rotina.dias.sabdom");
+  }
+  return t("rotina.dias.nxsem", { n: h.diasAtivos.length });
+}
 export function prioridadesPresetDoPerfil(perfil) {
   const texto = (perfil?.prioridadesVida || []).join(" ").toLowerCase();
   const ordem = [];
@@ -100,7 +120,7 @@ export function montarRotinaDoPerfil(perfil) {
   const habitos = [
     {
       presetId: "agua",
-      nome: "Beber água",
+      nome: nomePreset("agua", "Beber água"),
       categoria: "Saúde",
       metaSemanal: 7,
       horario: horariosAgua[0],
@@ -111,7 +131,7 @@ export function montarRotinaDoPerfil(perfil) {
     },
     {
       presetId: "organizar",
-      nome: "Organizar ao chegar (10 min)",
+      nome: nomePreset("organizar", "Organizar ao chegar (10 min)"),
       categoria: "Geral",
       metaSemanal: 5,
       horario: chegadaOrganizar,
@@ -128,7 +148,7 @@ export function montarRotinaDoPerfil(perfil) {
     },
     {
       presetId: "aprender",
-      nome: "Aprender 15 min",
+      nome: nomePreset("aprender", "Aprender 15 min"),
       categoria: "Estudo",
       metaSemanal: 5,
       horario: aprender,
@@ -141,7 +161,7 @@ export function montarRotinaDoPerfil(perfil) {
     },
     {
       presetId: "praticalivro",
-      nome: "Prática do livro (10 min)",
+      nome: nomePreset("praticalivro", "Prática do livro (10 min)"),
       categoria: "Estudo",
       metaSemanal: 5,
       horario: praticaLivro,
@@ -153,7 +173,7 @@ export function montarRotinaDoPerfil(perfil) {
     },
     {
       presetId: "vocabulario",
-      nome: "Vocabulário 5 min",
+      nome: nomePreset("vocabulario", "Vocabulário 5 min"),
       categoria: "Estudo",
       metaSemanal: 5,
       horario: vocabulario,
@@ -165,7 +185,7 @@ export function montarRotinaDoPerfil(perfil) {
     },
     {
       presetId: "academia",
-      nome: "Academia",
+      nome: nomePreset("academia", "Academia"),
       categoria: "Saúde",
       metaSemanal: 3,
       horario: academia,
@@ -177,7 +197,7 @@ export function montarRotinaDoPerfil(perfil) {
     },
     {
       presetId: "telas",
-      nome: "Desligar telas",
+      nome: nomePreset("telas", "Desligar telas"),
       categoria: "Saúde",
       metaSemanal: 7,
       horario: telas,
@@ -187,7 +207,7 @@ export function montarRotinaDoPerfil(perfil) {
     },
     {
       presetId: "sono",
-      nome: "Dormir no horário",
+      nome: nomePreset("sono", "Dormir no horário"),
       categoria: "Saúde",
       metaSemanal: 7,
       horario: sono,
@@ -197,7 +217,7 @@ export function montarRotinaDoPerfil(perfil) {
     },
     {
       presetId: "manha",
-      nome: "Planejar o dia (2 min)",
+      nome: nomePreset("manha", "Planejar o dia (2 min)"),
       categoria: "Geral",
       metaSemanal: 5,
       horario: manha,
@@ -212,7 +232,7 @@ export function montarRotinaDoPerfil(perfil) {
   if (p.trabalhoPraiaFimSemana) {
     habitos.push({
       presetId: "praia",
-      nome: "Preparar trabalho na praia",
+      nome: nomePreset("praia", "Preparar trabalho na praia"),
       categoria: "Trabalho",
       metaSemanal: 2,
       horario: "09:15",
@@ -233,13 +253,6 @@ export function previewRotinaDoPerfil(perfil) {
     presetId: h.presetId,
     nome: h.nome,
     horario: h.horario,
-    dias:
-      h.diasAtivos?.length === 7 || !h.diasAtivos
-        ? "todo dia"
-        : h.diasAtivos.length === 5 && h.diasAtivos.join() === "1,2,3,4,5"
-          ? "seg–sex"
-          : h.diasAtivos.length === 2 && h.diasAtivos.join() === "0,6"
-            ? "sáb–dom"
-            : `${h.diasAtivos.length}x/sem`,
+    dias: rotuloDias(h),
   }));
 }
