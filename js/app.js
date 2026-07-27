@@ -1,5 +1,5 @@
-import { APP_VERSION, hostAtual } from "./config.js?v=2.23.0";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.23.0";
+import { APP_VERSION, hostAtual } from "./config.js?v=2.23.1";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.23.1";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.23.0";
+} from "./lib/avisos-agenda.js?v=2.23.1";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.23.0";
+} from "./lib/habitos.js?v=2.23.1";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.23.0";
+} from "./lib/perfil.js?v=2.23.1";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,49 +54,49 @@ import {
   prioridadesRotina,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.23.0";
+} from "./lib/rotina-preset.js?v=2.23.1";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.23.0";
+} from "./lib/aprender.js?v=2.23.1";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.23.0";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.23.0";
+} from "./lib/estudo-hub.js?v=2.23.1";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.23.1";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.23.0";
+} from "./lib/estudo-ui.js?v=2.23.1";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.23.0";
+} from "./lib/cheguei.js?v=2.23.1";
 import {
   aplicarSugestaoIa,
   montarPayloadContextoIa,
   pedirOpcoesContexto,
-} from "./lib/contexto-ia.js?v=2.23.0";
-import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.23.0";
-import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.23.0";
+} from "./lib/contexto-ia.js?v=2.23.1";
+import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.23.1";
+import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.23.1";
 import {
   mensagemStreakGlobal,
   mensagemStreakHabito,
   rotuloStreakInsights,
-} from "./lib/streak-gentil.js?v=2.23.0";
-import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.23.0";
-import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.23.0";
-import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.23.0";
-import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.23.0";
-import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.23.0";
+} from "./lib/streak-gentil.js?v=2.23.1";
+import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.23.1";
+import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.23.1";
+import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.23.1";
+import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.23.1";
+import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.23.1";
 import {
   carregarSessaoParceiro,
   iniciarSessaoParceiro,
@@ -104,8 +104,8 @@ import {
   finalizarSessaoParceiro,
   limparSessaoParceiro,
   renderPainelParceiro,
-} from "./lib/estudo-parceiro.js?v=2.23.0";
-import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.23.0";
+} from "./lib/estudo-parceiro.js?v=2.23.1";
+import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.23.1";
 import {
   arquivarVersaoNota,
   carregarHistoricoCompleto,
@@ -115,13 +115,13 @@ import {
   mesclarNotasDoHistorico,
   restaurarVersaoHistorico,
   rotuloMotivoVersao,
-} from "./lib/diario-historico.js?v=2.23.0";
+} from "./lib/diario-historico.js?v=2.23.1";
 import {
   aplicarExplicacoesNeuro,
   carregarExplicacoesNeuro,
   mesclarExplicacoesNeuro,
-} from "./lib/neuro-explicar.js?v=2.23.0";
-import { sondarIaNeuro, iaNeuroDisponivel } from "./lib/neuro-ia.js?v=2.23.0";
+} from "./lib/neuro-explicar.js?v=2.23.1";
+import { sondarIaNeuro, iaNeuroDisponivel } from "./lib/neuro-ia.js?v=2.23.1";
 import {
   marcarGuiaVisto,
   marcarPassoGuia,
@@ -131,34 +131,34 @@ import {
   renderPainelGuia,
   resetarProgressoGuia,
   ROTEIRO_DEMO,
-} from "./lib/guia-app.js?v=2.23.0";
-import { aplicarIdiomaHtml, definirCallbackIdioma, localeTag, setLocale, t } from "./lib/i18n.js?v=2.23.0";
+} from "./lib/guia-app.js?v=2.23.1";
+import { aplicarIdiomaHtml, definirCallbackIdioma, localeTag, setLocale, t } from "./lib/i18n.js?v=2.23.1";
 import {
   esconderBannerMigracaoHost,
   ligarMigracaoHost,
   mostrarAvisoGithubParaVercel,
   mostrarBannerMigracaoHost,
   precisaConectarSyncNesteHost,
-} from "./lib/migracao-host.js?v=2.23.0";
+} from "./lib/migracao-host.js?v=2.23.1";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.23.0";
+} from "./lib/tarde.js?v=2.23.1";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.23.0";
+} from "./lib/inteligencia.js?v=2.23.1";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.23.0";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.23.0";
+} from "./lib/lembretes.js?v=2.23.1";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.23.1";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -173,12 +173,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.23.0";
+} from "./lib/foco.js?v=2.23.1";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.23.0";
+} from "./lib/rotina-local.js?v=2.23.1";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -211,7 +211,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.23.0";
+} from "./lib/tdah.js?v=2.23.1";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -549,10 +549,13 @@ function atualizarIndicadorSalvoDiario(chave) {
   const em = ultimoSalvoPorChave[chave];
   const texto = notas[chave] || "";
   if (!em || !texto.trim()) {
-    diarioUltimoSalvo.textContent = texto.trim() ? "Salvando…" : "";
+    diarioUltimoSalvo.textContent = texto.trim() ? t("diario.salvando") : "";
     return;
   }
-  diarioUltimoSalvo.textContent = `Salvo às ${formatarHoraVersao(em)} · ${texto.length} caracteres`;
+  diarioUltimoSalvo.textContent = t("diario.salvo", {
+    hora: formatarHoraVersao(em),
+    n: texto.length,
+  });
 }
 
 function migrarNotasParaHistoricoInicial() {
@@ -955,7 +958,11 @@ function desenharHistoricoDiario() {
 
     const meta = document.createElement("span");
     meta.className = "historico-diario-meta";
-    meta.textContent = `${formatarHoraVersao(versao.em)} · ${versao.chars} caracteres · ${rotuloMotivoVersao(versao.motivo)}`;
+    meta.textContent = t("diario.historico.meta", {
+      hora: formatarHoraVersao(versao.em),
+      n: versao.chars,
+      motivo: rotuloMotivoVersao(versao.motivo),
+    });
 
     const preview = document.createElement("span");
     preview.className = "historico-diario-preview";
@@ -2114,6 +2121,9 @@ function aplicarIdiomaApp() {
   aplicarIdiomaHtml(document);
   if (tituloPainel) tituloPainel.textContent = tituloPainelAtual(painelAtivo);
   desenharRelogio();
+  atualizarLembretesStatus();
+  window.atualizarSyncIdioma?.();
+  if (dataDiarioSelecionada) atualizarIndicadorSalvoDiario(dataDiarioSelecionada);
 }
 
 function mudarIdioma(novo) {
@@ -2490,25 +2500,25 @@ function desenharCardsInsights() {
 
   cardsInsights.innerHTML = `
     <article class="card-insight">
-      <p class="card-insight-rotulo">Sequência</p>
+      <p class="card-insight-rotulo">${t("insights.card.sequencia")}</p>
       <p class="card-insight-valor">${streak}</p>
       <p class="card-insight-apoio">${rotuloStreakInsights(streak)}</p>
       <p class="card-insight-extra">${apoioStreak}</p>
     </article>
     <article class="card-insight">
-      <p class="card-insight-rotulo">Hoje</p>
+      <p class="card-insight-rotulo">${t("insights.card.hoje")}</p>
       <p class="card-insight-valor">${feitosHoje}/${total}</p>
-      <p class="card-insight-apoio">compromissos concluídos</p>
+      <p class="card-insight-apoio">${t("insights.card.compromissos")}</p>
     </article>
     <article class="card-insight">
-      <p class="card-insight-rotulo">30 dias</p>
+      <p class="card-insight-rotulo">${t("insights.card.30dias")}</p>
       <p class="card-insight-valor">${taxa}%</p>
-      <p class="card-insight-apoio">taxa de conclusão</p>
+      <p class="card-insight-apoio">${t("insights.card.taxa")}</p>
     </article>
     <article class="card-insight">
-      <p class="card-insight-rotulo">Recorde</p>
+      <p class="card-insight-rotulo">${t("insights.card.recorde")}</p>
       <p class="card-insight-valor">${melhorRecorde}</p>
-      <p class="card-insight-apoio">melhor sequência individual</p>
+      <p class="card-insight-apoio">${t("insights.card.melhor")}</p>
     </article>`;
 }
 
@@ -2621,16 +2631,15 @@ function rodarLembretes() {
 function atualizarLembretesStatus() {
   if (!lembretesStatus) return;
   if (!("Notification" in window)) {
-    lembretesStatus.textContent = "Notificações não disponíveis neste navegador.";
+    lembretesStatus.textContent = t("lembretes.status.indisponivel");
     return;
   }
   if (lembretesAtivos() && Notification.permission === "granted") {
-    lembretesStatus.textContent =
-      "Lembretes ativos — avisos no horário (melhor com app na tela inicial).";
+    lembretesStatus.textContent = t("lembretes.status.ativo");
   } else if (Notification.permission === "denied") {
-    lembretesStatus.textContent = "Permissão bloqueada. Libere nas configurações do navegador.";
+    lembretesStatus.textContent = t("lembretes.status.bloqueado");
   } else {
-    lembretesStatus.textContent = "Lembretes desligados.";
+    lembretesStatus.textContent = t("lembretes.status.off");
   }
 }
 
@@ -4129,6 +4138,8 @@ function ligarTodosEventos() {
 
 // ============ INICIALIZAÇÃO ============
 export function initApp() {
+  window.traduzir = t;
+
   if (!perfilInicializado()) {
     salvarPerfil(carregarPerfil());
     marcarPerfilInicializado();
@@ -4144,6 +4155,7 @@ export function initApp() {
   ligarTodosEventos();
   definirCallbackIdioma(() => aplicarIdiomaApp());
   aplicarIdiomaApp();
+  window.initHabitosSync?.();
   iniciarVozes(() => {
     if (painelAtivo === "estudo") desenharPainelEstudo();
   });

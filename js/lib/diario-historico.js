@@ -1,5 +1,7 @@
 /** Histórico de versões do diário — uma entrada a cada salvamento. */
 
+import { localeTag, t } from "./i18n.js";
+
 export const CHAVE_HISTORICO_NOTAS = "notas-diarias-historico";
 const MAX_VERSOES = 200;
 
@@ -86,15 +88,15 @@ export function importarHistoricoNotas(lista) {
 
 export function formatarHoraVersao(em) {
   if (!em) return "";
-  return new Date(em).toLocaleTimeString("pt-BR", {
+  return new Date(em).toLocaleTimeString(localeTag(), {
     hour: "2-digit",
     minute: "2-digit",
   });
 }
 
 export function rotuloMotivoVersao(motivo) {
-  if (motivo === "manual") return "salvo por você";
-  if (motivo === "apagar") return "antes de apagar";
-  if (motivo === "fechar") return "ao sair";
-  return "automático";
+  if (motivo === "manual") return t("diario.motivo.manual");
+  if (motivo === "apagar") return t("diario.motivo.apagar");
+  if (motivo === "fechar") return t("diario.motivo.fechar");
+  return t("diario.motivo.auto");
 }
