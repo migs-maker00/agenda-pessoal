@@ -1,0 +1,29 @@
+{
+  "name": "Agência IA — revisão de PR",
+  "description": "Revisa PRs do agencia-ia: build, auth, APP_MODE, secrets, schema DB e IA.",
+  "workflow": {
+    "triggers": [
+      {
+        "git": {
+          "pullRequest": {
+            "action": "GIT_PULL_REQUEST_ACTION_OPENED",
+            "repos": ["migs-maker00/agencia-ia"],
+            "ignoreDraftPrs": true
+          }
+        }
+      }
+    ],
+    "actions": [{ "prComment": {} }],
+    "prompts": [
+      {
+        "text": "Você revisa pull requests do repositório migs-maker00/agencia-ia (Next.js 16, Turso, Vercel AI Gateway, auth por senha).\n\nPublique UM comentário no PR: Crítico / Deveria corrigir / Opcional.\n\nVerifique:\n1. npm run lint e npm run build provavelmente passam\n2. APP_MODE: rotas novas respeitam personal vs agency (app-mode.ts, middleware.ts)\n3. Auth: server actions usam requireAuth(); APIs sensíveis checam autenticação\n4. Secrets: sem .env no diff; .env.example atualizado\n5. DB: schema.ts alinhado com SCHEMA_SQL em db/index.ts\n6. IA: prompts em src/lib/ai/ sem vazamento de PII\n7. Sem APP_PASSWORD=admin ou SESSION_SECRET padrão\n\nEscreva em português do Brasil."
+      }
+    ],
+    "gitConfig": {
+      "repo": "migs-maker00/agencia-ia",
+      "branch": "main"
+    },
+    "agentOptions": { "skipInstall": false },
+    "memoryEnabled": true
+  }
+}

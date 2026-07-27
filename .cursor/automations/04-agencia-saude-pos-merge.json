@@ -1,0 +1,27 @@
+{
+  "name": "Agência IA — saúde pós-merge",
+  "description": "Após push em main: deploy Vercel OK, /login live, sem erros env/DB nos logs.",
+  "workflow": {
+    "triggers": [
+      {
+        "git": {
+          "push": {
+            "branch": "main"
+          }
+        }
+      }
+    ],
+    "actions": [],
+    "prompts": [
+      {
+        "text": "Após push na branch main de migs-maker00/agencia-ia, verifique produção.\n\nURL: https://agencia-ia-lemon.vercel.app\n\nPassos:\n1. Aguarde até 5 minutos (build Next.js standalone)\n2. GET /login — esperado 200\n3. Deployment Vercel Production Ready\n4. Logs: sem erros de validateProductionEnv (APP_PASSWORD, TURSO_*, AI Gateway)\n5. Sem falhas de conexão Turso\n\nNão faça POST autenticado em /api/assistant.\n\nResumo Passou/Falhou em português. Não abra PR."
+      }
+    ],
+    "gitConfig": {
+      "repo": "migs-maker00/agencia-ia",
+      "branch": "main"
+    },
+    "agentOptions": { "skipInstall": false },
+    "memoryEnabled": true
+  }
+}

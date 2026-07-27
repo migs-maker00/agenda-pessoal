@@ -1,0 +1,27 @@
+name: Saúde pós-merge (produção)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  verificar-producao:
+    runs-on: ubuntu-latest
+    steps:
+      - name: APIs IA (Groq)
+        run: |
+          set -e
+          BASE="https://projeto-1-criar.vercel.app"
+          for path in neuro-feedback diario-resumo semana-agente contexto-sugestao; do
+            body=$(curl -fsS "$BASE/api/$path")
+            echo "$path: $body"
+            echo "$body" | grep -q '"ia":"groq"' || echo "$body" | grep -q '"ia": "groq"' || {
+              echo "FALHA: /api/$path não retornou ia=groq"
+              exit 1
+            }
+          done
+      - name: App principal
+        run: curl -fsS -o /dev/null -w "%{http_code}\n" https://projeto-1-criar.vercel.app/ | grep -q 200
+      - name: Espelho GitHub Pages
+        run: curl -fsS -o /dev/null -w "%{http_code}\n" https://migs-maker00.github.io/agenda-pessoal/ | grep -q 200
