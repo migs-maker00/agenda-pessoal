@@ -1,6 +1,7 @@
 // Perfil personalizado — rotina e prioridades de vida
 
 export const PERFIL_PADRAO = {
+  nome: "North",
   acordar: "05:45",
   dormir: "23:30",
   escolaDias: [1, 2, 3, 4, 5],
@@ -20,7 +21,18 @@ export const PERFIL_PADRAO = {
 export function carregarPerfil() {
   try {
     const dados = JSON.parse(localStorage.getItem("perfil-usuario") || "null");
-    return dados && typeof dados === "object" ? { ...PERFIL_PADRAO, ...dados } : { ...PERFIL_PADRAO };
+    const perfil =
+      dados && typeof dados === "object" ? { ...PERFIL_PADRAO, ...dados } : { ...PERFIL_PADRAO };
+    const nomeAntigo = String(perfil.nome || "").trim();
+    if (/^erica$/i.test(nomeAntigo) || /^miguel$/i.test(nomeAntigo)) {
+      perfil.nome = PERFIL_PADRAO.nome;
+      salvarPerfil(perfil);
+    }
+    if (!String(perfil.nome || "").trim()) {
+      perfil.nome = PERFIL_PADRAO.nome;
+      salvarPerfil(perfil);
+    }
+    return perfil;
   } catch {
     return { ...PERFIL_PADRAO };
   }

@@ -1,7 +1,7 @@
 /* Service worker — lembretes agendados + cache offline (PWA) */
 
-const CACHE = "agenda-v2.23.4";
-const APP_VERSION = "2.23.4";
+const CACHE = "mindos-v2.29.0";
+const APP_VERSION = "2.29.0";
 
 const alarmes = new Map();
 
@@ -32,6 +32,12 @@ const LIBS = [
   "livros-temas",
   "livros-trechos",
   "migracao-host",
+  "mindos-estado",
+  "mindos-estudo",
+  "mindos-hoje",
+  "mindos-insights",
+  "mindos-rotina",
+  "mindos-semana",
   "modo-barulho",
   "neuro-explicar",
   "neuro-ia",
@@ -64,6 +70,7 @@ function urlsPrecache() {
     "./sync.js?v=6",
     "./firebase-config.js",
     "./manifest.webmanifest",
+    "./icon.svg",
     "./icon-192.png",
     "./icon-512.png",
     "./favicon-32.png",

@@ -7,6 +7,7 @@ import {
   urlApiVercel,
 } from "../config.js";
 import { locale } from "./i18n.js";
+import { carregarPerfil } from "./perfil.js";
 
 export function urlApiNeuro() {
   return urlApiVercel(NEURO_IA_API_URL);
@@ -40,6 +41,7 @@ export async function pedirFeedbackIaNeuro(modulo, explicacao) {
         pontosChave: modulo.pontosChave,
         explicacao,
         locale: locale(),
+        perfil: { nome: carregarPerfil().nome || "North" },
       }),
     });
 

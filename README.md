@@ -1,55 +1,34 @@
-# Agenda Pessoal
+# MindOS
 
-Agenda pessoal no navegador — compromissos do dia, anotações e visão da semana. Os dados ficam no `localStorage` do aparelho (sync Firebase opcional).
+Segundo cérebro pessoal no navegador — **direção clara** para corpo, mente e conhecimento, sem peso na cabeça. Não é app de produtividade nem lista de tarefas.
 
-**App principal (Vercel):** https://projeto-1-criar.vercel.app  
+**App principal (Vercel):** https://projeto-1-criar.vercel.app
+
 **Espelho (GitHub Pages):** https://migs-maker00.github.io/agenda-pessoal/
 
-## Deploy
+- **Vercel** — deploy automático a cada push em `main` (PWA + APIs `/api/*` com Groq).
+- Dados no `localStorage` do aparelho (sync Firebase opcional).
 
-- **Vercel** — deploy automático a cada push em `main` (app estático + APIs `/api/*` com Groq/Gemini).
-- **GitHub Pages** — espelho estático; as APIs de IA chamam o backend Vercel.
+## O que é
 
-Configure no Vercel: `GROQ_API_KEY`, opcional `GEMINI_API_KEY`, `ALLOWED_ORIGIN`.
+MindOS organiza por baixo dos panos (ritmo, hábitos, estudo) e mostra na superfície **só o próximo passo**. Constituição do produto: [`docs/MINDOS.md`](docs/MINDOS.md).
 
-## Funcionalidades
+## Áreas
 
-- **Hoje** — compromissos com horário, checklist do dia, sugestão rápida ao adicionar
-- **Semana** — gráfico dos últimos 7 dias e metas semanais
-- **Diário** — anotações por data
-- **Insights** — sequência, taxa de 30 dias, resumo da semana, calendário
-- **Ajustes** — sync Firebase, backup, tema
-
-## Arquitetura
-
-```
-.
-├── index.html              # Shell da aplicação
-├── style.css               # Estilos e temas
-├── firebase-config.js      # Config Firebase (sync)
-├── sync.js                 # Sincronização Mac ↔ iPhone
-├── js/
-│   ├── config.js           # Versão do app (cache-bust)
-│   ├── main.js             # Entrada — inicializa e expõe API pro sync
-│   ├── app.js              # UI, estado, renderização, eventos
-│   └── lib/
-│       └── inteligencia.js # Sugestões, resumo, alertas
-└── manifest.webmanifest    # PWA
-```
-
-- **ES Modules** — `main.js` importa `app.js` e as libs
-- **Sem build** — GitHub Pages serve os arquivos direto
-- **sync.js** usa `window.getEstadoHabitos` etc., expostos por `main.js`
+- **Agora** — um foco, estado mental, o que vem depois
+- **Guia** — roteiro de 5 min com North
+- **Conhecimento** — estudo em um passo; ferramentas recolhidas
+- **Ritmo** — mapa do dia; ajustes recolhidos
+- **Direção** — tema da semana; números recolhidos
+- **Diário** — captura e reflexão
+- **Continuidade** — streak gentil; detalhes recolhidos
 
 ## Desenvolvimento local
 
 ```bash
-cd agenda-pessoal
 npx serve -p 5173
 ```
 
 Abra http://localhost:5173
 
-## Privacidade
-
-Compromissos e notas ficam no seu navegador. O sync Firebase é opcional.
+Smoke E2E: `node scripts/e2e-smoke.mjs`

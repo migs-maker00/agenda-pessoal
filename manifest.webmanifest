@@ -1,13 +1,19 @@
 {
-  "name": "Agenda",
-  "short_name": "Agenda",
-  "description": "Sua agenda pessoal inteligente",
+  "name": "MindOS — Segundo cérebro",
+  "short_name": "MindOS",
+  "description": "Te dá direção — corpo, mente e conhecimento, sem peso na cabeça.",
   "start_url": "./?painel=hoje",
   "display": "standalone",
   "background_color": "#e8dfd1",
   "theme_color": "#1b365d",
   "permissions": ["notifications"],
   "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
     {
       "src": "icon-192.png",
       "sizes": "192x192",
@@ -26,9 +32,9 @@
   ],
   "shortcuts": [
     {
-      "name": "Guia do app",
+      "name": "Guia MindOS",
       "short_name": "Guia",
-      "description": "Roteiro de demonstração",
+      "description": "Direção em 5 minutos",
       "url": "./?painel=guia",
       "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     },
@@ -42,21 +48,21 @@
     {
       "name": "Diário",
       "short_name": "Diário",
-      "description": "Anotar o dia",
+      "description": "Capturar o dia",
       "url": "./?painel=diario",
       "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Estudo",
+      "name": "Conhecimento",
       "short_name": "Estudo",
-      "description": "Aprender e praticar",
+      "description": "Um passo de aprendizado",
       "url": "./?painel=estudo",
       "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Hoje",
-      "short_name": "Hoje",
-      "description": "Checklist do dia",
+      "name": "Foco de agora",
+      "short_name": "Agora",
+      "description": "Um passo claro — sem peso na cabeça",
       "url": "./?painel=hoje",
       "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     }

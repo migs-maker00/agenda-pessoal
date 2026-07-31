@@ -1,5 +1,7 @@
 /** Vercel Serverless — sugestões contextuais Cheguei / Agora (Groq → Gemini). */
 
+const { contextoSegundoCerebro } = require("./ia-shared");
+
 const ORIGENS_PADRAO = [
   "https://migs-maker00.github.io",
   "https://projeto-1-criar.vercel.app",
@@ -40,22 +42,24 @@ function parseJsonResposta(texto) {
 }
 
 function montarPrompt(corpo) {
+  const locale = corpo.locale === "en" ? "en" : "pt";
+  const ctx = contextoSegundoCerebro(corpo, locale);
   const opcoes = (corpo.opcoes || [])
     .slice(0, 8)
     .map((o) => `- id="${o.id}" | ${o.titulo} — ${o.passo || ""}`)
     .join("\n");
 
-  if (corpo.locale === "en") {
-    return `You are a productivity assistant for Erica, 16, with ADHD.
-She just said: "${corpo.contexto || "arrival"}".
+  if (locale === "en") {
+    return `${ctx}
+They just said: "${corpo.contexto || "arrival"}".
 ${corpo.fala ? `By voice: "${String(corpo.fala).slice(0, 200)}"` : ""}
 Time band: ${corpo.faixa || "?"}. Local time: ${corpo.horaLocal || "?"} (${corpo.diaSemana || "?"}).
-Profile: wakes ${corpo.perfil?.acordar || "?"}, sleeps ${corpo.perfil?.dormir || "?"}.
+Profile: ${corpo.perfil?.nome || "North"}, wakes ${corpo.perfil?.acordar || "?"}, sleeps ${corpo.perfil?.dormir || "?"}.
 
 RULES:
 - Late night (00–05): NEVER suggest beach work, school or heavy tasks.
-- Weekends she works at the beach only near scheduled morning time.
-- Max 2 options — she picks one.
+- Weekends: beach work only near scheduled morning time.
+- Max 2 options — pick one.
 - Short, warm tone, no guilt.
 
 Candidate options (pick exactly 2 ids, order A then B):
@@ -69,16 +73,16 @@ Respond ONLY valid JSON:
 All strings in English.`;
   }
 
-  return `Você é uma assistente de produtividade para Erica, 16 anos, com TDAH.
-Ela acabou de dizer: "${corpo.contexto || "chegada"}".
+  return `${ctx}
+Acabou de dizer: "${corpo.contexto || "chegada"}".
 ${corpo.fala ? `Na voz ela disse: "${String(corpo.fala).slice(0, 200)}"` : ""}
 Faixa do dia: ${corpo.faixa || "?"}. Hora local: ${corpo.horaLocal || "?"} (${corpo.diaSemana || "?"}).
-Perfil: acorda ${corpo.perfil?.acordar || "?"}, dorme ${corpo.perfil?.dormir || "?"}.
+Perfil: ${corpo.perfil?.nome || "North"}, acorda ${corpo.perfil?.acordar || "?"}, dorme ${corpo.perfil?.dormir || "?"}.
 
 REGRAS IMPORTANTES:
 - Madrugada (00h–05h): NUNCA sugira trabalho na praia, escola ou tarefas pesadas.
-- Sábado/domingo ela trabalha na praia, mas só perto do horário agendado (manhã).
-- Máximo 2 opções — ela escolhe só uma.
+- Sábado/domingo: trabalho na praia só perto do horário agendado (manhã).
+- Máximo 2 opções — escolhe só uma.
 - Tom curto, acolhedor, sem culpa.
 
 Opções candidatas (escolha exatamente 2 ids da lista, na ordem A depois B):

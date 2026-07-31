@@ -39,6 +39,7 @@ export function montarPayloadContextoIa({ contexto, opcoes, perfil, fala = "" })
     horaLocal: agora.toLocaleTimeString(localeTag(), { hour: "2-digit", minute: "2-digit" }),
     diaSemana: DIAS[agora.getDay()],
     perfil: {
+      nome: perfil?.nome || "North",
       acordar: perfil?.acordar || "",
       dormir: perfil?.dormir || "",
     },

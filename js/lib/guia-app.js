@@ -3,6 +3,7 @@
 import { APP_VERSION } from "../config.js";
 import { faixaDoDia } from "./contexto-tempo.js";
 import { rotuloFaixaI18n, t, localeTag } from "./i18n.js";
+import { carregarPerfil } from "./perfil.js";
 
 const CHAVE_PROGRESSO = "guia-app-progresso-v1";
 const CHAVE_VISTO = "guia-app-visto-v1";
@@ -150,6 +151,7 @@ export function renderPainelGuia({ iaAtiva = false, demoIndice = null } = {}) {
   const mapa = carregarProgressoGuia();
   const { feitos, total, pct } = progressoRoteiro(mapa);
   const { rotulo, hora } = saudacaoGuia();
+  const nome = (carregarPerfil().nome || "North").trim();
 
   const passos = ROTEIRO_DEMO.map((p, i) => renderPassoDemo(p, i, mapa, demoIndice)).join("");
 
@@ -181,7 +183,7 @@ export function renderPainelGuia({ iaAtiva = false, demoIndice = null } = {}) {
       <header class="guia-hero">
         <p class="guia-hero-kicker">${esc(t("guia.hero.kicker", { versao: APP_VERSION }))}</p>
         <h2 class="guia-hero-titulo">${esc(t("guia.hero.titulo"))}</h2>
-        <p class="guia-hero-apoio">${esc(t("guia.hero.apoio", { faixa: rotulo, hora }))}</p>
+        <p class="guia-hero-apoio">${esc(t("guia.hero.apoio", { nome, faixa: rotulo, hora }))}</p>
         <div class="guia-hero-acoes">
           <button type="button" class="botao-primario guia-cta-demo" data-guia-demo-iniciar="1">
             ${esc(t("guia.demo.iniciar"))}
@@ -204,6 +206,9 @@ export function renderPainelGuia({ iaAtiva = false, demoIndice = null } = {}) {
         <button type="button" class="botao-texto guia-reset" data-guia-reset="1">${esc(t("guia.reset"))}</button>
       </section>
 
+      <details class="guia-mais mindos-sec-mais">
+        <summary class="mindos-sec-mais-resumo guia-mais-resumo">${esc(t("guia.mais.referencia"))}</summary>
+        <div class="mindos-sec-mais-conteudo">
       <section class="guia-bloco" aria-label="${esc(t("guia.mapa.titulo"))}">
         <h3 class="guia-bloco-titulo">${esc(t("guia.mapa.titulo"))}</h3>
         <p class="guia-bloco-apoio">${t("guia.mapa.apoio")}</p>
@@ -217,6 +222,8 @@ export function renderPainelGuia({ iaAtiva = false, demoIndice = null } = {}) {
           ${esc(iaAtiva ? t("guia.ia.ativa") : t("guia.ia.local"))}
         </p>
       </section>
+        </div>
+      </details>
     </div>`;
 }
 
