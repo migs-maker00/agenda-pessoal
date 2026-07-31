@@ -1,15 +1,16 @@
 /** Vercel — resumo inteligente do diário (não substitui o texto). */
 
-const { criarHandlerApi, instrucaoIdioma, localeDoCorpo } = require("./ia-shared");
+const { criarHandlerApi, contextoSegundoCerebro, instrucaoIdioma, localeDoCorpo } = require("./ia-shared");
 
 function montarPrompt(corpo) {
   const locale = localeDoCorpo(corpo);
+  const ctx = contextoSegundoCerebro(corpo, locale);
   const texto = String(corpo.texto || "").slice(0, 4000);
   const revisao = corpo.revisao || {};
   const lang = instrucaoIdioma(locale);
   if (locale === "en") {
-    return `You are an empathetic assistant for Erica, 16, with ADHD.
-She wrote in her journal. Do NOT rewrite — only organize into bullets.
+    return `${ctx}
+They wrote in their journal. Do NOT rewrite — only organize into bullets.
 ${lang}
 
 Journal:
@@ -19,19 +20,19 @@ ${texto}
 
 Night review (if any):
 - Done: ${revisao.feito || "(empty)"}
-- On her mind: ${revisao.ficou || "(empty)"}
+- On their mind: ${revisao.ficou || "(empty)"}
 - Tomorrow: ${revisao.amanha || "(empty)"}
 
 Respond ONLY JSON:
 {
   "feito": ["up to 3 bullets to celebrate"],
-  "pesou": ["up to 2 bullets of what weighed on her"],
+  "pesou": ["up to 2 bullets of what weighed on them"],
   "amanha": "1 suggested sentence for tomorrow",
   "fraseApoio": "1 short encouraging sentence"
 }`;
   }
-  return `Você é uma assistente empática para Erica, 16 anos, com TDAH.
-Ela escreveu no diário. NÃO reescreva o texto — só organize em bullets.
+  return `${ctx}
+Escreveu no diário. NÃO reescreva o texto — só organize em bullets.
 
 Texto do diário:
 """
@@ -47,7 +48,7 @@ Responda APENAS JSON:
 {
   "feito": ["até 3 bullets do que vale celebrar"],
   "pesou": ["até 2 bullets do que pesou ou ficou na cabeça"],
-  "amanha": "1 frase sugerida para amanhã (baseada no que ela escreveu)",
+  "amanha": "1 frase sugerida para amanhã (baseada no que escreveu)",
   "fraseApoio": "1 frase curta e acolhedora"
 }
 ${instrucaoIdioma("pt")}`;

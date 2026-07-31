@@ -1,7 +1,7 @@
 {
-  "name": "agenda-pessoal",
+  "name": "mindos",
   "private": true,
-  "description": "Agenda pessoal — hábitos, rotina e IA no Vercel",
+  "description": "MindOS — segundo cérebro pessoal (PWA + IA no Vercel)",
   "engines": {
     "node": ">=18"
   }

@@ -1,5 +1,6 @@
 // Lógica inteligente do app — sugestões, resumos e alertas (sem API externa)
 
+import { t } from "./i18n.js";
 const REGRAS_CATEGORIA = [
   {
     categoria: "Saúde",
@@ -134,49 +135,53 @@ function textoSugestao(sugestao) {
 
 function gerarResumoSemana(stats) {
   if (stats.totalHabitos === 0) {
-    return "Sua semana ainda está em branco. Adicione um ou dois hábitos na aba Hoje e volte aqui no fim da semana para ver o retrato do seu progresso.";
+    return t("semana.resumo.vazio");
   }
 
   const partes = [];
 
-  partes.push(
-    `Nos últimos 7 dias você concluiu em média ${stats.mediaConclusao}% dos hábitos.`
-  );
+  partes.push(t("semana.resumo.media", { pct: stats.mediaConclusao }));
 
   if (stats.melhorDia.pct > 0) {
     partes.push(
-      `Seu melhor dia foi ${stats.melhorDia.nome} (${stats.melhorDia.pct}%).`
+      t("semana.resumo.melhor.dia", { dia: stats.melhorDia.nome, pct: stats.melhorDia.pct })
     );
   }
 
   if (stats.melhorCategoria && stats.melhorCategoria.pct > 0) {
     partes.push(
-      `${stats.melhorCategoria.nome} foi sua categoria mais forte (${stats.melhorCategoria.pct}% de conclusão).`
+      t("semana.resumo.melhor.categoria", {
+        nome: stats.melhorCategoria.nome,
+        pct: stats.melhorCategoria.pct,
+      })
     );
   }
 
   if (stats.fracaCategoria && stats.fracaCategoria.pct < stats.melhorCategoria.pct) {
     partes.push(
-      `${stats.fracaCategoria.nome} pede mais atenção (${stats.fracaCategoria.pct}% esta semana).`
+      t("semana.resumo.fraca.categoria", {
+        nome: stats.fracaCategoria.nome,
+        pct: stats.fracaCategoria.pct,
+      })
     );
   }
 
   if (stats.metasCumpridas > 0) {
     partes.push(
-      `${stats.metasCumpridas} de ${stats.metasTotal} metas semanais já foram cumpridas.`
+      t("semana.resumo.metas", { cumpridas: stats.metasCumpridas, total: stats.metasTotal })
     );
   }
 
   if (stats.habitoMaisForte) {
-    partes.push(`"${stats.habitoMaisForte.nome}" está em ótimo ritmo.`);
+    partes.push(t("semana.resumo.habito.forte", { nome: stats.habitoMaisForte.nome }));
   }
 
   if (stats.mediaConclusao >= 80) {
-    partes.push("Semana sólida — consistência é o que transforma hábito em caráter.");
+    partes.push(t("semana.resumo.nota.alta"));
   } else if (stats.mediaConclusao >= 50) {
-    partes.push("Você está no caminho. Pequenos ajustes podem elevar o próximo ciclo.");
+    partes.push(t("semana.resumo.nota.media"));
   } else if (stats.mediaConclusao > 0) {
-    partes.push("Semana difícil? Tudo bem. O estoicismo ensina: recomeçar também é virtude.");
+    partes.push(t("semana.resumo.nota.baixa"));
   }
 
   return partes.join(" ");
@@ -190,13 +195,13 @@ function complementoCoachDiario(notaOntem) {
   const positivos = ["bem", "ótimo", "otimo", "feliz", "produtiv", "leve", "grato", "motivad", "fácil", "facil"];
 
   if (negativos.some((p) => texto.includes(p))) {
-    return " Ontem foi pesado no diário — hoje vá com gentileza, um hábito de cada vez.";
+    return t("hoje.filosofia.coach.pesado");
   }
   if (positivos.some((p) => texto.includes(p))) {
-    return " Ontem você registrou um bom dia — use esse impulso.";
+    return t("hoje.filosofia.coach.bom");
   }
   if (notaOntem.length > 40) {
-    return " Sua nota de ontem mostra reflexão — transforme isso em ação hoje.";
+    return t("hoje.filosofia.coach.reflexao");
   }
   return "";
 }

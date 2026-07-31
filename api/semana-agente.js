@@ -1,9 +1,10 @@
 /** Vercel — agente de semana (plano leve em 5 linhas). */
 
-const { criarHandlerApi, instrucaoIdioma, localeDoCorpo } = require("./ia-shared");
+const { criarHandlerApi, contextoSegundoCerebro, instrucaoIdioma, localeDoCorpo } = require("./ia-shared");
 
 function montarPrompt(corpo) {
   const locale = localeDoCorpo(corpo);
+  const ctx = contextoSegundoCerebro(corpo, locale);
   const stats = corpo.stats || {};
   const padroes = (corpo.padroes || []).slice(0, 8);
   const padroesTxt =
@@ -15,7 +16,7 @@ function montarPrompt(corpo) {
       .join("\n") || (locale === "en" ? "(still learning)" : "(ainda aprendendo)");
 
   if (locale === "en") {
-    return `You are a productivity coach for Erica, 16, with ADHD.
+    return `${ctx}
 
 Week stats:
 - Done: ${stats.feitosSemana ?? "?"}/${stats.totalPossivel ?? "?"}
@@ -38,7 +39,7 @@ JSON:
 }`;
   }
 
-  return `Você é uma coach de produtividade para Erica, 16 anos, com TDAH.
+  return `${ctx}
 
 Estatísticas da semana:
 - Feitos: ${stats.feitosSemana ?? "?"}/${stats.totalPossivel ?? "?"}

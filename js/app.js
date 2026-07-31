@@ -1,5 +1,5 @@
-import { APP_VERSION, hostAtual } from "./config.js?v=2.23.2";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.23.2";
+import { APP_VERSION, hostAtual } from "./config.js?v=2.29.0";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.29.0";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.23.2";
+} from "./lib/avisos-agenda.js?v=2.29.0";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.23.2";
+} from "./lib/habitos.js?v=2.29.0";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.23.2";
+} from "./lib/perfil.js?v=2.29.0";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,49 +54,49 @@ import {
   prioridadesRotina,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.23.2";
+} from "./lib/rotina-preset.js?v=2.29.0";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.23.2";
+} from "./lib/aprender.js?v=2.29.0";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.23.2";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.23.2";
+} from "./lib/estudo-hub.js?v=2.29.0";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.29.0";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.23.2";
+} from "./lib/estudo-ui.js?v=2.29.0";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.23.2";
+} from "./lib/cheguei.js?v=2.29.0";
 import {
   aplicarSugestaoIa,
   montarPayloadContextoIa,
   pedirOpcoesContexto,
-} from "./lib/contexto-ia.js?v=2.23.2";
-import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.23.2";
-import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.23.2";
+} from "./lib/contexto-ia.js?v=2.29.0";
+import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.29.0";
+import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.29.0";
 import {
   mensagemStreakGlobal,
   mensagemStreakHabito,
   rotuloStreakInsights,
-} from "./lib/streak-gentil.js?v=2.23.2";
-import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.23.2";
-import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.23.2";
-import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.23.2";
-import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.23.2";
-import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.23.2";
+} from "./lib/streak-gentil.js?v=2.29.0";
+import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.29.0";
+import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.29.0";
+import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.29.0";
+import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.29.0";
+import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.29.0";
 import {
   carregarSessaoParceiro,
   iniciarSessaoParceiro,
@@ -104,8 +104,8 @@ import {
   finalizarSessaoParceiro,
   limparSessaoParceiro,
   renderPainelParceiro,
-} from "./lib/estudo-parceiro.js?v=2.23.2";
-import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.23.2";
+} from "./lib/estudo-parceiro.js?v=2.29.0";
+import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.29.0";
 import {
   arquivarVersaoNota,
   carregarHistoricoCompleto,
@@ -115,13 +115,13 @@ import {
   mesclarNotasDoHistorico,
   restaurarVersaoHistorico,
   rotuloMotivoVersao,
-} from "./lib/diario-historico.js?v=2.23.2";
+} from "./lib/diario-historico.js?v=2.29.0";
 import {
   aplicarExplicacoesNeuro,
   carregarExplicacoesNeuro,
   mesclarExplicacoesNeuro,
-} from "./lib/neuro-explicar.js?v=2.23.2";
-import { sondarIaNeuro, iaNeuroDisponivel } from "./lib/neuro-ia.js?v=2.23.2";
+} from "./lib/neuro-explicar.js?v=2.29.0";
+import { sondarIaNeuro, iaNeuroDisponivel } from "./lib/neuro-ia.js?v=2.29.0";
 import {
   marcarGuiaVisto,
   marcarPassoGuia,
@@ -131,34 +131,40 @@ import {
   renderPainelGuia,
   resetarProgressoGuia,
   ROTEIRO_DEMO,
-} from "./lib/guia-app.js?v=2.23.2";
-import { aplicarIdiomaHtml, definirCallbackIdioma, localeTag, setLocale, t } from "./lib/i18n.js?v=2.23.2";
+} from "./lib/guia-app.js?v=2.29.0";
+import { htmlMindosHoje, obterDepois } from "./lib/mindos-hoje.js?v=2.29.0";
+import { carregarEstadoMental, salvarEstadoMental } from "./lib/mindos-estado.js?v=2.29.0";
+import { htmlMindosRotina } from "./lib/mindos-rotina.js?v=2.29.0";
+import { htmlMindosSemana } from "./lib/mindos-semana.js?v=2.29.0";
+import { htmlMindosInsights } from "./lib/mindos-insights.js?v=2.29.0";
+import { htmlMindosEstudo } from "./lib/mindos-estudo.js?v=2.29.0";
+import { aplicarIdiomaHtml, definirCallbackIdioma, localeTag, setLocale, t } from "./lib/i18n.js?v=2.29.0";
 import {
   esconderBannerMigracaoHost,
   ligarMigracaoHost,
   mostrarAvisoGithubParaVercel,
   mostrarBannerMigracaoHost,
   precisaConectarSyncNesteHost,
-} from "./lib/migracao-host.js?v=2.23.2";
+} from "./lib/migracao-host.js?v=2.29.0";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.23.2";
+} from "./lib/tarde.js?v=2.29.0";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.23.2";
+} from "./lib/inteligencia.js?v=2.29.0";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.23.2";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.23.2";
+} from "./lib/lembretes.js?v=2.29.0";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.29.0";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -173,12 +179,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.23.2";
+} from "./lib/foco.js?v=2.29.0";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.23.2";
+} from "./lib/rotina-local.js?v=2.29.0";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -211,7 +217,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.23.2";
+} from "./lib/tdah.js?v=2.29.0";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -282,6 +288,12 @@ const botaoDicaFechar = document.getElementById("dica-fechar");
 const infoVersao = document.getElementById("info-versao");
 const botaoAtualizarApp = document.getElementById("botao-atualizar-app");
 const agoraConteudo = document.getElementById("agora-conteudo");
+const mindosRoot = document.getElementById("mindos-hoje");
+const mindosRotinaRoot = document.getElementById("mindos-rotina");
+const mindosSemanaRoot = document.getElementById("mindos-semana");
+const mindosInsightsRoot = document.getElementById("mindos-insights");
+const mindosEstudoRoot = document.getElementById("mindos-estudo");
+const estudoMais = document.getElementById("estudo-mais");
 const estudoResumoConteudo = document.getElementById("estudo-resumo-conteudo");
 const estudoPainelRoot = document.getElementById("estudo-painel-root");
 const entradaInbox = document.getElementById("entrada-inbox");
@@ -321,6 +333,7 @@ const resumoNaoEsqueci = document.getElementById("resumo-nao-esqueci");
 const entradaTemaSemana = document.getElementById("entrada-tema-semana");
 const perfilResumo = document.getElementById("perfil-resumo");
 const formPerfilRotina = document.getElementById("form-perfil-rotina");
+const perfilNome = document.getElementById("perfil-nome");
 const perfilAcordar = document.getElementById("perfil-acordar");
 const perfilDormir = document.getElementById("perfil-dormir");
 const perfilChegada = document.getElementById("perfil-chegada");
@@ -345,6 +358,8 @@ let chegueiContexto = "chegada";
 let chegueiIaToken = 0;
 let chegueiFalaTexto = "";
 let chegueiVeioDoGuia = false;
+let mindosLigado = false;
+let mindosEstudoLigado = false;
 let guiaDemoIndice = null;
 let agoraTraveiHabitoId = null;
 let filtroCategoria = "Todas";
@@ -1180,7 +1195,7 @@ function desenharAvisos() {
   if (!doDia.length && !futuros.length) {
     if (avisosVazio) {
       avisosVazio.hidden = false;
-      avisosVazio.textContent = "Nenhum aviso agendado. Adicione acima.";
+      avisosVazio.textContent = t("hoje.avisos.vazio.form");
     }
     return;
   }
@@ -1190,7 +1205,7 @@ function desenharAvisos() {
   if (doDia.length) {
     const secao = document.createElement("li");
     secao.className = "avisos-secao-titulo";
-    secao.textContent = "Hoje";
+    secao.textContent = t("hoje.avisos.secao.hoje");
     listaAvisos.appendChild(secao);
     doDia.forEach((a) => {
       listaAvisos.appendChild(criarItemAviso(a, { proximo: proximo?.id === a.id }));
@@ -1200,7 +1215,7 @@ function desenharAvisos() {
   if (futuros.length) {
     const secao = document.createElement("li");
     secao.className = "avisos-secao-titulo";
-    secao.textContent = "Próximos";
+    secao.textContent = t("hoje.avisos.secao.proximos");
     listaAvisos.appendChild(secao);
     futuros.forEach((a) => listaAvisos.appendChild(criarItemAviso(a)));
   }
@@ -1760,20 +1775,28 @@ function atualizarResumo() {
 }
 
 function desenharFiltros() {
-  const categorias = ["Todas", ...new Set(habitos.map((h) => h.categoria || "Geral"))];
+  const categorias = [t("filtro.todas"), ...new Set(habitos.map((h) => h.categoria || t("categoria.geral")))];
 
-  // Se a categoria filtrada sumiu (após remover hábitos), volta para "Todas"
-  if (!categorias.includes(filtroCategoria)) filtroCategoria = "Todas";
+  const filtroAtual =
+    filtroCategoria === "Todas"
+      ? t("filtro.todas")
+      : filtroCategoria === "Geral"
+        ? t("categoria.geral")
+        : filtroCategoria;
+
+  if (!categorias.includes(filtroAtual)) filtroCategoria = "Todas";
 
   filtros.innerHTML = "";
   filtros.style.display = habitos.length > 0 ? "flex" : "none";
 
   categorias.forEach((cat) => {
     const chip = document.createElement("button");
-    chip.className = "chip" + (filtroCategoria === cat ? " ativo" : "");
+    chip.className = "chip" + (filtroAtual === cat ? " ativo" : "");
     chip.textContent = cat;
     chip.addEventListener("click", () => {
-      filtroCategoria = cat;
+      if (cat === t("filtro.todas")) filtroCategoria = "Todas";
+      else if (cat === t("categoria.geral")) filtroCategoria = "Geral";
+      else filtroCategoria = cat;
       desenhar();
     });
     filtros.appendChild(chip);
@@ -1793,7 +1816,7 @@ function calcularDadosGrafico7Dias() {
 
     dias.push({
       porcentagem,
-      rotulo: dia.toLocaleDateString("pt-BR", { weekday: "short" }).replace(".", ""),
+      rotulo: dia.toLocaleDateString(localeTag(), { weekday: "short" }).replace(".", ""),
       ehHoje: chave === hojeStr(),
     });
   }
@@ -1843,7 +1866,7 @@ function desenharGrafico() {
     const media = Math.round(
       dias.reduce((soma, dia) => soma + dia.porcentagem, 0) / dias.length
     );
-    graficoMedia.textContent = habitos.length === 0 ? "—" : `média ${media}%`;
+    graficoMedia.textContent = habitos.length === 0 ? "—" : t("semana.grafico.media", { n: media });
   }
 }
 
@@ -1900,7 +1923,7 @@ function desenharMetasSemana() {
   if (habitos.length === 0) {
     const vazio = document.createElement("p");
     vazio.className = "meta-vazia";
-    vazio.textContent = "Adicione hábitos na aba Hoje para acompanhar as metas semanais.";
+    vazio.textContent = t("semana.metas.vazio");
     listaMetasSemana.appendChild(vazio);
     return;
   }
@@ -1973,7 +1996,7 @@ function calcularEstatisticasSemana() {
     dias.push({
       chave,
       pct,
-      nome: dia.toLocaleDateString("pt-BR", { weekday: "long" }),
+      nome: dia.toLocaleDateString(localeTag(), { weekday: "long" }),
     });
   }
 
@@ -2043,7 +2066,7 @@ function desenharResumoSemana() {
 async function gerarPlanoSemanaIa() {
   if (!planoSemanaPainel) return;
   planoSemanaPainel.hidden = false;
-  planoSemanaPainel.innerHTML = `<p class="plano-semana-carregando">Montando plano…</p>`;
+  planoSemanaPainel.innerHTML = `<p class="plano-semana-carregando">${t("semana.plano.carregando")}</p>`;
   const stats = calcularEstatisticasSemana();
   const padroes = resumoPadroesParaIA(habitos);
   const resp = await pedirPlanoSemana(
@@ -2059,15 +2082,15 @@ async function gerarPlanoSemanaIa() {
     padroes
   );
   if (!resp.ok) {
-    planoSemanaPainel.innerHTML = `<p class="plano-semana-erro">${resp.erro || "IA indisponível."}</p>`;
+    planoSemanaPainel.innerHTML = `<p class="plano-semana-erro">${resp.erro || t("semana.plano.erro")}</p>`;
     return;
   }
   const linhas = (resp.linhas || []).map((l) => `<li>${l}</li>`).join("");
   planoSemanaPainel.innerHTML = `
     <div class="plano-semana-card">
-      <p class="plano-semana-titulo">${resp.titulo || "Sua semana"}</p>
+      <p class="plano-semana-titulo">${resp.titulo || t("semana.plano.titulo.default")}</p>
       <ul class="plano-semana-lista">${linhas}</ul>
-      ${resp.focoPrincipal ? `<p class="plano-semana-foco"><strong>Foco:</strong> ${resp.focoPrincipal}</p>` : ""}
+      ${resp.focoPrincipal ? `<p class="plano-semana-foco"><strong>${t("semana.plano.foco")}</strong> ${resp.focoPrincipal}</p>` : ""}
       ${resp.fraseMotivacao ? `<p class="plano-semana-motiv">${resp.fraseMotivacao}</p>` : ""}
       <p class="plano-semana-fonte">✨ IA</p>
     </div>`;
@@ -2120,7 +2143,9 @@ function tituloPainelAtual(nome) {
 function aplicarIdiomaApp() {
   aplicarIdiomaHtml(document);
   if (tituloPainel) tituloPainel.textContent = tituloPainelAtual(painelAtivo);
+  mostrarData();
   desenharRelogio();
+  desenharMindosHoje();
   atualizarLembretesStatus();
   window.atualizarSyncIdioma?.();
   if (dataDiarioSelecionada) atualizarIndicadorSalvoDiario(dataDiarioSelecionada);
@@ -2712,10 +2737,11 @@ function arquivarInbox() {
 }
 
 function atualizarTimerUI(segundos) {
+  const texto = formatarTimer(segundos);
   const el = document.getElementById("agora-timer-valor");
-  if (!el) return;
-  if (cronometroAtivo()) el.textContent = formatarTimer(segundos);
-  else el.textContent = formatarTimer(segundos);
+  if (el) el.textContent = texto;
+  const mindosEl = mindosRoot?.querySelector(".mindos-timer-valor");
+  if (mindosEl) mindosEl.textContent = texto;
 }
 
 function comecarTimer(segundos, habito, rotulo) {
@@ -2726,6 +2752,7 @@ function comecarTimer(segundos, habito, rotulo) {
     { habitoId: habito.id, nome: habito.nome, rotulo },
     { onTick: atualizarTimerUI, onFim: onTimerFim }
   );
+  desenharMindosHoje();
   desenharAgora();
   const dica =
     segundos <= 30
@@ -2747,6 +2774,7 @@ function comecarCronometro(habito) {
     { habitoId: habito.id, nome: habito.nome },
     { onTick: atualizarTimerUI }
   );
+  desenharMindosHoje();
   desenharAgora();
   mostrarFeedback("Cronômetro ligado — veja quanto tempo passa.");
 }
@@ -2766,6 +2794,7 @@ function onTimerFim(meta) {
     }
   }
   mostrarFeedback("Tempo! Marque um passo ou continue — já vale.");
+  desenharMindosHoje();
   desenharAgora();
   if (meta?.habitoId) irParaHabito(meta.habitoId);
 }
@@ -2796,10 +2825,13 @@ function desenharRelogio() {
     return;
   }
   if (min != null && min <= 10 && min > 0) {
-    countdownProximo.textContent = `⏰ ${prox.habito.nome} em ${min} min`;
+    countdownProximo.textContent = t("hoje.relogio.em.min", { nome: prox.habito.nome, min });
     return;
   }
-  countdownProximo.textContent = `Próximo: ${prox.habito.nome} ${texto}`;
+  countdownProximo.textContent = t("hoje.relogio.proximo", {
+    nome: prox.habito.nome,
+    countdown: texto,
+  });
 }
 
 function obterSugestaoAgora() {
@@ -2833,6 +2865,146 @@ function fecharPlanoBAgora() {
   desenharAgora();
 }
 
+function ligarMindosHoje() {
+  if (!mindosRoot || mindosLigado) return;
+  mindosLigado = true;
+  mindosRoot.addEventListener("click", (evento) => {
+    const estadoBtn = evento.target.closest("[data-mindos-estado]");
+    if (estadoBtn) {
+      salvarEstadoMental(estadoBtn.dataset.mindosEstado);
+      desenharMindosHoje();
+      return;
+    }
+
+    const alvo = evento.target.closest("[data-mindos-comecar], [data-mindos-parar], .mindos-link-cheguei");
+    if (!alvo) return;
+
+    if (alvo.matches("[data-mindos-parar]")) {
+      cancelarTimer();
+      pararCronometro();
+      desenharMindosHoje();
+      desenharAgora();
+      mostrarFeedback("Timer parado.");
+      return;
+    }
+
+    if (alvo.classList.contains("mindos-link-cheguei")) {
+      abrirChegueiDoApp({ opcoes: true, voltarGuia: false });
+      return;
+    }
+
+    const foco = obterSugestaoAgora();
+    if (!foco?.habito) return;
+
+    if (alvo.dataset.mindosComecar === "virtual") {
+      comecarTimer(600, foco.habito, "10 minutos de descanso");
+    } else {
+      const hab =
+        habitos.find((h) => String(h.id) === String(alvo.dataset.mindosComecar)) || foco.habito;
+      comecarTimer(120, hab, "2 minutos");
+    }
+    desenharMindosHoje();
+    desenharAgora();
+  });
+}
+
+function desenharMindosHoje() {
+  if (!mindosRoot) return;
+
+  const chave = hojeStr();
+  const pendente = (h) => ehAtivoHoje(h) && !estaFeitoHoje(h);
+  const foco = obterSugestaoAgora();
+  const depois = obterDepois(habitos, foco, {
+    estaPendente: pendente,
+    ordenarPorHorario,
+    prioridades: prioridadesDoDia(chave),
+  });
+
+  const ativoTimer = timerAtivo() || cronometroAtivo();
+  const timerTexto = ativoTimer
+    ? formatarTimer(cronometroAtivo() ? segundosCronometro() : segundosRestantesTimer())
+    : "";
+
+  mindosRoot.innerHTML = htmlMindosHoje({
+    foco,
+    depois,
+    perfil: carregarPerfil(),
+    timerAtivo: ativoTimer,
+    timerTexto,
+    estadoMental: carregarEstadoMental(),
+  });
+}
+
+function desenharMindosRotina() {
+  if (!mindosRotinaRoot) return;
+  const chave = hojeStr();
+  const itens = ordenarPorHorario(habitos.filter((h) => ehAtivoHoje(h)))
+    .slice(0, 8)
+    .map((h) => ({ nome: h.nome, horario: h.horario || "" }));
+  mindosRotinaRoot.innerHTML = htmlMindosRotina(itens);
+}
+
+function desenharMindosSemana() {
+  if (!mindosSemanaRoot) return;
+  let feitosSemana = 0;
+  for (let i = 0; i < 7; i++) {
+    const dia = new Date();
+    dia.setDate(dia.getDate() - i);
+    const chave = chaveData(dia);
+    feitosSemana += habitos.filter((h) => estaCompletoNoDia(h, chave)).length;
+  }
+  const totalPossivel = Math.max(habitos.length * 7, feitosSemana);
+  const foco = obterSugestaoAgora();
+  mindosSemanaRoot.innerHTML = htmlMindosSemana({
+    tema: carregarTemaSemana(),
+    feitosSemana,
+    totalPossivel,
+    focoNome: foco?.habito?.nome || "",
+  });
+}
+
+function desenharMindosInsights() {
+  if (!mindosInsightsRoot) return;
+  const streak = streakGlobal();
+  let feitosSemana = 0;
+  for (let i = 0; i < 7; i++) {
+    const dia = new Date();
+    dia.setDate(dia.getDate() - i);
+    feitosSemana += habitos.filter((h) => estaCompletoNoDia(h, chaveData(dia))).length;
+  }
+  mindosInsightsRoot.innerHTML = htmlMindosInsights({
+    mensagem: mensagemStreakGlobal(streak),
+    feitosSemana,
+    streakRotulo: rotuloStreakInsights(streak),
+  });
+}
+
+function desenharMindosEstudo() {
+  if (!mindosEstudoRoot) return;
+  dadosEstudo = resetSessaoSeNovoDia(dadosEstudo, hojeStr());
+  mindosEstudoRoot.innerHTML = htmlMindosEstudo(dadosEstudo);
+}
+
+function abrirFerramentasEstudo(aba) {
+  if (aba) {
+    dadosEstudo = { ...dadosEstudo, abaAtiva: aba };
+    salvarEstudo(dadosEstudo);
+  }
+  if (estudoMais) estudoMais.open = true;
+  desenharPainelEstudo();
+  desenharMindosEstudo();
+}
+
+function ligarMindosEstudo() {
+  if (mindosEstudoLigado) return;
+  mindosEstudoLigado = true;
+  document.addEventListener("click", (evento) => {
+    const alvo = evento.target.closest("[data-mindos-estudo-aba]");
+    if (!alvo) return;
+    abrirFerramentasEstudo(alvo.dataset.mindosEstudoAba);
+  });
+}
+
 function desenharAgora() {
   if (!agoraConteudo) return;
 
@@ -2851,16 +3023,16 @@ function desenharAgora() {
   const passos = listaMicroPassos(habito);
   const preparar = listaPreparar(habito);
   const dicaPasso = passos[0]
-    ? `<p class="agora-micro">Primeiro passo: <strong>${passos[0]}</strong></p>`
+    ? `<p class="agora-micro">${t("agora.primeiro.passo.html", { passo: passos[0] })}</p>`
     : "";
   const prepHtml = preparar.length
-    ? `<p class="agora-preparar">Dica: ${preparar.join(" · ")}</p>`
+    ? `<p class="agora-preparar">${t("agora.preparar", { lista: preparar.join(" · ") })}</p>`
     : "";
 
   const timerHtml =
     timerAtivo() || cronometroAtivo()
       ? `<div class="agora-timer" id="agora-timer">
-        <span class="agora-timer-label">${cronometroAtivo() ? "Cronômetro" : "Foco"}</span>
+        <span class="agora-timer-label">${cronometroAtivo() ? t("agora.timer.cronometro") : t("agora.timer.foco")}</span>
         <span class="agora-timer-valor" id="agora-timer-valor">${formatarTimer(
           cronometroAtivo() ? segundosCronometro() : segundosRestantesTimer()
         )}</span>
@@ -2882,11 +3054,11 @@ function desenharAgora() {
         <button type="button" class="botao-secundario" id="agora-abrir-cheguei">${t("agora.mais")}</button>
       </div>`
     : `<div class="agora-acoes agora-timers">
-        <button type="button" class="botao-secundario agora-timer-btn" data-seg="30">Só abrir</button>
-        <button type="button" class="botao-secundario agora-timer-btn" data-seg="120">2 min</button>
-        <button type="button" class="botao-secundario agora-timer-btn" data-seg="300">5 min</button>
-        <button type="button" class="botao-secundario agora-timer-btn" data-seg="600">10 min</button>
-        <button type="button" class="botao-secundario agora-timer-btn" data-seg="1500">25 min</button>
+        <button type="button" class="botao-secundario agora-timer-btn" data-seg="30">${t("agora.timer.so.abrir")}</button>
+        <button type="button" class="botao-secundario agora-timer-btn" data-seg="120">${t("agora.timer.2min")}</button>
+        <button type="button" class="botao-secundario agora-timer-btn" data-seg="300">${t("agora.timer.5min")}</button>
+        <button type="button" class="botao-secundario agora-timer-btn" data-seg="600">${t("agora.timer.10min")}</button>
+        <button type="button" class="botao-secundario agora-timer-btn" data-seg="1500">${t("agora.timer.25min")}</button>
       </div>
       <div class="agora-acoes">
         <button type="button" class="botao-secundario" id="agora-cronometro">${t("agora.cronometro")}</button>
@@ -2985,8 +3157,8 @@ function desenharInbox() {
     const btnHabito = document.createElement("button");
     btnHabito.type = "button";
     btnHabito.className = "inbox-acao";
-    btnHabito.textContent = "Hábito";
-    btnHabito.title = "Criar hábito na Rotina";
+    btnHabito.textContent = t("hoje.inbox.acao.habito");
+    btnHabito.title = t("hoje.inbox.acao.habito.title");
     btnHabito.addEventListener("click", () => {
       removerInbox(item.id);
       ativarPainel("rotina");
@@ -3001,8 +3173,8 @@ function desenharInbox() {
     const btnNota = document.createElement("button");
     btnNota.type = "button";
     btnNota.className = "inbox-acao";
-    btnNota.textContent = "Nota";
-    btnNota.title = "Mover para anotações de hoje";
+    btnNota.textContent = t("hoje.inbox.acao.nota");
+    btnNota.title = t("hoje.inbox.acao.nota.title");
     btnNota.addEventListener("click", () => {
       const hoje = hojeStr();
       const atual = notas[hoje] || "";
@@ -3016,8 +3188,8 @@ function desenharInbox() {
     const btnDepois = document.createElement("button");
     btnDepois.type = "button";
     btnDepois.className = "inbox-acao";
-    btnDepois.textContent = "Depois";
-    btnDepois.title = "Guardar para outro dia";
+    btnDepois.textContent = t("hoje.inbox.acao.depois");
+    btnDepois.title = t("hoje.inbox.acao.depois.title");
     btnDepois.addEventListener("click", () => {
       moverInboxParaDepois(item.id);
       desenharInbox();
@@ -3028,7 +3200,7 @@ function desenharInbox() {
     remover.type = "button";
     remover.className = "inbox-remover";
     remover.textContent = "×";
-    remover.title = "Remover da inbox";
+    remover.title = t("hoje.inbox.remover.title");
     remover.addEventListener("click", () => {
       removerInbox(item.id);
       desenharInbox();
@@ -3067,13 +3239,17 @@ function desenharManha() {
     const linhas = focos.length ? focos : habitoNomes;
     resumoNaoEsqueci.hidden = false;
     const extra = preparoOntem && !focos.includes(preparoOntem) ? ` · <em>${preparoOntem}</em>` : "";
-    resumoNaoEsqueci.innerHTML = `<strong>Não esquecer:</strong> ${linhas.slice(0, 3).join(" · ")}${extra}`;
+    resumoNaoEsqueci.innerHTML = t("hoje.manha.nao.esquecer.html", {
+      lista: `${linhas.slice(0, 3).join(" · ")}${extra}`,
+    });
   } else if (preparoOntem) {
     resumoNaoEsqueci.hidden = false;
-    resumoNaoEsqueci.innerHTML = `<strong>De ontem:</strong> ${preparoOntem}`;
+    resumoNaoEsqueci.innerHTML = t("hoje.manha.de.ontem.html", { texto: preparoOntem });
   } else if (perfil.prioridadesVida?.length) {
     resumoNaoEsqueci.hidden = false;
-    resumoNaoEsqueci.innerHTML = `<strong>Seu foco:</strong> ${perfil.prioridadesVida.join(" · ")}`;
+    resumoNaoEsqueci.innerHTML = t("hoje.manha.seu.foco.html", {
+      lista: perfil.prioridadesVida.join(" · "),
+    });
   } else {
     resumoNaoEsqueci.hidden = true;
   }
@@ -3246,6 +3422,7 @@ function lerPerfilDoFormulario() {
   const base = carregarPerfil();
   return {
     ...base,
+    nome: (perfilNome?.value || base.nome || "").trim(),
     acordar: perfilAcordar?.value || base.acordar,
     dormir: perfilDormir?.value || base.dormir,
     chegadaCasa: perfilChegada?.value || base.chegadaCasa,
@@ -3255,6 +3432,7 @@ function lerPerfilDoFormulario() {
 }
 
 function preencherFormularioPerfil(perfil = carregarPerfil()) {
+  if (perfilNome) perfilNome.value = perfil.nome || "";
   if (perfilAcordar) perfilAcordar.value = perfil.acordar || "05:45";
   if (perfilDormir) perfilDormir.value = perfil.dormir || "23:30";
   if (perfilChegada) perfilChegada.value = perfil.chegadaCasa || "17:00";
@@ -3453,6 +3631,7 @@ function salvarEstudoLocal(novo, opts = {}) {
   dadosEstudo = novo;
   salvarEstudo(dadosEstudo);
   if (!opts.semResumo) desenharEstudoResumo();
+  desenharMindosEstudo();
   if (painelAtivo !== "estudo") return;
   if (opts.somenteLivros && estudoPainelRoot) {
     atualizarResultadoLivros(estudoPainelRoot, dadosEstudo);
@@ -3475,6 +3654,7 @@ function desenharPainelEstudo() {
   dadosEstudo = resetSessaoSeNovoDia(dadosEstudo, hojeStr());
   const parceiro = renderPainelParceiro(carregarSessaoParceiro());
   estudoPainelRoot.innerHTML = parceiro + renderPainelEstudo(dadosEstudo, hojeStr());
+  desenharMindosEstudo();
 }
 
 function processarHashHabito() {
@@ -3510,16 +3690,24 @@ function desenharResumoAgenda() {
 
   let texto = "";
   if (total === 0 && avisosHoje === 0) {
-    texto = "Sua agenda está livre. Adicione hábitos ou avisos abaixo.";
+    texto = t("hoje.agenda.livre");
   } else if (pendente === 0 && avisosHoje === 0) {
-    texto = "Tudo concluído por hoje.";
+    texto = t("hoje.agenda.concluido");
   } else if (proximo) {
-    texto = `Próximo: <strong>${proximo.horario}</strong> — ${proximo.nome}`;
+    texto = t("hoje.agenda.proximo.html", { horario: proximo.horario, nome: proximo.nome });
   } else {
     const partes = [];
-    if (pendente > 0) partes.push(`${pendente} hábito${pendente > 1 ? "s" : ""}`);
-    if (avisosHoje > 0) partes.push(`${avisosHoje} aviso${avisosHoje > 1 ? "s" : ""}`);
-    texto = `${partes.join(" · ")} ainda hoje.`;
+    if (pendente > 0) {
+      partes.push(
+        t(pendente > 1 ? "hoje.agenda.parte.habitos" : "hoje.agenda.parte.habito", { n: pendente })
+      );
+    }
+    if (avisosHoje > 0) {
+      partes.push(
+        t(avisosHoje > 1 ? "hoje.agenda.parte.avisos" : "hoje.agenda.parte.aviso", { n: avisosHoje })
+      );
+    }
+    texto = t("hoje.agenda.restante", { partes: partes.join(" · ") });
   }
 
   agendaResumo.innerHTML = `<p class="agenda-resumo-texto">${texto}</p>`;
@@ -3528,6 +3716,7 @@ function desenharResumoAgenda() {
   desenharBannerTarde();
   desenharBannerTransicao();
   desenharBannerPreditivo();
+  desenharMindosHoje();
   desenharAgora();
   desenharEstudoResumo();
   desenharInbox();
@@ -3567,7 +3756,7 @@ function criarItem(habito) {
     controle.type = "button";
     controle.className = "botao-passos" + (feito ? " completo" : "");
     controle.textContent = `${progresso}/${totalPassos}`;
-    controle.title = "Toque para registrar o próximo lembrete";
+    controle.title = t("hoje.item.passos.title");
     controle.addEventListener("click", () => avancarHabito(habito.id));
   } else {
     controle = document.createElement("input");
@@ -3601,7 +3790,7 @@ function criarItem(habito) {
   badgeImp.type = "button";
   badgeImp.className = "badge-importancia imp-" + imp;
   badgeImp.textContent = rotuloImportancia(habito);
-  badgeImp.title = "Toque para mudar rápido — ou use ✎ para editar tudo";
+  badgeImp.title = t("hoje.item.importancia.title");
   badgeImp.addEventListener("click", () => ciclarImportancia(habito.id));
   linha.appendChild(badgeImp);
 
@@ -3610,15 +3799,15 @@ function criarItem(habito) {
 
   const tag = document.createElement("span");
   tag.className = "tag";
-  tag.textContent = habito.categoria || "Geral";
+  tag.textContent = habito.categoria || t("categoria.geral");
   meta.appendChild(tag);
 
   const chipMeta = document.createElement("button");
   chipMeta.type = "button";
   chipMeta.className = "meta-chip";
   chipMeta.textContent = rotuloMetaSemanal(habito.metaSemanal);
-  chipMeta.title = "Editar vezes na semana";
-  chipMeta.setAttribute("aria-label", `Frequência: ${rotuloMetaSemanal(habito.metaSemanal)}. Toque para editar.`);
+  chipMeta.title = t("hoje.item.meta.title");
+  chipMeta.setAttribute("aria-label", t("hoje.item.meta.aria", { freq: rotuloMetaSemanal(habito.metaSemanal) }));
   impedirArrasteNoBotao(chipMeta);
   chipMeta.addEventListener("click", (evento) => {
     evento.stopPropagation();
@@ -3641,10 +3830,10 @@ function criarItem(habito) {
     lembrete.className = "meta-info";
     lembrete.textContent =
       progresso === 0
-        ? `${totalPassos} lembretes no dia`
+        ? t("hoje.item.lembretes.total", { n: totalPassos })
         : feito
-          ? "todos os lembretes feitos"
-          : `lembrete ${progresso} de ${totalPassos}`;
+          ? t("hoje.item.lembretes.feitos")
+          : t("hoje.item.lembrete.progresso", { atual: progresso, total: totalPassos });
     meta.appendChild(lembrete);
 
     const horariosTxt = textoHorariosLembretes(habito);
@@ -3662,14 +3851,14 @@ function criarItem(habito) {
     const alvo = metaAlvo;
     const semana = document.createElement("span");
     semana.className = "meta-info" + (feitosSemana >= alvo ? " cumprida" : "");
-    semana.textContent = `${feitosSemana}/${alvo} esta semana`;
+    semana.textContent = t("hoje.item.semana.progresso", { feitos: feitosSemana, alvo });
     meta.appendChild(semana);
   }
 
   if (recorde > 0) {
     const rec = document.createElement("span");
     rec.className = "meta-info";
-    rec.textContent = `recorde ${recorde}`;
+    rec.textContent = t("hoje.item.recorde", { n: recorde });
     meta.appendChild(rec);
   }
 
@@ -3701,7 +3890,7 @@ function criarItem(habito) {
     if (todosMicroFeitos(habito, hoje) && !feito) {
       const dica = document.createElement("p");
       dica.className = "micro-completo-dica";
-      dica.textContent = "Micro-passos feitos — pode marcar o hábito principal ✓";
+      dica.textContent = t("hoje.item.micro.dica");
       conteudo.appendChild(dica);
     }
   }
@@ -3710,14 +3899,15 @@ function criarItem(habito) {
   marcaStreak.className = "streak" + (streak > 0 ? " ativa" : "");
   const msgStreak = mensagemStreakHabito(habito, streak, calcularRecorde(habito));
   marcaStreak.textContent =
-    msgStreak || (streak > 0 ? `${streak} ${streak === 1 ? "dia" : "dias"}` : "—");
+    msgStreak ||
+    (streak > 0 ? t(streak === 1 ? "hoje.item.streak.dia" : "hoje.item.streak.dias", { n: streak }) : "—");
   if (msgStreak) marcaStreak.title = msgStreak;
 
   const botaoEditar = document.createElement("button");
   botaoEditar.className = "botao-editar";
   botaoEditar.textContent = "✎";
-  botaoEditar.title = "Editar nome e frequência";
-  botaoEditar.setAttribute("aria-label", "Editar nome e frequência");
+  botaoEditar.title = t("hoje.item.editar.title");
+  botaoEditar.setAttribute("aria-label", t("hoje.item.editar.aria"));
   impedirArrasteNoBotao(botaoEditar);
   botaoEditar.addEventListener("click", (evento) => {
     evento.stopPropagation();
@@ -3727,8 +3917,8 @@ function criarItem(habito) {
   const botaoRemover = document.createElement("button");
   botaoRemover.className = "botao-remover";
   botaoRemover.textContent = "×";
-  botaoRemover.title = "Remover hábito";
-  botaoRemover.setAttribute("aria-label", "Remover hábito");
+  botaoRemover.title = t("hoje.item.remover.title");
+  botaoRemover.setAttribute("aria-label", t("hoje.item.remover.aria"));
   impedirArrasteNoBotao(botaoRemover);
   botaoRemover.addEventListener("click", (evento) => {
     evento.stopPropagation();
@@ -3738,8 +3928,11 @@ function criarItem(habito) {
   const botaoFoco = document.createElement("button");
   botaoFoco.className = "botao-foco" + (emFoco ? " ativo" : "");
   botaoFoco.textContent = emFoco ? "★" : "☆";
-  botaoFoco.title = `Prioridade de hoje (máx. ${MAX_PRIORIDADES})`;
-  botaoFoco.setAttribute("aria-label", emFoco ? "Remover prioridade" : "Marcar como prioridade");
+  botaoFoco.title = t("hoje.item.prioridade.title", { max: MAX_PRIORIDADES });
+  botaoFoco.setAttribute(
+    "aria-label",
+    emFoco ? t("hoje.item.prioridade.remover") : t("hoje.item.prioridade.marcar")
+  );
   botaoFoco.setAttribute("data-acao-habito", "prioridade");
   impedirArrasteNoBotao(botaoFoco);
   botaoFoco.addEventListener("click", (evento) => {
@@ -3823,19 +4016,20 @@ function desenhar() {
 
   if (rotuloFoco) {
     const totalPrioridades = prioridadesDoDia(chave).length;
-    rotuloFoco.textContent = `Prioridades de hoje (${totalPrioridades}/${MAX_PRIORIDADES}) — toque na ☆`;
+    rotuloFoco.textContent = t("hoje.prioridades.rotulo", {
+      atual: totalPrioridades,
+      max: MAX_PRIORIDADES,
+    });
     rotuloFoco.hidden = habitos.length === 0;
   }
 
   listaHabitos.innerHTML = "";
   if (habitos.length === 0) {
     mensagemVazia.style.display = "block";
-    mensagemVazia.innerHTML =
-      'Nenhum hábito na agenda. Vá em <strong>Rotina</strong> para criar o primeiro.';
+    mensagemVazia.innerHTML = t("hoje.lista.vazio.html");
   } else if (visiveis.length === 0 && (modoCabecaLeve() || modoCerebroVazio() || limiteDiarioAtivo())) {
     mensagemVazia.style.display = "block";
-    mensagemVazia.textContent =
-      "Nenhum hábito visível com os filtros atuais. Desative um modo ou marque prioridades.";
+    mensagemVazia.textContent = t("hoje.lista.filtro");
   } else {
     mensagemVazia.style.display = "none";
   }
@@ -3845,6 +4039,11 @@ function desenhar() {
   desenharResumoAgenda();
   desenharAvisos();
   desenharRelogio();
+  desenharMindosHoje();
+  desenharMindosRotina();
+  desenharMindosSemana();
+  desenharMindosInsights();
+  desenharMindosEstudo();
   atualizarResumo();
   desenharGrafico();
   desenharMetasSemana();
@@ -4118,13 +4317,20 @@ function ligarTodosEventos() {
   });
   entradaTemaSemana?.addEventListener("input", () => {
     salvarTemaSemana(entradaTemaSemana.value);
+    desenharMindosSemana();
   });
   botaoRotinaPersonalizada?.addEventListener("click", aplicarRotinaPersonalizada);
   formPerfilRotina?.addEventListener("change", () => {
     salvarPerfilDoFormulario();
     desenharPerfilAjustes();
+    desenharMindosHoje();
   });
-  formPerfilRotina?.addEventListener("input", () => {
+  formPerfilRotina?.addEventListener("input", (evento) => {
+    if (evento.target === perfilNome || evento.target?.name === "nome") {
+      salvarPerfilDoFormulario();
+      desenharMindosHoje();
+      if (painelAtivo === "guia") desenharGuia();
+    }
     desenharPreviewRotina();
     if (perfilResumo) {
       const perfil = lerPerfilDoFormulario();
@@ -4155,6 +4361,8 @@ export function initApp() {
   carregarNotaHoje();
   carregarNotaDiario(dataInicialDiario());
   ligarTodosEventos();
+  ligarMindosHoje();
+  ligarMindosEstudo();
   definirCallbackIdioma(() => aplicarIdiomaApp());
   aplicarIdiomaApp();
   window.initHabitosSync?.();

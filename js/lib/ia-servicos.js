@@ -2,6 +2,12 @@
 
 import { iaVercelConfigurada, sondarIaVercel, urlApiVercel } from "../config.js";
 import { locale } from "./i18n.js";
+import { carregarPerfil } from "./perfil.js";
+
+function perfilIa() {
+  const p = carregarPerfil();
+  return { nome: p.nome || "North" };
+}
 
 export function iaDisponivel() {
   return iaVercelConfigurada();
@@ -27,9 +33,9 @@ async function postApi(path, payload) {
 }
 
 export async function pedirResumoDiario(texto, revisao) {
-  return postApi("/api/diario-resumo", { texto, revisao });
+  return postApi("/api/diario-resumo", { texto, revisao, perfil: perfilIa() });
 }
 
 export async function pedirPlanoSemana(stats, padroes) {
-  return postApi("/api/semana-agente", { stats, padroes });
+  return postApi("/api/semana-agente", { stats, padroes, perfil: perfilIa() });
 }

@@ -1,5 +1,7 @@
 /** Vercel Serverless — feedback IA para trilha Neuro (Groq → Gemini). */
 
+const { contextoSegundoCerebro } = require("./ia-shared");
+
 const ORIGENS_PADRAO = [
   "https://migs-maker00.github.io",
   "https://projeto-1-criar.vercel.app",
@@ -31,20 +33,21 @@ function aplicarCors(res, origin) {
   res.setHeader("Access-Control-Max-Age", "86400");
 }
 
-function montarPrompt({ titulo, textoModulo, pontosChave, explicacao, locale = "pt" }) {
+function montarPrompt({ titulo, textoModulo, pontosChave, explicacao, locale = "pt", perfil, nome }) {
+  const ctx = contextoSegundoCerebro({ perfil, nome }, locale);
   const pontos = (pontosChave || []).map((p) => `- ${p}`).join("\n");
   if (locale === "en") {
-    return `You are a neuroscience tutor for a 16-year-old student (Erica) with ADHD.
-She learns best by EXPLAINING in her own words (Feynman technique).
+    return `${ctx}
+They learn best by EXPLAINING in their own words (Feynman technique).
 
 Module: "${titulo}"
 Reference text:
 ${textoModulo || ""}
 
-Key points she should cover:
+Key points they should cover:
 ${pontos}
 
-Her explanation:
+Their explanation:
 """
 ${explicacao}
 """
@@ -54,7 +57,7 @@ Evaluate with empathy. Respond ONLY valid JSON, no markdown:
   "ok": true,
   "pct": 75,
   "feedback": "2-4 sentences in English, encouraging tone",
-  "acertos": ["what she got right"],
+  "acertos": ["what they got right"],
   "faltou": ["missing concepts"],
   "perguntaSeguinte": "one short follow-up question"
 }
@@ -64,17 +67,17 @@ Rules:
 - Be specific; celebrate effort
 - Max 4 items in acertos and faltou`;
   }
-  return `Você é uma tutora de neurociência para uma estudante de 16 anos (Erica), com TDAH.
-Ela aprende melhor EXPLICANDO com as próprias palavras (técnica Feynman).
+  return `${ctx}
+Aprende melhor EXPLICANDO com as próprias palavras (técnica Feynman).
 
 Módulo: "${titulo}"
 Texto de referência:
 ${textoModulo || ""}
 
-Pontos-chave que ela deveria cobrir:
+Pontos-chave que deveria cobrir:
 ${pontos}
 
-Explicação dela:
+Explicação:
 """
 ${explicacao}
 """
@@ -84,7 +87,7 @@ Avalie com empatia e clareza. Responda APENAS em JSON válido, sem markdown, nes
   "ok": true,
   "pct": 75,
   "feedback": "2-4 frases em português, tom encorajador",
-  "acertos": ["o que ela acertou"],
+  "acertos": ["o que acertou"],
   "faltou": ["conceitos que faltaram"],
   "perguntaSeguinte": "uma pergunta curta para ela pensar mais"
 }
@@ -278,6 +281,8 @@ module.exports = async (req, res) => {
       pontosChave: Array.isArray(corpo.pontosChave) ? corpo.pontosChave.slice(0, 12) : [],
       explicacao,
       locale: corpo.locale === "en" ? "en" : "pt",
+      perfil: corpo.perfil,
+      nome: corpo.nome,
     });
 
     const { raw, provedor } = await chamarIA(prompt);

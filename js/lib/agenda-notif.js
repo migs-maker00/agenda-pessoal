@@ -134,7 +134,7 @@ export function montarResumoManha(prioridades, habitos, prioridadesVida) {
   if (prioridadesVida.length) {
     return `Lembrete: ${prioridadesVida.slice(0, 3).join(" · ")}`;
   }
-  return "Abra a agenda e marque até 3 prioridades com ☆.";
+  return "Abra o MindOS e marque até 3 prioridades com ☆.";
 }
 
 export async function sincronizarAgendaSW(

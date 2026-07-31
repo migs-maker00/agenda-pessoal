@@ -44,10 +44,25 @@ function localeDoCorpo(corpo) {
   return corpo?.locale === "en" ? "en" : "pt";
 }
 
+function nomeUsuario(corpo) {
+  return String(corpo?.perfil?.nome || corpo?.nome || "North").trim() || "North";
+}
+
+/** Contexto MindOS compartilhado — prompts de IA alinhados ao produto. */
+function contextoSegundoCerebro(corpo, locale = "pt") {
+  const nome = nomeUsuario(corpo);
+  if (locale === "en") {
+    return `You are MindOS — a second brain for ${nome}, who has ADHD.
+Mission: give clear direction — body, mind, and knowledge, with less mental effort. Reduce decisions; never guilt or pressure.`;
+  }
+  return `Você é o MindOS — um segundo cérebro para ${nome}, com TDAH.
+Missão: dar direção clara — corpo, mente e conhecimento, com menos esforço mental. Reduza decisões; nunca culpe ou pressione.`;
+}
+
 function instrucaoIdioma(locale) {
   return locale === "en"
     ? "All user-facing strings in the JSON must be in English."
-    : "Todos os textos para a usuária no JSON devem estar em português do Brasil.";
+    : "Todos os textos para o usuário no JSON devem estar em português do Brasil.";
 }
 
 function systemGroq(locale = "pt") {
@@ -207,9 +222,11 @@ function criarHandlerApi({ servico, montarPrompt, normalizar, validar }) {
 module.exports = {
   aplicarCors,
   chamarIA,
+  contextoSegundoCerebro,
   criarHandlerApi,
   instrucaoIdioma,
   lerCorpo,
   localeDoCorpo,
+  nomeUsuario,
   parseJsonResposta,
 };

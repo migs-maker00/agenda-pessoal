@@ -1,7 +1,9 @@
 // Foco — relógio visível, countdown e timer de 2 minutos (TDAH)
 
+import { localeTag, t } from "./i18n.js";
+
 export function horaFormatada(data = new Date()) {
-  return data.toLocaleTimeString("pt-BR", {
+  return data.toLocaleTimeString(localeTag(), {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
@@ -20,11 +22,13 @@ export function minutosAte(horarioHHMM) {
 export function textoCountdown(minutos) {
   if (minutos == null) return "";
   if (minutos < 0) return "passou";
-  if (minutos === 0) return "agora";
-  if (minutos < 60) return `em ${minutos} min`;
+  if (minutos === 0) return t("hoje.countdown.agora");
+  if (minutos < 60) return t("hoje.countdown.em.min", { n: minutos });
   const h = Math.floor(minutos / 60);
   const m = minutos % 60;
-  return m ? `em ${h}h${String(m).padStart(2, "0")}` : `em ${h}h`;
+  return m
+    ? t("hoje.countdown.em.hora", { h, m: String(m).padStart(2, "0") })
+    : t("hoje.countdown.em.h", { h });
 }
 
 export function proximoHorarioPendente(habitos, { estaPendente, horariosDoHabito }) {

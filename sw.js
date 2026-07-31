@@ -1,10 +1,11 @@
 /* Service worker — lembretes agendados + cache do app (PWA) */
 
-const CACHE = "agenda-v2.23.2";
+const CACHE = "mindos-v2.29.0";
 const alarmes = new Map();
 
 const ARQUIVOS_CACHE = [
   "./manifest.webmanifest",
+  "./icon.svg",
   "./icon-192.png",
   "./favicon-32.png",
   "./favicon-16.png",

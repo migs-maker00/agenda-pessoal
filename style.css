@@ -143,8 +143,17 @@ body {
   line-height: 1.05;
 }
 
+.marca-tagline {
+  margin: 8px 0 0;
+  max-width: 22rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--texto-suave);
+  font-weight: 500;
+}
+
 .titulo-dia {
-  margin-top: 10px;
+  margin-top: 14px;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -4272,5 +4281,408 @@ body.modo-barulho-ativo .bloco-revisao {
   font-variant-numeric: tabular-nums;
   color: var(--marca);
   font-weight: 600;
+}
+
+/* MindOS — tela principal Hoje */
+.mindos-hoje {
+  padding: 8px 0 20px;
+  display: grid;
+  gap: 18px;
+}
+
+.mindos-cab {
+  display: grid;
+  gap: 6px;
+}
+
+.mindos-saudacao {
+  margin: 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.65rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--texto);
+  letter-spacing: -0.02em;
+}
+
+.mindos-sono {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--texto-suave);
+}
+
+.mindos-estado {
+  display: grid;
+  gap: 8px;
+}
+
+.mindos-estado-pergunta {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--texto-suave);
+}
+
+.mindos-estado-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mindos-estado-chip {
+  padding: 6px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--borda);
+  background: color-mix(in srgb, var(--bege) 40%, var(--superficie));
+  color: var(--texto-suave);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.mindos-estado-chip:hover {
+  border-color: color-mix(in srgb, var(--azul) 40%, var(--borda));
+  color: var(--texto);
+}
+
+.mindos-estado-chip.ativo {
+  background: var(--azul);
+  border-color: var(--azul);
+  color: var(--bege-claro);
+}
+
+.mindos-estado-recuperar {
+  margin: 0;
+  text-align: center;
+}
+
+.mindos-estado-recuperar-btn {
+  font-size: 0.88rem;
+}
+
+.mindos-foco-rotulo {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.mindos-foco-card {
+  padding: 20px 18px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--azul) 35%, var(--borda));
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--azul-claro) 45%, var(--superficie-elevada)) 0%,
+    var(--superficie-elevada) 55%
+  );
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--preto) 8%, transparent);
+  display: grid;
+  gap: 16px;
+}
+
+.mindos-foco-corpo {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.mindos-foco-emoji {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.mindos-foco-textos {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.mindos-foco-nome {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--azul);
+  line-height: 1.2;
+}
+
+.mindos-foco-hora {
+  font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--texto-suave);
+  font-weight: 600;
+}
+
+.mindos-comecar {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 1rem;
+  border-radius: 12px;
+  background: var(--azul);
+  color: var(--bege-claro);
+}
+
+.mindos-comecar:hover {
+  background: var(--azul-medio);
+}
+
+.mindos-timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--azul) 12%, var(--superficie));
+}
+
+.mindos-timer-valor {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--azul);
+}
+
+.mindos-depois {
+  display: grid;
+  gap: 10px;
+  padding-top: 4px;
+  border-top: 1px solid color-mix(in srgb, var(--borda) 70%, transparent);
+}
+
+.mindos-depois-rotulo {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.mindos-depois-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bege) 35%, var(--superficie));
+  border: 1px solid var(--borda);
+}
+
+.mindos-depois-emoji {
+  font-size: 1.35rem;
+}
+
+.mindos-depois-info {
+  display: grid;
+  gap: 2px;
+}
+
+.mindos-depois-nome {
+  margin: 0;
+  font-weight: 600;
+  color: var(--texto);
+}
+
+.mindos-depois-meta {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--texto-suave);
+}
+
+.mindos-rodape {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--texto-suave);
+}
+
+.mindos-livre {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--texto);
+}
+
+.mindos-cheguei {
+  margin: 0;
+  text-align: center;
+}
+
+.mindos-link-cheguei {
+  font-size: 0.88rem;
+}
+
+.hoje-mais {
+  margin-top: 8px;
+  border-top: 1px solid var(--borda);
+  padding-top: 12px;
+}
+
+.hoje-mais-resumo {
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--texto-suave);
+  padding: 8px 0;
+  list-style: none;
+}
+
+.hoje-mais-resumo::-webkit-details-marker {
+  display: none;
+}
+
+.hoje-mais[open] .hoje-mais-resumo {
+  color: var(--marca);
+  margin-bottom: 12px;
+}
+
+.hoje-mais-conteudo {
+  display: grid;
+  gap: 12px;
+}
+
+/* MindOS — Rotina / Semana (direção) */
+.mindos-sec {
+  padding: 8px 0 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.mindos-sec-rotulo {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.mindos-sec-apoio,
+.mindos-sec-meta,
+.mindos-sec-livre {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--texto-suave);
+  line-height: 1.45;
+}
+
+.mindos-sec-direcao {
+  margin: 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--texto);
+}
+
+.mindos-sec-lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.mindos-sec-item {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bege) 35%, var(--superficie));
+  border: 1px solid var(--borda);
+}
+
+.mindos-sec-hora {
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--azul);
+  min-width: 3.2rem;
+}
+
+.mindos-sec-nome {
+  font-weight: 600;
+  color: var(--texto);
+}
+
+.mindos-sec-foco {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--texto);
+}
+
+.mindos-sec-foco-rotulo {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  margin-bottom: 4px;
+}
+
+.mindos-sec-rodape {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--texto-suave);
+}
+
+.mindos-sec-mais {
+  margin-top: 4px;
+  border-top: 1px solid var(--borda);
+  padding-top: 10px;
+}
+
+.mindos-sec-mais-resumo {
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--texto-suave);
+  padding: 8px 0;
+  list-style: none;
+}
+
+.mindos-sec-mais-resumo::-webkit-details-marker {
+  display: none;
+}
+
+.mindos-sec-mais[open] .mindos-sec-mais-resumo {
+  color: var(--marca);
+  margin-bottom: 12px;
+}
+
+.mindos-sec-mais-conteudo {
+  display: grid;
+  gap: 12px;
+}
+
+.guia-mais {
+  margin-top: 4px;
+}
+
+.perfil-rotina-nome {
+  display: block;
+  margin-bottom: 12px;
+}
+
+[data-tema="escuro"] .mindos-foco-card {
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--azul) 22%, var(--superficie-elevada)) 0%,
+    var(--superficie-elevada) 60%
+  );
+}
+
+[data-tema="escuro"] .mindos-foco-nome {
+  color: var(--bege-claro);
+}
+
+[data-tema="escuro"] .mindos-comecar {
+  background: var(--marca);
+  color: var(--destaque-texto);
 }
 

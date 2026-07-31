@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Agenda — Seu dia</title>
+  <title>MindOS</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
+  <meta name="description" content="Te dá direção — corpo, mente e conhecimento, sem peso na cabeça." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Agenda" />
+  <meta name="apple-mobile-web-app-title" content="MindOS" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -20,22 +22,25 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=2.23.2" />
+  <link rel="stylesheet" href="style.css?v=2.29.0" />
 </head>
 <body>
   <div class="ambiente">
     <main class="app">
       <header class="cabecalho">
         <div class="cabecalho-marca">
-          <p class="marca" data-i18n="header.brand">Agenda</p>
-          <h1 class="titulo-dia" data-i18n="header.day">Seu dia</h1>
+          <p class="marca" data-i18n="header.brand">MindOS</p>
+          <p class="marca-tagline" data-i18n="header.tagline">
+            Te dá direção — corpo, mente e conhecimento, sem peso na cabeça.
+          </p>
+          <h1 class="titulo-dia" data-i18n="header.day">Agora</h1>
           <p id="data-hoje" class="data-hoje"></p>
         </div>
         <button id="botao-tema" class="botao-tema" data-i18n-aria="theme.aria" aria-label="Alternar tema" type="button">☾</button>
       </header>
 
-      <nav class="nav-paineis" data-i18n-aria="nav.aria" aria-label="Seções do app">
-        <button type="button" class="nav-item ativo" data-painel="hoje">Hoje</button>
+      <nav class="nav-paineis" data-i18n-aria="nav.aria" aria-label="Áreas do MindOS">
+        <button type="button" class="nav-item ativo" data-painel="hoje">Agora</button>
         <button type="button" class="nav-item" data-painel="guia">Guia</button>
         <button type="button" class="nav-item" data-painel="estudo">Estudo</button>
         <button type="button" class="nav-item" data-painel="rotina">Rotina</button>
@@ -58,13 +63,23 @@
         <div id="guia-root" class="guia-root"></div>
       </section>
 
-      <!-- ESTUDO: vídeo, áudio, prática e falar -->
+      <!-- ESTUDO: um passo + ferramentas recolhidas -->
       <section id="painel-estudo" class="painel" aria-label="Estudo" hidden>
-        <div id="estudo-painel-root" class="estudo-painel-root"></div>
+        <div id="mindos-estudo" class="mindos-sec" aria-live="polite"></div>
+        <details class="mindos-sec-mais" id="estudo-mais">
+          <summary class="mindos-sec-mais-resumo" data-i18n="mindos.estudo.mais">Ferramentas de estudo</summary>
+          <div class="mindos-sec-mais-conteudo">
+            <div id="estudo-painel-root" class="estudo-painel-root"></div>
+          </div>
+        </details>
       </section>
 
-      <!-- ROTINA: adicionar hábitos (simples) -->
+      <!-- ROTINA: ritmo + ajustes recolhidos -->
       <section id="painel-rotina" class="painel" aria-label="Rotina" hidden>
+        <div id="mindos-rotina" class="mindos-sec" aria-live="polite"></div>
+        <details class="mindos-sec-mais" id="rotina-mais">
+          <summary class="mindos-sec-mais-resumo" data-i18n="mindos.rotina.mais">Ajustar hábitos</summary>
+          <div class="mindos-sec-mais-conteudo">
         <section class="bloco bloco-primeiro adicionar-card rotina-simples">
           <h2 class="bloco-titulo" data-i18n="rotina.adicionar.titulo">Adicionar hábito</h2>
           <p class="rotina-resumo" data-i18n-html="rotina.adicionar.apoio.html">Toque num atalho ou escreva o nome. Use a aba <strong>Hoje</strong> para marcar.</p>
@@ -146,10 +161,12 @@
             <button type="button" id="botao-regenerar-rotina"></button>
           </div>
         </div>
+          </div>
+        </details>
       </section>
 
-      <!-- HOJE: checklist do dia -->
-      <section id="painel-hoje" class="painel ativo" aria-label="Hoje">
+      <!-- AGORA: um foco — segundo cérebro -->
+      <section id="painel-hoje" class="painel ativo" aria-label="Agora">
         <div id="guia-chamada" class="guia-chamada" hidden>
           <p class="guia-chamada-texto" data-i18n-html="guia.chamada.html">
             <strong>Nova aqui?</strong> O <strong>Guia</strong> tem o roteiro de 5 min para mostrar o app com confiança.
@@ -165,6 +182,13 @@
           </p>
           <button type="button" id="dica-fechar" class="botao-secundario dica-fechar" data-i18n="dica.entendi">Entendi</button>
         </div>
+
+        <div id="mindos-hoje" class="mindos-hoje" aria-live="polite"></div>
+
+        <details class="hoje-mais" id="hoje-mais">
+          <summary class="hoje-mais-resumo" data-i18n="hoje.mais">Ver mais</summary>
+          <div class="hoje-mais-conteudo">
+
         <div id="barra-relogio" class="barra-relogio" aria-live="polite">
           <span id="relogio-atual" class="relogio-atual">--:--:--</span>
           <span id="countdown-proximo" class="countdown-proximo"></span>
@@ -267,7 +291,7 @@
 
         <section class="resumo">
           <div class="resumo-topo">
-            <span class="resumo-rotulo" data-i18n="hoje.compromissos">Compromissos de hoje</span>
+            <span class="resumo-rotulo" data-i18n="hoje.compromissos">Passos de hoje</span>
             <span class="resumo-valor">
               <span id="contador-feitos">0</span>/<span id="contador-total">0</span>
             </span>
@@ -302,8 +326,8 @@
         </div>
         <p id="rotulo-foco" class="secao-rotulo rotulo-foco" hidden>Máx. 3 prioridades — toque na ☆</p>
         <ul id="lista-habitos" class="lista-habitos"></ul>
-        <p id="mensagem-vazia" class="mensagem-vazia">
-          Nenhum hábito na agenda. Vá em <strong>Rotina</strong> para criar o primeiro.
+        <p id="mensagem-vazia" class="mensagem-vazia" data-i18n-html="hoje.lista.vazio.html">
+          Nada no ritmo ainda. Vá em <strong>Rotina</strong> para montar o primeiro passo.
         </p>
 
         <section class="bloco bloco-revisao" aria-label="Revisão do dia">
@@ -335,6 +359,9 @@
             <p id="nota-hoje-status" class="diario-status" aria-live="polite"></p>
           </div>
         </section>
+
+          </div>
+        </details>
       </section>
 
       <!-- DIÁRIO: notas salvas por data -->
@@ -412,8 +439,12 @@
         </section>
       </section>
 
-      <!-- SEMANA: visão executiva da semana -->
+      <!-- SEMANA: direção + números recolhidos -->
       <section id="painel-semana" class="painel" aria-label="Semana" hidden>
+        <div id="mindos-semana" class="mindos-sec" aria-live="polite"></div>
+        <details class="mindos-sec-mais" id="semana-mais">
+          <summary class="mindos-sec-mais-resumo" data-i18n="mindos.semana.mais">Ver números da semana</summary>
+          <div class="mindos-sec-mais-conteudo">
         <section class="bloco bloco-primeiro">
           <h2 class="bloco-titulo" data-i18n="semana.grafico">Últimos 7 dias</h2>
           <p class="bloco-apoio" data-i18n="semana.grafico.apoio">Porcentagem de hábitos concluídos por dia.</p>
@@ -425,10 +456,16 @@
           <p class="bloco-apoio" data-i18n="semana.metas.apoio">Quanto falta para cumprir cada meta semanal.</p>
           <div id="lista-metas-semana" class="lista-metas"></div>
         </section>
+          </div>
+        </details>
       </section>
 
-      <!-- INSIGHTS: corrente e visão do mês -->
+      <!-- INSIGHTS: continuidade + detalhes recolhidos -->
       <section id="painel-insights" class="painel" aria-label="Insights" hidden>
+        <div id="mindos-insights" class="mindos-sec" aria-live="polite"></div>
+        <details class="mindos-sec-mais" id="insights-mais">
+          <summary class="mindos-sec-mais-resumo" data-i18n="mindos.insights.mais">Ver detalhes</summary>
+          <div class="mindos-sec-mais-conteudo">
         <section class="bloco bloco-primeiro">
           <h2 class="bloco-titulo" data-i18n="semana.resumo">Resumo</h2>
           <div id="cards-insights" class="cards-insights"></div>
@@ -450,6 +487,8 @@
           </div>
           <div id="calendario-grade" class="calendario-grade"></div>
         </section>
+          </div>
+        </details>
       </section>
 
       <!-- AJUSTES -->
@@ -521,6 +560,19 @@
             Ajuste seus horários — a rotina recalcula estudo, água e sono automaticamente.
           </p>
           <form id="form-perfil-rotina" class="perfil-rotina-form" novalidate>
+            <label class="perfil-rotina-campo perfil-rotina-nome">
+              <span data-i18n="ajustes.perfil.nome">Seu nome</span>
+              <input
+                type="text"
+                id="perfil-nome"
+                name="nome"
+                class="campo-opcao"
+                data-i18n-placeholder="ajustes.perfil.nome.placeholder"
+                placeholder="Ex.: North"
+                maxlength="40"
+                autocomplete="given-name"
+              />
+            </label>
             <div class="perfil-rotina-grid">
               <label class="perfil-rotina-campo">
                 <span data-i18n="ajustes.rotina.acordar">Acordar</span>
@@ -593,7 +645,7 @@
         <section class="bloco">
           <h2 class="bloco-titulo" data-i18n="ajustes.sobre.titulo">Sobre</h2>
           <p class="bloco-apoio" data-i18n="ajustes.sobre.apoio">
-            Sua agenda pessoal — compromissos, anotações e visão da semana.
+            Te dá direção — corpo, mente e conhecimento, sem peso na cabeça.
             Use pouco. Use todo dia.
           </p>
           <p class="bloco-apoio" data-i18n-html="ajustes.sobre.versao.html">
@@ -638,7 +690,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
-  <script type="module" src="js/main.js?v=2.23.2"></script>
+  <script type="module" src="js/main.js?v=2.29.0"></script>
   <script defer src="sync.js?v=6"></script>
 </body>
 </html>
