@@ -102,6 +102,28 @@ body {
   background-color: var(--fundo);
 }
 
+.offline-banner {
+  max-width: 560px;
+  margin: 0 auto 0.75rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 12px;
+  background: var(--azul);
+  color: var(--bege-claro);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(27, 54, 93, 0.18);
+}
+
+.offline-banner[hidden] {
+  display: none;
+}
+
+[data-tema="escuro"] .offline-banner {
+  background: var(--azul-medio);
+  color: var(--bege-papel);
+}
+
 .app {
   max-width: 560px;
   margin: 0 auto;

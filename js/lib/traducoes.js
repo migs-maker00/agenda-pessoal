@@ -137,6 +137,8 @@ export const TRADUCOES = {
     "guia.dica.3": "Se algo parecer antigo, segure o botão de recarregar para atualizar a versão.",
     "guia.dica.4": "O app funciona offline; IA (quando configurada) precisa de internet no Vercel.",
     "guia.dica.5": "Para impressionar: comece pelo roteiro abaixo — leva cerca de 5 minutos.",
+    "offline.banner":
+      "Sem internet — seus dados estão salvos neste aparelho. IA e sync voltam quando conectar.",
     "faixa.manha": "manhã",
     "faixa.tarde": "tarde",
     "faixa.noite": "noite",
@@ -626,6 +628,8 @@ export const TRADUCOES = {
     "guia.dica.3": "If something looks old, hold reload to refresh the version.",
     "guia.dica.4": "The app works offline; AI (when configured) needs internet on Vercel.",
     "guia.dica.5": "To impress: start with the walkthrough below — about 5 minutes.",
+    "offline.banner":
+      "No internet — your data is saved on this device. AI and sync return when you reconnect.",
     "faixa.manha": "morning",
     "faixa.tarde": "afternoon",
     "faixa.noite": "evening",
