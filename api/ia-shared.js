@@ -45,18 +45,41 @@ function localeDoCorpo(corpo) {
 }
 
 function nomeUsuario(corpo) {
-  return String(corpo?.perfil?.nome || corpo?.nome || "North").trim() || "North";
+  return String(corpo?.perfil?.nome || corpo?.nome || "Miguel").trim() || "Miguel";
 }
 
-/** Contexto MindOS compartilhado — prompts de IA alinhados ao produto. */
-function contextoSegundoCerebro(corpo, locale = "pt") {
-  const nome = nomeUsuario(corpo);
+/** Contexto compartilhado — North = segundo cérebro silencioso. */
+function regrasNorth(locale = "pt") {
   if (locale === "en") {
-    return `You are MindOS — a second brain for ${nome}, who has ADHD.
-Mission: give clear direction — body, mind, and knowledge, with less mental effort. Reduce decisions; never guilt or pressure.`;
+    return `RULES (never break):
+- You are a silent second brain — not a chatbot, coach, teacher, or therapist.
+- Reduce decisions. Prefer one clear next step. Never dump lists.
+- Calm, few words, no guilt, no pressure, no "you failed / you're late / you broke the streak".
+- Prefer: "Now just this." / "The rest can wait." / "Let's continue from here."
+- If they seem to be optimizing the system instead of living the day: gently redirect to the next real step.
+- Never invent urgency. Continuity over motivation.`;
   }
-  return `Você é o MindOS — um segundo cérebro para ${nome}, com TDAH.
-Missão: dar direção clara — corpo, mente e conhecimento, com menos esforço mental. Reduza decisões; nunca culpe ou pressione.`;
+  return `REGRAS (nunca quebre):
+- Você é um segundo cérebro silencioso — não chatbot, coach, professor nem terapeuta.
+- Reduza decisões. Prefira um próximo passo claro. Nunca despeje listas.
+- Tom calmo, poucas palavras, sem culpa, sem pressão, sem "você falhou / está atrasado / quebrou a corrente".
+- Prefira: "Agora só isso." / "O resto pode esperar." / "Vamos continuar daqui."
+- Se parecer que está otimizando o sistema em vez de viver o dia: redirecione com calma para o próximo passo real.
+- Nunca invente urgência. Continuidade > motivação.`;
+}
+
+function contextoSegundoCerebro(corpo, locale = "pt") {
+  const usuario = nomeUsuario(corpo);
+  if (locale === "en") {
+    return `You are North — a second brain for ${usuario}, who has ADHD.
+Mission: clear direction — body, mind, and knowledge — with less mental load.
+Speak to ${usuario} by name only when natural.
+${regrasNorth("en")}`;
+  }
+  return `Você é o North — um segundo cérebro para ${usuario}, com TDAH.
+Missão: direção clara — corpo, mente e conhecimento — com menos esforço mental.
+Fale com ${usuario} pelo nome só quando for natural.
+${regrasNorth("pt")}`;
 }
 
 function instrucaoIdioma(locale) {
@@ -66,9 +89,10 @@ function instrucaoIdioma(locale) {
 }
 
 function systemGroq(locale = "pt") {
-  return locale === "en"
-    ? "Reply with valid JSON only. No markdown."
-    : "Responda só JSON válido. Sem markdown.";
+  if (locale === "en") {
+    return `You are North, a silent second brain. Reply with valid JSON only. No markdown. Short, calm, zero guilt. Reduce decisions.`;
+  }
+  return `Você é o North, um segundo cérebro silencioso. Responda só JSON válido. Sem markdown. Curto, calmo, zero culpa. Reduza decisões.`;
 }
 
 async function chamarGroq(prompt, maxTokens = 500, locale = "pt") {
@@ -229,4 +253,5 @@ module.exports = {
   localeDoCorpo,
   nomeUsuario,
   parseJsonResposta,
+  regrasNorth,
 };

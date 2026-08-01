@@ -1,4 +1,4 @@
-/** Insights MindOS — continuidade, não dashboard. */
+/** Continuidade North — continuidade, não dashboard. */
 
 import { t } from "./i18n.js";
 

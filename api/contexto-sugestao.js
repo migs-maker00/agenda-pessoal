@@ -48,50 +48,50 @@ function montarPrompt(corpo) {
     .slice(0, 8)
     .map((o) => `- id="${o.id}" | ${o.titulo} — ${o.passo || ""}`)
     .join("\n");
+  const nome = corpo.perfil?.nome || corpo.nome || "Miguel";
 
   if (locale === "en") {
     return `${ctx}
-They just said: "${corpo.contexto || "arrival"}".
+${nome} just said: "${corpo.contexto || "arrival"}".
 ${corpo.fala ? `By voice: "${String(corpo.fala).slice(0, 200)}"` : ""}
-Time band: ${corpo.faixa || "?"}. Local time: ${corpo.horaLocal || "?"} (${corpo.diaSemana || "?"}).
-Profile: ${corpo.perfil?.nome || "North"}, wakes ${corpo.perfil?.acordar || "?"}, sleeps ${corpo.perfil?.dormir || "?"}.
+Time band: ${corpo.faixa || "?"}. Local: ${corpo.horaLocal || "?"} (${corpo.diaSemana || "?"}).
+Wakes ${corpo.perfil?.acordar || "?"}, sleeps ${corpo.perfil?.dormir || "?"}.
 
-RULES:
-- Late night (00–05): NEVER suggest beach work, school or heavy tasks.
-- Weekends: beach work only near scheduled morning time.
-- Max 2 options — pick one.
-- Short, warm tone, no guilt.
+THIS SCREEN shows exactly 2 choices (A then B). Pick the best pair — A should be the clearer next step.
+- Late night (00–05): NEVER beach work, school, or heavy tasks.
+- Weekends: beach work only near morning schedule.
+- intro: ONE short calm sentence (not 2).
+- No guilt. No coach voice.
 
-Candidate options (pick exactly 2 ids, order A then B):
+Candidates:
 ${opcoes || "(none)"}
 
-Respond ONLY valid JSON:
+JSON only:
 {
-  "intro": "1-2 personalized sentences",
-  "escolhidos": ["id-option-A", "id-option-B"]
-}
-All strings in English.`;
+  "intro": "one calm sentence",
+  "escolhidos": ["id-A", "id-B"]
+}`;
   }
 
   return `${ctx}
-Acabou de dizer: "${corpo.contexto || "chegada"}".
-${corpo.fala ? `Na voz ela disse: "${String(corpo.fala).slice(0, 200)}"` : ""}
-Faixa do dia: ${corpo.faixa || "?"}. Hora local: ${corpo.horaLocal || "?"} (${corpo.diaSemana || "?"}).
-Perfil: ${corpo.perfil?.nome || "North"}, acorda ${corpo.perfil?.acordar || "?"}, dorme ${corpo.perfil?.dormir || "?"}.
+${nome} acabou de dizer: "${corpo.contexto || "chegada"}".
+${corpo.fala ? `Por voz: "${String(corpo.fala).slice(0, 200)}"` : ""}
+Faixa: ${corpo.faixa || "?"}. Hora: ${corpo.horaLocal || "?"} (${corpo.diaSemana || "?"}).
+Acorda ${corpo.perfil?.acordar || "?"}, dorme ${corpo.perfil?.dormir || "?"}.
 
-REGRAS IMPORTANTES:
-- Madrugada (00h–05h): NUNCA sugira trabalho na praia, escola ou tarefas pesadas.
-- Sábado/domingo: trabalho na praia só perto do horário agendado (manhã).
-- Máximo 2 opções — escolhe só uma.
-- Tom curto, acolhedor, sem culpa.
+ESTA TELA mostra exatamente 2 escolhas (A depois B). Escolha o melhor par — A deve ser o próximo passo mais claro.
+- Madrugada (00h–05h): NUNCA praia, escola ou tarefa pesada.
+- Fim de semana: praia só perto do horário da manhã.
+- intro: UMA frase curta e calma (não 2).
+- Sem culpa. Sem voz de coach.
 
-Opções candidatas (escolha exatamente 2 ids da lista, na ordem A depois B):
+Candidatas:
 ${opcoes || "(nenhuma)"}
 
-Responda APENAS JSON válido, sem markdown:
+Só JSON:
 {
-  "intro": "1-2 frases personalizadas para o momento",
-  "escolhidos": ["id-opcao-A", "id-opcao-B"]
+  "intro": "uma frase calma",
+  "escolhidos": ["id-A", "id-B"]
 }`;
 }
 
@@ -111,7 +111,7 @@ async function chamarGroq(prompt) {
       temperature: 0.4,
       max_tokens: 400,
       messages: [
-        { role: "system", content: "Responda só JSON válido em português do Brasil." },
+        { role: "system", content: "Você é o North, segundo cérebro silencioso. Só JSON válido. Curto, calmo, zero culpa." },
         { role: "user", content: prompt },
       ],
     }),

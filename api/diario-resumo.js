@@ -8,9 +8,10 @@ function montarPrompt(corpo) {
   const texto = String(corpo.texto || "").slice(0, 4000);
   const revisao = corpo.revisao || {};
   const lang = instrucaoIdioma(locale);
+
   if (locale === "en") {
     return `${ctx}
-They wrote in their journal. Do NOT rewrite — only organize into bullets.
+They wrote in their journal. Do NOT rewrite — only organize lightly.
 ${lang}
 
 Journal:
@@ -25,14 +26,16 @@ Night review (if any):
 
 Respond ONLY JSON:
 {
-  "feito": ["up to 3 bullets to celebrate"],
-  "pesou": ["up to 2 bullets of what weighed on them"],
-  "amanha": "1 suggested sentence for tomorrow",
-  "fraseApoio": "1 short encouraging sentence"
+  "feito": ["up to 2 short bullets worth keeping"],
+  "pesou": ["up to 1 short bullet if something weighed — or empty array"],
+  "amanha": "ONE calm next-step sentence for tomorrow (or empty)",
+  "fraseApoio": "ONE short calm sentence — no pep talk"
 }`;
   }
+
   return `${ctx}
-Escreveu no diário. NÃO reescreva o texto — só organize em bullets.
+Escreveu no diário. NÃO reescreva — só organize de leve.
+${lang}
 
 Texto do diário:
 """
@@ -46,20 +49,19 @@ Revisão da noite (se houver):
 
 Responda APENAS JSON:
 {
-  "feito": ["até 3 bullets do que vale celebrar"],
-  "pesou": ["até 2 bullets do que pesou ou ficou na cabeça"],
-  "amanha": "1 frase sugerida para amanhã (baseada no que escreveu)",
-  "fraseApoio": "1 frase curta e acolhedora"
-}
-${instrucaoIdioma("pt")}`;
+  "feito": ["até 2 bullets curtos do que vale guardar"],
+  "pesou": ["até 1 bullet se algo pesou — ou array vazio"],
+  "amanha": "UMA frase calma de próximo passo para amanhã (ou vazia)",
+  "fraseApoio": "UMA frase curta e calma — sem discurso motivacional"
+}`;
 }
 
 function normalizar(raw) {
   return {
-    feito: Array.isArray(raw.feito) ? raw.feito.map(String).slice(0, 4) : [],
-    pesou: Array.isArray(raw.pesou) ? raw.pesou.map(String).slice(0, 3) : [],
-    amanha: String(raw.amanha || "").slice(0, 200),
-    fraseApoio: String(raw.fraseApoio || "Você escreveu — isso já é um passo.").slice(0, 200),
+    feito: Array.isArray(raw.feito) ? raw.feito.map(String).slice(0, 2) : [],
+    pesou: Array.isArray(raw.pesou) ? raw.pesou.map(String).slice(0, 1) : [],
+    amanha: String(raw.amanha || "").slice(0, 160),
+    fraseApoio: String(raw.fraseApoio || "Escrito. Já está fora da cabeça.").slice(0, 120),
   };
 }
 

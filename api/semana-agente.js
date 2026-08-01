@@ -1,4 +1,4 @@
-/** Vercel — agente de semana (plano leve em 5 linhas). */
+/** Vercel — direção da semana (leve, um foco). */
 
 const { criarHandlerApi, contextoSegundoCerebro, instrucaoIdioma, localeDoCorpo } = require("./ia-shared");
 
@@ -11,63 +11,61 @@ function montarPrompt(corpo) {
     padroes
       .map(
         (p) =>
-          `- ${p.nome}: ${locale === "en" ? "avg time" : "horário médio"} ${p.horarioMedio || "?"}, ${locale === "en" ? "ignored reminders" : "ignorou lembretes"} ${p.ignorados || 0}x`
+          `- ${p.nome}: ${locale === "en" ? "usual time" : "horário habitual"} ${p.horarioMedio || "?"}, ${locale === "en" ? "skipped nudges" : "avisos ignorados"} ${p.ignorados || 0}x`
       )
       .join("\n") || (locale === "en" ? "(still learning)" : "(ainda aprendendo)");
 
   if (locale === "en") {
     return `${ctx}
 
-Week stats:
-- Done: ${stats.feitosSemana ?? "?"}/${stats.totalPossivel ?? "?"}
-- 30-day rate: ${stats.taxa30 ?? "?"}%
-- Streak: ${stats.streak ?? 0} days
-- Weekly priorities: ${(stats.prioridades || []).join(", ") || "none"}
+Week context (use lightly — do NOT turn this into a scoreboard):
+- Steps held: ${stats.feitosSemana ?? "?"}/${stats.totalPossivel ?? "?"}
+- Continuity: ${stats.streak ?? 0} days returning
+- What matters: ${(stats.prioridades || []).join(", ") || "none set"}
 
 Patterns:
 ${padroesTxt}
 
-Build a WEEK plan in at most 5 short lines. No giant list. Warm tone.
+Give WEEK DIRECTION — not a productivity plan. At most 3 short lines. One main focus.
 ${instrucaoIdioma("en")}
 
 JSON:
 {
-  "titulo": "short week title",
-  "linhas": ["line 1", "up to 5"],
-  "focoPrincipal": "1 habit or theme to prioritize",
-  "fraseMotivacao": "1 guilt-free sentence"
+  "titulo": "short week direction title",
+  "linhas": ["up to 3 calm lines"],
+  "focoPrincipal": "ONE next direction (rhythm/theme) — not a habit checklist",
+  "fraseMotivacao": "ONE guilt-free sentence"
 }`;
   }
 
   return `${ctx}
 
-Estatísticas da semana:
-- Feitos: ${stats.feitosSemana ?? "?"}/${stats.totalPossivel ?? "?"}
-- Taxa 30 dias: ${stats.taxa30 ?? "?"}%
-- Sequência global: ${stats.streak ?? 0} dias
-- Prioridades da semana: ${(stats.prioridades || []).join(", ") || "nenhuma"}
+Contexto da semana (use de leve — NÃO transforme em placar):
+- Passos mantidos: ${stats.feitosSemana ?? "?"}/${stats.totalPossivel ?? "?"}
+- Continuidade: ${stats.streak ?? 0} dias voltando
+- O que importa: ${(stats.prioridades || []).join(", ") || "nada definido"}
 
-Padrões detectados:
+Padrões:
 ${padroesTxt}
 
-Monte um plano da SEMANA em no máximo 5 linhas curtas. Sem lista gigante. Tom acolhedor.
+Dê DIREÇÃO da semana — não plano de produtividade. No máximo 3 linhas curtas. Um foco só.
 ${instrucaoIdioma("pt")}
 
 JSON:
 {
-  "titulo": "título curto da semana",
-  "linhas": ["linha 1", "linha 2", "até 5"],
-  "focoPrincipal": "1 hábito ou tema para priorizar",
-  "fraseMotivacao": "1 frase sem culpa"
+  "titulo": "título curto de direção da semana",
+  "linhas": ["até 3 linhas calmas"],
+  "focoPrincipal": "UMA direção (ritmo/tema) — não checklist",
+  "fraseMotivacao": "UMA frase sem culpa"
 }`;
 }
 
 function normalizar(raw) {
   return {
-    titulo: String(raw.titulo || "Sua semana").slice(0, 80),
-    linhas: Array.isArray(raw.linhas) ? raw.linhas.map(String).slice(0, 5) : [],
+    titulo: String(raw.titulo || "Direção da semana").slice(0, 80),
+    linhas: Array.isArray(raw.linhas) ? raw.linhas.map(String).slice(0, 3) : [],
     focoPrincipal: String(raw.focoPrincipal || "").slice(0, 120),
-    fraseMotivacao: String(raw.fraseMotivacao || "").slice(0, 200),
+    fraseMotivacao: String(raw.fraseMotivacao || "Um passo de cada vez.").slice(0, 160),
   };
 }
 

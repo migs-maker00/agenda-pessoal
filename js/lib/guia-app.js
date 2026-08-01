@@ -4,6 +4,7 @@ import { APP_VERSION } from "../config.js";
 import { faixaDoDia } from "./contexto-tempo.js";
 import { rotuloFaixaI18n, t, localeTag } from "./i18n.js";
 import { carregarPerfil } from "./perfil.js";
+import { nomeUsuarioPerfil } from "./north.js";
 
 const CHAVE_PROGRESSO = "guia-app-progresso-v1";
 const CHAVE_VISTO = "guia-app-visto-v1";
@@ -151,7 +152,7 @@ export function renderPainelGuia({ iaAtiva = false, demoIndice = null } = {}) {
   const mapa = carregarProgressoGuia();
   const { feitos, total, pct } = progressoRoteiro(mapa);
   const { rotulo, hora } = saudacaoGuia();
-  const nome = (carregarPerfil().nome || "North").trim();
+  const nome = nomeUsuarioPerfil(carregarPerfil());
 
   const passos = ROTEIRO_DEMO.map((p, i) => renderPassoDemo(p, i, mapa, demoIndice)).join("");
 

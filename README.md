@@ -1,4 +1,4 @@
-# MindOS
+# North
 
 Segundo cérebro pessoal no navegador — **direção clara** para corpo, mente e conhecimento, sem peso na cabeça. Não é app de produtividade nem lista de tarefas.
 
@@ -11,7 +11,7 @@ Segundo cérebro pessoal no navegador — **direção clara** para corpo, mente 
 
 ## O que é
 
-MindOS organiza por baixo dos panos (ritmo, hábitos, estudo) e mostra na superfície **só o próximo passo**. Constituição do produto: [`docs/MINDOS.md`](docs/MINDOS.md).
+North organiza por baixo dos panos (ritmo, hábitos, estudo) e mostra na superfície **só o próximo passo**. Constituição do produto: [`docs/MINDOS.md`](docs/MINDOS.md).
 
 ## Áreas
 
