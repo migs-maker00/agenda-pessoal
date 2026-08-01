@@ -1,7 +1,7 @@
 /* Service worker — lembretes agendados + cache offline (PWA) */
 
-const CACHE = "north-v2.32.1";
-const APP_VERSION = "2.32.1";
+const CACHE = "north-v2.32.2";
+const APP_VERSION = "2.32.2";
 
 const alarmes = new Map();
 

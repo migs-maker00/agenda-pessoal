@@ -1,11 +1,10 @@
-/** Histórico de versões do diário — uma entrada a cada salvamento. */
+/** Histórico do diário — no máximo 2 versões por data; só quando o texto muda. */
 
 import { localeTag, t } from "./i18n.js";
 
 export const CHAVE_HISTORICO_NOTAS = "notas-diarias-historico";
-const MAX_VERSOES = 200;
-
-const ultimoArquivoPorChave = new Map();
+const MAX_VERSOES_TOTAL = 60;
+const MAX_POR_DATA = 2;
 
 function gerarIdVersao() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -24,15 +23,55 @@ export function carregarHistoricoCompleto() {
   }
 }
 
+/** Mantém só as N versões mais recentes por data. */
+export function podarHistorico(lista = carregarHistoricoCompleto(), maxPorData = MAX_POR_DATA) {
+  const porData = new Map();
+  for (const item of lista) {
+    if (!item?.chave || !chaveNotaDiarioValida(item.chave)) continue;
+    if (!String(item.texto ?? "").trim()) continue;
+    const arr = porData.get(item.chave) || [];
+    arr.push(item);
+    porData.set(item.chave, arr);
+  }
+
+  const resultado = [];
+  for (const [, versoes] of porData) {
+    const unicas = [];
+    const textos = new Set();
+    for (const v of versoes.sort((a, b) => (b.em || 0) - (a.em || 0))) {
+      const txt = String(v.texto ?? "").trim();
+      if (textos.has(txt)) continue;
+      textos.add(txt);
+      unicas.push(v);
+      if (unicas.length >= maxPorData) break;
+    }
+    unicas.forEach((v) => resultado.push(v));
+  }
+
+  return resultado.sort((a, b) => (a.em || 0) - (b.em || 0)).slice(-MAX_VERSOES_TOTAL);
+}
+
 function salvarHistoricoCompleto(lista) {
-  localStorage.setItem(CHAVE_HISTORICO_NOTAS, JSON.stringify(lista.slice(-MAX_VERSOES)));
+  localStorage.setItem(CHAVE_HISTORICO_NOTAS, JSON.stringify(podarHistorico(lista)));
+}
+
+/** Limpa excesso já gravado (ex.: vários “ao sair” iguais). */
+export function limparHistoricoExcesso() {
+  const antes = carregarHistoricoCompleto();
+  const depois = podarHistorico(antes);
+  if (depois.length !== antes.length) {
+    localStorage.setItem(CHAVE_HISTORICO_NOTAS, JSON.stringify(depois));
+    return antes.length - depois.length;
+  }
+  return 0;
 }
 
 export function historicoDaData(chave, lista = carregarHistoricoCompleto()) {
   if (!chaveNotaDiarioValida(chave)) return [];
   return lista
     .filter((item) => item?.chave === chave && String(item.texto ?? "").trim())
-    .sort((a, b) => (b.em || 0) - (a.em || 0));
+    .sort((a, b) => (b.em || 0) - (a.em || 0))
+    .slice(0, MAX_POR_DATA);
 }
 
 export function mesclarNotasDoHistorico(mapa = {}, lista = carregarHistoricoCompleto()) {
@@ -47,27 +86,30 @@ export function mesclarNotasDoHistorico(mapa = {}, lista = carregarHistoricoComp
   return resultado;
 }
 
-/** Guarda versão a cada salvamento. Só ignora se for idêntica à última da mesma data. */
+/**
+ * Guarda versão só se o texto mudou em relação à última.
+ * Ignora salvamentos "auto" (digitação) — histórico fica para manual / sair / apagar.
+ */
 export function arquivarVersaoNota(chave, texto, { motivo = "auto" } = {}) {
   if (!chaveNotaDiarioValida(chave)) return false;
+  if (motivo === "auto") return false;
+
   const limpo = String(texto ?? "").trim();
   if (!limpo) return false;
 
-  const ultimo = ultimoArquivoPorChave.get(chave);
-  if (ultimo?.texto === limpo) return false;
-
   const lista = carregarHistoricoCompleto();
-  const versao = {
+  const daData = historicoDaData(chave, lista);
+  if (daData[0] && String(daData[0].texto ?? "").trim() === limpo) return false;
+
+  lista.push({
     id: gerarIdVersao(),
     chave,
     texto: limpo,
     em: Date.now(),
     chars: limpo.length,
     motivo,
-  };
-  lista.push(versao);
+  });
   salvarHistoricoCompleto(lista);
-  ultimoArquivoPorChave.set(chave, { texto: limpo, em: versao.em });
   return true;
 }
 
