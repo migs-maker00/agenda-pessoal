@@ -196,7 +196,7 @@ export const TRADUCOES = {
     "diario.salvar": "Salvar entrada",
     "diario.resumo.ia": "Organizar com IA",
     "diario.historico": "Histórico",
-    "diario.historico.apoio": "Uma versão nova a cada salvamento automático ou manual. Toque para restaurar.",
+    "diario.historico.apoio": "Até 2 versões por dia — só quando o texto muda. Toque para restaurar.",
     "diario.historico.vazio":
       "Ainda sem versões guardadas para esta data. Escreva um pouco — o app salva automaticamente.",
     "diario.busca.titulo": "Busca de texto antigo",
@@ -692,7 +692,7 @@ export const TRADUCOES = {
     "diario.salvar": "Save entry",
     "diario.resumo.ia": "Organize with AI",
     "diario.historico": "History",
-    "diario.historico.apoio": "A new version on every auto or manual save. Tap to restore.",
+    "diario.historico.apoio": "Up to 2 versions per day — only when the text changes. Tap to restore.",
     "diario.historico.vazio": "No saved versions for this date yet. Write a bit — the app saves automatically.",
     "diario.busca.titulo": "Search old text",
     "diario.busca.apoio": "Searches history and the whole browser for long texts that may have gone missing.",
