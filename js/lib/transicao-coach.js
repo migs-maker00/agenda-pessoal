@@ -24,7 +24,7 @@ export function detectarTransicao(data = new Date()) {
     return { id: "chegada", titulo: "Chegando em casa", acao: "Abra o app em Agora — 2 opções só." };
   }
   if (min >= tardeIni && min <= tardeFim) {
-    return { id: "tarde_dificil", titulo: "Tarde difícil", acao: "Modo leve: 1 hábito ou descanso sem culpa." };
+    return { id: "tarde_dificil", titulo: "Tarde difícil", acao: "Modo leve: 1 passo ou descanso sem culpa." };
   }
   if ((dia === 0 || dia === 6) && min >= 8 * 60 + 30 && min <= 10 * 60) {
     return { id: "praia", titulo: "Dia de trabalho na praia", acao: "Separar bolsa e água — 2 min." };

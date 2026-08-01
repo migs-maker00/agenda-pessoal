@@ -83,8 +83,8 @@ async function main() {
 
 
     const marca = await page.locator(".marca").textContent();
-    if (marca?.includes("MindOS")) ok("Marca MindOS visível", marca.trim());
-    else fail("Marca MindOS visível", marca || "vazio");
+    if (marca?.includes("North")) ok("Marca North visível", marca.trim());
+    else fail("Marca North visível", marca || "vazio");
 
     const titulo = await page.locator("h1.titulo-dia").textContent();
 
@@ -96,9 +96,23 @@ async function main() {
 
     const mindosHoje = await page.locator("#mindos-hoje .mindos-saudacao, #mindos-hoje .mindos-livre, #mindos-hoje .mindos-foco-nome").count();
 
-    if (mindosHoje > 0) ok("MindOS Hoje renderiza");
+    if (mindosHoje > 0) ok("North Agora renderiza");
+    else fail("North Agora renderiza", "conteúdo vazio");
 
-    else fail("MindOS Hoje renderiza", "conteúdo vazio");
+    const convite = page.locator("[data-north-convite]");
+    if ((await convite.count()) > 0) {
+      const acao = await convite.first().getAttribute("data-north-convite");
+      await convite.first().click();
+      await page.waitForTimeout(300);
+      const painelAlvo = acao === "cheguei" ? "cheguei" : acao;
+      const hidden = await page.locator(`#painel-${painelAlvo}`).getAttribute("hidden");
+      if (hidden === null) ok("Convite North abre painel", acao);
+      else fail("Convite North abre painel", acao);
+      await page.click('button.nav-item[data-painel="hoje"]');
+      await page.waitForTimeout(200);
+    } else {
+      ok("Convite North (texto calmo)", "sem ação — ok");
+    }
 
 
 
@@ -126,9 +140,8 @@ async function main() {
 
     const estudoMindos = await page.locator("#mindos-estudo .mindos-sec-rotulo").textContent();
 
-    if (estudoMindos?.includes("Conhecimento")) ok("MindOS Estudo renderiza", estudoMindos.trim());
-
-    else fail("MindOS Estudo renderiza", estudoMindos || "vazio");
+    if (estudoMindos?.includes("Conhecimento")) ok("North Conhecimento renderiza", estudoMindos.trim());
+    else fail("North Conhecimento renderiza", estudoMindos || "vazio");
 
 
 
@@ -136,9 +149,8 @@ async function main() {
 
     const rotinaMindos = await page.locator("#mindos-rotina .mindos-sec-rotulo").textContent();
 
-    if (rotinaMindos?.includes("Ritmo")) ok("MindOS Rotina renderiza", rotinaMindos.trim());
-
-    else fail("MindOS Rotina renderiza", rotinaMindos || "vazio");
+    if (rotinaMindos?.includes("Ritmo")) ok("North Ritmo renderiza", rotinaMindos.trim());
+    else fail("North Ritmo renderiza", rotinaMindos || "vazio");
 
 
 
@@ -146,9 +158,8 @@ async function main() {
 
     const semanaMindos = await page.locator("#mindos-semana .mindos-sec-rotulo").textContent();
 
-    if (semanaMindos?.includes("Direção")) ok("MindOS Semana renderiza", semanaMindos.trim());
-
-    else fail("MindOS Semana renderiza", semanaMindos || "vazio");
+    if (semanaMindos?.includes("Direção")) ok("North Direção renderiza", semanaMindos.trim());
+    else fail("North Direção renderiza", semanaMindos || "vazio");
 
 
 
@@ -156,9 +167,8 @@ async function main() {
 
     const insightsMindos = await page.locator("#mindos-insights .mindos-sec-rotulo").textContent();
 
-    if (insightsMindos?.includes("Continuidade")) ok("MindOS Insights renderiza", insightsMindos.trim());
-
-    else fail("MindOS Insights renderiza", insightsMindos || "vazio");
+    if (insightsMindos?.includes("Continuidade")) ok("North Continuidade renderiza", insightsMindos.trim());
+    else fail("North Continuidade renderiza", insightsMindos || "vazio");
 
 
 
@@ -175,14 +185,15 @@ async function main() {
     await page.waitForTimeout(400);
 
     await abrirDetails(page, "hoje-mais");
+    await abrirDetails(page, "hoje-mapa-ritmo");
 
     const checklist = page.locator("#lista-habitos li, #lista-habitos .habito-item, #lista-habitos button");
 
     const count = await checklist.count();
 
-    if (count > 0) ok("Hábito adicionado aparece em Hoje", `${count} item(ns)`);
+    if (count > 0) ok("Passo do ritmo aparece em Agora", `${count} item(ns)`);
 
-    else fail("Hábito adicionado aparece em Hoje", "lista vazia");
+    else fail("Passo do ritmo aparece em Agora", "lista vazia");
 
 
 
@@ -282,9 +293,8 @@ async function main() {
 
     const rotinaVisivel = await page.locator("#painel-rotina").getAttribute("hidden");
 
-    if (rotinaVisivel === null) ok("Navegação offline (Rotina)");
-
-    else fail("Navegação offline (Rotina)");
+    if (rotinaVisivel === null) ok("Navegação offline (Ritmo)");
+    else fail("Navegação offline (Ritmo)");
 
 
 

@@ -1,4 +1,4 @@
-/** Semana MindOS — direção, não dashboard. */
+/** Semana North — direção, não dashboard. */
 
 import { t } from "./i18n.js";
 import { carregarTemaSemana } from "./tdah.js";

@@ -3,10 +3,11 @@
 import { iaVercelConfigurada, sondarIaVercel, urlApiVercel } from "../config.js";
 import { locale } from "./i18n.js";
 import { carregarPerfil } from "./perfil.js";
+import { nomeUsuarioPerfil } from "./north.js";
 
 function perfilIa() {
   const p = carregarPerfil();
-  return { nome: p.nome || "North" };
+  return { nome: nomeUsuarioPerfil(p) };
 }
 
 export function iaDisponivel() {

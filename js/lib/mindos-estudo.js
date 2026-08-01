@@ -1,4 +1,4 @@
-/** Estudo MindOS — um passo de conhecimento, ferramentas recolhidas. */
+/** Estudo North — um passo de conhecimento, ferramentas recolhidas. */
 
 import { resumoSessao } from "./estudo-hub.js";
 import { livroAtivo, META_PERGUNTAS_DIA } from "./livros-pratica.js";

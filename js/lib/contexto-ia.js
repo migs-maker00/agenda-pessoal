@@ -8,6 +8,7 @@ import {
 } from "../config.js";
 import { faixaDoDia } from "./contexto-tempo.js";
 import { locale, localeTag } from "./i18n.js";
+import { nomeUsuarioPerfil } from "./north.js";
 
 export function urlApiContexto() {
   return urlApiVercel(CONTEXTO_IA_API_URL);
@@ -39,7 +40,7 @@ export function montarPayloadContextoIa({ contexto, opcoes, perfil, fala = "" })
     horaLocal: agora.toLocaleTimeString(localeTag(), { hour: "2-digit", minute: "2-digit" }),
     diaSemana: DIAS[agora.getDay()],
     perfil: {
-      nome: perfil?.nome || "North",
+      nome: nomeUsuarioPerfil(perfil),
       acordar: perfil?.acordar || "",
       dormir: perfil?.dormir || "",
     },

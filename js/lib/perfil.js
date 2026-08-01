@@ -1,7 +1,9 @@
 // Perfil personalizado — rotina e prioridades de vida
 
+import { USUARIO_PADRAO } from "./north.js";
+
 export const PERFIL_PADRAO = {
-  nome: "North",
+  nome: USUARIO_PADRAO,
   acordar: "05:45",
   dormir: "23:30",
   escolaDias: [1, 2, 3, 4, 5],
@@ -24,12 +26,12 @@ export function carregarPerfil() {
     const perfil =
       dados && typeof dados === "object" ? { ...PERFIL_PADRAO, ...dados } : { ...PERFIL_PADRAO };
     const nomeAntigo = String(perfil.nome || "").trim();
-    if (/^erica$/i.test(nomeAntigo) || /^miguel$/i.test(nomeAntigo)) {
-      perfil.nome = PERFIL_PADRAO.nome;
+    if (/^erica$/i.test(nomeAntigo) || /^north$/i.test(nomeAntigo)) {
+      perfil.nome = USUARIO_PADRAO;
       salvarPerfil(perfil);
     }
     if (!String(perfil.nome || "").trim()) {
-      perfil.nome = PERFIL_PADRAO.nome;
+      perfil.nome = USUARIO_PADRAO;
       salvarPerfil(perfil);
     }
     return perfil;

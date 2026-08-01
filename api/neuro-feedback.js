@@ -38,65 +38,64 @@ function montarPrompt({ titulo, textoModulo, pontosChave, explicacao, locale = "
   const pontos = (pontosChave || []).map((p) => `- ${p}`).join("\n");
   if (locale === "en") {
     return `${ctx}
-They learn best by EXPLAINING in their own words (Feynman technique).
+They learn by explaining in their own words (Feynman).
 
 Module: "${titulo}"
-Reference text:
-${textoModulo || ""}
+Reference:
+${String(textoModulo || "").slice(0, 1200)}
 
-Key points they should cover:
+Key points:
 ${pontos}
 
 Their explanation:
 """
-${explicacao}
+${String(explicacao || "").slice(0, 2000)}
 """
 
-Evaluate with empathy. Respond ONLY valid JSON, no markdown:
+Respond ONLY JSON:
 {
   "ok": true,
   "pct": 75,
-  "feedback": "2-4 sentences in English, encouraging tone",
-  "acertos": ["what they got right"],
-  "faltou": ["missing concepts"],
-  "perguntaSeguinte": "one short follow-up question"
+  "feedback": "1-2 short calm sentences — not a lecture",
+  "acertos": ["up to 2 specifics they got"],
+  "faltou": ["up to 1 missing idea — or empty"],
+  "perguntaSeguinte": "ONE short follow-up — or empty"
 }
 
 Rules:
 - ok=true if pct >= 55
-- Be specific; celebrate effort
-- Max 4 items in acertos and faltou`;
+- Never harsh. Never "you failed".
+- Max 2 acertos, max 1 faltou`;
   }
   return `${ctx}
-Aprende melhor EXPLICANDO com as próprias palavras (técnica Feynman).
+Aprende explicando com as próprias palavras (Feynman).
 
 Módulo: "${titulo}"
-Texto de referência:
-${textoModulo || ""}
+Referência:
+${String(textoModulo || "").slice(0, 1200)}
 
-Pontos-chave que deveria cobrir:
+Pontos-chave:
 ${pontos}
 
 Explicação:
 """
-${explicacao}
+${String(explicacao || "").slice(0, 2000)}
 """
 
-Avalie com empatia e clareza. Responda APENAS em JSON válido, sem markdown, neste formato:
+Responda APENAS JSON:
 {
   "ok": true,
   "pct": 75,
-  "feedback": "2-4 frases em português, tom encorajador",
-  "acertos": ["o que acertou"],
-  "faltou": ["conceitos que faltaram"],
-  "perguntaSeguinte": "uma pergunta curta para ela pensar mais"
+  "feedback": "1-2 frases curtas e calmas — sem aula",
+  "acertos": ["até 2 pontos concretos que acertou"],
+  "faltou": ["até 1 ideia que faltou — ou vazio"],
+  "perguntaSeguinte": "UMA pergunta curta — ou vazia"
 }
 
 Regras:
 - ok=true se pct >= 55
-- Seja específica: cite o que ela disse bem e o que melhorar
-- Não seja dura; celebre o esforço
-- Máximo 4 itens em acertos e faltou`;
+- Nunca dureza. Nunca "você falhou".
+- Máximo 2 acertos, máximo 1 faltou`;
 }
 
 function parseJsonResposta(texto) {
@@ -119,7 +118,13 @@ async function chamarGroq(prompt) {
     },
     body: JSON.stringify({
       model: modelo,
-      messages: [{ role: "user", content: prompt }],
+      messages: [
+        {
+          role: "system",
+          content: "Você é o North, segundo cérebro silencioso. Só JSON válido. Curto, calmo, zero culpa.",
+        },
+        { role: "user", content: prompt },
+      ],
       temperature: 0.35,
       response_format: { type: "json_object" },
     }),
@@ -220,10 +225,10 @@ function normalizarFeedback(raw, provedor = "ia") {
   return {
     ok: Boolean(raw.ok) || pct >= 55,
     pct,
-    feedback: String(raw.feedback || "Revise o módulo e tente explicar de novo.").slice(0, 1200),
-    acertos: Array.isArray(raw.acertos) ? raw.acertos.map(String).slice(0, 6) : [],
-    faltou: Array.isArray(raw.faltou) ? raw.faltou.map(String).slice(0, 6) : [],
-    perguntaSeguinte: String(raw.perguntaSeguinte || "").slice(0, 300),
+    feedback: String(raw.feedback || "Revise o módulo e tente explicar de novo.").slice(0, 400),
+    acertos: Array.isArray(raw.acertos) ? raw.acertos.map(String).slice(0, 2) : [],
+    faltou: Array.isArray(raw.faltou) ? raw.faltou.map(String).slice(0, 1) : [],
+    perguntaSeguinte: String(raw.perguntaSeguinte || "").slice(0, 160),
     fonte: "ia",
     provedor,
   };

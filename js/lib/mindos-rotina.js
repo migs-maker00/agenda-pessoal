@@ -1,4 +1,4 @@
-/** Rotina MindOS — ritmo do dia, sem lista de produtividade. */
+/** Ritmo North — mapa do dia, sem lista de produtividade. */
 
 import { t } from "./i18n.js";
 

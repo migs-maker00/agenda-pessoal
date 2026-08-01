@@ -1,6 +1,6 @@
 {
-  "name": "MindOS — Segundo cérebro",
-  "short_name": "MindOS",
+  "name": "North — Segundo cérebro",
+  "short_name": "North",
   "description": "Te dá direção — corpo, mente e conhecimento, sem peso na cabeça.",
   "start_url": "./?painel=hoje",
   "display": "standalone",
@@ -32,7 +32,7 @@
   ],
   "shortcuts": [
     {
-      "name": "Guia MindOS",
+      "name": "Guia North",
       "short_name": "Guia",
       "description": "Direção em 5 minutos",
       "url": "./?painel=guia",
@@ -60,7 +60,7 @@
       "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Foco de agora",
+      "name": "Um passo agora",
       "short_name": "Agora",
       "description": "Um passo claro — sem peso na cabeça",
       "url": "./?painel=hoje",

@@ -1,10 +1,11 @@
-/** Tela principal MindOS — um foco, depois disso, alívio. */
+/** Tela principal North — um foco, depois disso, alívio. */
 
 import { detectarHabitoAprender } from "./aprender.js";
 import { faixaDoDia, habitoFazSentidoAgora } from "./contexto-tempo.js";
 import { t } from "./i18n.js";
 import { configUIEstado, ESTADOS_MENTAIS } from "./mindos-estado.js";
 import { carregarPerfil, hhmmParaMinutos, minutosAgora } from "./perfil.js";
+import { nomeUsuarioPerfil } from "./north.js";
 import { sugestaoAgora } from "./tdah.js";
 
 function esc(s) {
@@ -105,11 +106,16 @@ function htmlEstadoMental(estadoAtual, ui) {
     </div>`;
 }
 
-export function htmlMindosHoje({ foco, depois, perfil, timerAtivo, timerTexto, estadoMental = "" }) {
+export function htmlMindosHoje({ foco, depois, perfil, timerAtivo, timerTexto, estadoMental = "", convite = "" }) {
   const ui = configUIEstado(estadoMental);
-  const nome = (perfil.nome || "").trim();
+  const nome = nomeUsuarioPerfil(perfil);
   const saudacao = saudacaoPeriodo();
-  const titulo = nome ? t("mindos.ola.nome", { saudacao, nome: esc(nome) }) : esc(saudacao);
+  const titulo = t("mindos.ola.nome", { saudacao, nome: esc(nome) });
+  const conviteHtml = convite?.texto
+    ? convite.acao
+      ? `<button type="button" class="mindos-convite botao-texto" data-north-convite="${esc(convite.acao)}">${esc(convite.texto)}</button>`
+      : `<p class="mindos-convite">${esc(convite.texto)}</p>`
+    : "";
 
   const sono = duracaoSonoProgramada(perfil);
   const agoraMin = minutosAgora();
@@ -126,6 +132,7 @@ export function htmlMindosHoje({ foco, depois, perfil, timerAtivo, timerTexto, e
     return `
       <header class="mindos-cab">
         <p class="mindos-saudacao">${titulo}</p>
+        ${conviteHtml}
         ${sonoHtml}
       </header>
       ${estadoHtml}
@@ -176,6 +183,7 @@ export function htmlMindosHoje({ foco, depois, perfil, timerAtivo, timerTexto, e
   return `
     <header class="mindos-cab">
       <p class="mindos-saudacao">${titulo}</p>
+      ${conviteHtml}
       ${sonoHtml}
     </header>
     ${estadoHtml}

@@ -56,7 +56,7 @@ function sugerirHabito(nome) {
     categoria = "Saúde";
     metaSemanal = 7;
     lembretes = 6;
-    dica = "Um hábito só, com 6 lembretes — cada toque avança 1/6, 2/6…";
+    dica = "Um passo só, com vários toques leves — sem pressão.";
   } else {
     for (const regra of REGRAS_CATEGORIA) {
       if (regra.palavras.some((p) => texto.includes(normalizarTexto(p)))) {

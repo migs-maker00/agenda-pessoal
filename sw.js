@@ -1,7 +1,7 @@
 /* Service worker — lembretes agendados + cache offline (PWA) */
 
-const CACHE = "mindos-v2.29.0";
-const APP_VERSION = "2.29.0";
+const CACHE = "north-v2.32.1";
+const APP_VERSION = "2.32.1";
 
 const alarmes = new Map();
 
@@ -39,6 +39,8 @@ const LIBS = [
   "mindos-rotina",
   "mindos-semana",
   "modo-barulho",
+  "north",
+  "north-convite",
   "neuro-explicar",
   "neuro-ia",
   "neuro-modulos",
