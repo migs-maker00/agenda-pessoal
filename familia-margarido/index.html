@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Família Margarido™ — Tradição. Legado. Caos. Uma linhagem. Muitas histórias. Zero explicações.">
+  <title>Família Margarido™ — Tradição. Legado. Caos.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loader" class="loader" aria-hidden="true">
+    <div class="loader-content">
+      <p class="loader-text">Sistema Margarido iniciado.</p>
+      <p class="loader-sub">CARREGANDO CAOS…</p>
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+      <p class="loader-percent">0%</p>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="#home" class="nav-logo" id="nav-logo">FAMÍLIA MARGARIDO™</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#home">Início</a></li>
+        <li><a href="#dinastia">Família</a></li>
+        <li><a href="#genealogia">Genealogia</a></li>
+        <li><a href="#ranking">Ranking</a></li>
+        <li><a href="#historia">História</a></li>
+        <li><a href="#arquivos">Arquivos</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content container">
+      <div class="hero-crest" id="crest" title="Brasão da Família Margarido">
+        <img src="assets/coat-of-arms.svg" alt="Brasão Família Margarido" width="120" height="144">
+        <p class="crest-motto">TRADIÇÃO, LEGADO E CAOS.</p>
+        <p class="crest-tooltip">Reconhecido internacionalmente por absolutamente ninguém.</p>
+      </div>
+      <h1 class="hero-title" id="hero-title">
+        <span class="title-line">FAMÍLIA</span>
+        <span class="title-line title-accent">MARGARIDO™</span>
+      </h1>
+      <p class="hero-tagline">"Uma linhagem. Muitas histórias. Zero explicações."</p>
+      <p class="hero-desc">Ao longo de gerações, a Família Margarido construiu um legado baseado em tradição, personalidade forte e uma quantidade questionável de acontecimentos.</p>
+      <div class="hero-actions">
+        <a href="#dinastia" class="btn btn-primary">CONHECER A FAMÍLIA</a>
+        <a href="#genealogia" class="btn btn-outline">EXPLORAR A GENEALOGIA</a>
+      </div>
+    </div>
+    <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
+  </section>
+
+  <!-- Dinastia -->
+  <section id="dinastia" class="section section-dinastia">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">A Dinastia</span>
+        <h2 class="section-title">Conheça os membros da organização.</h2>
+        <p class="section-desc">Por trás de toda grande instituição existem grandes pessoas. E por trás da Família Margarido existem pessoas que provavelmente deveriam ter sido consultadas antes da criação deste site.</p>
+      </div>
+      <div class="members-grid" id="members-grid"></div>
+    </div>
+  </section>
+
+  <!-- Dashboard -->
+  <section id="dashboard" class="section section-dashboard">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Inteligência Institucional</span>
+        <h2 class="section-title">Indicadores Gerais da Organização</h2>
+        <p class="section-desc">Métricas compiladas por departamento de análise familiar — metodologia não auditada.</p>
+      </div>
+      <div class="dashboard-grid" id="dashboard-grid"></div>
+    </div>
+  </section>
+
+  <!-- Genealogia -->
+  <section id="genealogia" class="section section-genealogia">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Estrutura Organizacional</span>
+        <h2 class="section-title">A Estrutura Organizacional</h2>
+        <p class="section-desc">Organograma genealógico da holding familiar Margarido™ — linhas de comando e parentesco.</p>
+      </div>
+      <div class="gen-legend reveal">
+        <span><span class="dot dot-core"></span> Núcleo familiar</span>
+        <span><span class="dot dot-extended"></span> Família ampliada</span>
+        <span><span class="dot dot-council"></span> Conselho familiar</span>
+        <span><span class="dot dot-chaos"></span> Área de caos</span>
+      </div>
+      <div class="gen-tree" id="gen-tree"></div>
+      <div class="gen-detail" id="gen-detail"></div>
+    </div>
+  </section>
+
+  <!-- Ranking -->
+  <section id="ranking" class="section section-ranking">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Classificação Oficial</span>
+        <h2 class="section-title">Ranking Oficial da Família Margarido™</h2>
+        <p class="section-desc">Dados coletados por uma metodologia completamente questionável.</p>
+      </div>
+      <div class="ranking-tabs" id="ranking-tabs"></div>
+      <div class="ranking-list" id="ranking-list"></div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section id="historia" class="section section-timeline">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Arquivo Histórico</span>
+        <h2 class="section-title">A História Margarido</h2>
+      </div>
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </section>
+
+  <!-- Documentos -->
+  <section id="arquivos" class="section section-arquivos">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Arquivo Confidencial</span>
+        <h2 class="section-title">Arquivos Margarido</h2>
+        <p class="section-desc">Documentos institucionais de acesso restrito — ou não.</p>
+      </div>
+      <div class="docs-grid" id="docs-grid"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="assets/coat-of-arms.svg" alt="" width="60" height="72" class="footer-crest">
+          <h3>FAMÍLIA MARGARIDO™</h3>
+          <p>Uma organização familiar sem fins lucrativos, sem fins lucrativos mesmo.</p>
+        </div>
+        <nav class="footer-nav">
+          <a href="#home">Início</a>
+          <a href="#dinastia">Família</a>
+          <a href="#genealogia">Genealogia</a>
+          <a href="#ranking">Ranking</a>
+          <a href="#historia">História</a>
+          <a href="#arquivos">Arquivos</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Família Margarido™</p>
+        <p class="footer-disclaimer">Este site é uma obra de humor e não representa oficialmente nenhum dos membros da família.</p>
+        <p class="footer-easter" id="footer-easter">Você chegou até o final.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Hidden Easter Egg Button -->
+  <button class="easter-hidden-btn" id="easter-hidden-btn" aria-label="Não clique">NÃO CLIQUE AQUI</button>
+
+  <!-- Profile Modal -->
+  <div class="modal" id="profile-modal" aria-hidden="true">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-container">
+      <button class="modal-close" id="modal-close" aria-label="Fechar">&times;</button>
+      <div class="modal-content" id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Document Modal -->
+  <div class="modal" id="doc-modal" aria-hidden="true">
+    <div class="modal-backdrop" id="doc-backdrop"></div>
+    <div class="modal-container modal-container--doc">
+      <button class="modal-close" id="doc-close" aria-label="Fechar">&times;</button>
+      <div class="modal-content" id="doc-content"></div>
+    </div>
+  </div>
+
+  <!-- Easter Egg Modals -->
+  <div class="modal modal--easter" id="easter-modal" aria-hidden="true">
+    <div class="modal-backdrop" id="easter-backdrop"></div>
+    <div class="modal-container modal-container--easter">
+      <div class="modal-content" id="easter-content"></div>
+    </div>
+  </div>
+
+  <!-- Taekwondo Overlay -->
+  <div class="taekwondo-overlay" id="taekwondo-overlay" aria-hidden="true">
+    <div class="taekwondo-flash"></div>
+    <p class="taekwondo-text">Você realmente achou que era uma boa ideia desafiar o mestre?</p>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

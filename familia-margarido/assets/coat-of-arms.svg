@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" fill="none">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d4af37"/>
+      <stop offset="50%" stop-color="#f5e6a3"/>
+      <stop offset="100%" stop-color="#b8960c"/>
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a2744"/>
+      <stop offset="100%" stop-color="#0d1520"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Crown -->
+  <path d="M60 30 L70 15 L85 28 L100 10 L115 28 L130 15 L140 30 L140 40 L60 40 Z" fill="url(#goldGrad)" stroke="#b8960c" stroke-width="1"/>
+  <circle cx="70" cy="22" r="3" fill="#8b0000"/>
+  <circle cx="100" cy="18" r="4" fill="#8b0000"/>
+  <circle cx="130" cy="22" r="3" fill="#8b0000"/>
+  <!-- Shield -->
+  <path d="M40 45 L100 55 L160 45 L160 140 Q160 200 100 220 Q40 200 40 140 Z" fill="url(#shieldGrad)" stroke="url(#goldGrad)" stroke-width="3"/>
+  <!-- Inner border -->
+  <path d="M50 55 L100 63 L150 55 L150 135 Q150 185 100 200 Q50 185 50 135 Z" fill="none" stroke="url(#goldGrad)" stroke-width="1" opacity="0.5"/>
+  <!-- Letter M -->
+  <text x="100" y="130" text-anchor="middle" font-family="Georgia, serif" font-size="52" font-weight="bold" fill="url(#goldGrad)" filter="url(#glow)">M</text>
+  <!-- Decorative lines -->
+  <line x1="65" y1="75" x2="135" y2="75" stroke="url(#goldGrad)" stroke-width="1" opacity="0.6"/>
+  <line x1="65" y1="155" x2="135" y2="155" stroke="url(#goldGrad)" stroke-width="1" opacity="0.6"/>
+  <!-- Family symbol - abstract tree -->
+  <circle cx="100" cy="90" r="6" fill="url(#goldGrad)" opacity="0.8"/>
+  <line x1="100" y1="96" x2="80" y2="110" stroke="url(#goldGrad)" stroke-width="1.5"/>
+  <line x1="100" y1="96" x2="120" y2="110" stroke="url(#goldGrad)" stroke-width="1.5"/>
+  <circle cx="80" cy="112" r="4" fill="url(#goldGrad)" opacity="0.6"/>
+  <circle cx="120" cy="112" r="4" fill="url(#goldGrad)" opacity="0.6"/>
+  <!-- Motto banner -->
+  <rect x="25" y="225" width="150" height="14" rx="2" fill="#0d1520" stroke="url(#goldGrad)" stroke-width="1"/>
+</svg>
