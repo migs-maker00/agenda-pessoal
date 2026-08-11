@@ -5,7 +5,9 @@
   "installCommand": "echo 'static app — sem build'",
   "framework": null,
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" }
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/familia-margarido", "destination": "/familia-margarido/index.html" },
+    { "source": "/margarido", "destination": "/familia-margarido/index.html" }
   ],
   "headers": [
     {

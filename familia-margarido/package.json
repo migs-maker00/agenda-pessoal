@@ -1,0 +1,9 @@
+{
+  "name": "familia-margarido",
+  "private": true,
+  "description": "Família Margarido™ — Tradição. Legado. Caos.",
+  "scripts": {
+    "dev": "npx serve -p 5174 familia-margarido",
+    "start": "npx serve -p 5174 familia-margarido"
+  }
+}
