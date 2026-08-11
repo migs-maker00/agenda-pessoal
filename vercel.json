@@ -4,10 +4,12 @@
   "outputDirectory": ".",
   "installCommand": "echo 'static app — sem build'",
   "framework": null,
+  "redirects": [
+    { "source": "/margarido", "destination": "/familia-margarido/", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/familia-margarido", "destination": "/familia-margarido/index.html" },
-    { "source": "/margarido", "destination": "/familia-margarido/index.html" }
+    { "source": "/familia-margarido", "destination": "/familia-margarido/index.html" }
   ],
   "headers": [
     {
