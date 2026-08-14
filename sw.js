@@ -1,7 +1,7 @@
 /* Service worker — lembretes agendados + cache offline (PWA) */
 
-const CACHE = "north-v2.32.2";
-const APP_VERSION = "2.32.2";
+const CACHE = "north-v2.33.0";
+const APP_VERSION = "2.33.0";
 
 const alarmes = new Map();
 
@@ -10,6 +10,8 @@ const LIBS = [
   "aprender",
   "avisos-agenda",
   "cheguei",
+  "cognitivo-dados",
+  "cognitivo-ui",
   "contexto-ia",
   "contexto-tempo",
   "diario-historico",
