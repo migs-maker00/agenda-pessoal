@@ -1,0 +1,499 @@
+/* North GPS — Home cinematográfica v2.34 */
+
+:root {
+  --north-bg: #0a0a0b;
+  --north-surface: #141416;
+  --north-text: #f2f0eb;
+  --north-muted: #8a8680;
+  --north-accent: #c4b5a0;
+  --north-glow: rgba(196, 181, 160, 0.35);
+  --north-font: "Inter", "Manrope", system-ui, sans-serif;
+}
+
+.app--north-gps {
+  background: var(--north-bg);
+  color: var(--north-text);
+  max-width: 480px;
+}
+
+.app--north-gps .cabecalho {
+  border: none;
+  padding-bottom: 0;
+  background: transparent;
+}
+
+.app--north-gps .cabecalho-marca .data-hoje,
+.app--north-gps .cabecalho-marca .titulo-dia,
+.app--north-gps .marca-tagline:not(.north-slogan-header) {
+  display: none;
+}
+
+.app--north-gps .marca {
+  font-family: var(--north-font);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--north-text);
+}
+
+.app--north-gps .north-slogan-header {
+  display: block;
+  margin: 4px 0 0;
+  font-size: 0.72rem;
+  color: var(--north-muted);
+  letter-spacing: 0.02em;
+}
+
+.nav-gps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.nav-gps .nav-item {
+  border: 1px solid #2a2a2e;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--north-muted);
+  font-family: var(--north-font);
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 10px 12px;
+  min-width: 0;
+  flex: unset;
+}
+
+.nav-gps .nav-item.ativo {
+  background: var(--north-text);
+  color: var(--north-bg);
+  border-color: var(--north-text);
+}
+
+#painel-hoje.ativo ~ .cabecalho .titulo-dia,
+.app--north-gps #painel-hoje.ativo .hoje-mais,
+.app--north-gps #painel-hoje.ativo #bloco-agora,
+.app--north-gps #painel-hoje.ativo .guia-chamada,
+.app--north-gps #painel-hoje.ativo .dica-inicio {
+  display: none !important;
+}
+
+.mindos-hoje {
+  min-height: min(72vh, 640px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.north-home {
+  width: 100%;
+  display: grid;
+  gap: 20px;
+  justify-items: center;
+  text-align: center;
+  padding: 12px 4px 24px;
+  animation: north-enter 0.5s ease;
+}
+
+@keyframes north-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.north-hora {
+  font-family: var(--north-font);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--north-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.north-pergunta {
+  font-family: var(--north-font);
+  font-size: clamp(1.5rem, 6vw, 2rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  max-width: 16ch;
+  margin: 0;
+}
+
+.north-tagline {
+  font-size: 0.75rem;
+  color: var(--north-muted);
+  letter-spacing: 0.04em;
+}
+
+.north-estado-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.north-estado-opcao {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  padding: 18px 12px;
+  border: 1px solid #2a2a2e;
+  border-radius: 16px;
+  background: var(--north-surface);
+  color: var(--north-text);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.north-estado-opcao:hover {
+  transform: translateY(-1px);
+  border-color: #3a3a40;
+}
+
+.north-estado-opcao--ativo,
+.north-estado-opcao:active {
+  border-color: var(--north-accent);
+  background: #1c1c1f;
+}
+
+.north-estado-emoji {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.north-estado-label {
+  font-family: var(--north-font);
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+/* North Core */
+.north-core {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  margin-bottom: 4px;
+}
+
+.north-core-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, var(--north-glow), transparent 70%);
+  animation: north-breathe 4s ease-in-out infinite;
+}
+
+.north-core--idle .north-core-glow {
+  opacity: 0.5;
+  animation-duration: 5s;
+}
+
+.north-core--sobrecarregado .north-core-glow {
+  animation-duration: 7s;
+  opacity: 0.35;
+}
+
+.north-core--normal .north-core-glow {
+  animation-duration: 4.5s;
+}
+
+.north-core--bem .north-core-glow {
+  animation-duration: 3.5s;
+  opacity: 0.55;
+}
+
+.north-core--focado .north-core-glow {
+  animation-duration: 2.8s;
+  opacity: 0.7;
+  box-shadow: 0 0 40px var(--north-glow);
+}
+
+@keyframes north-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+.north-transicao {
+  font-size: 1rem;
+  color: var(--north-muted);
+  margin: 0;
+}
+
+.north-foco-rotulo {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--north-muted);
+  margin: 0;
+}
+
+.north-foco-card {
+  width: 100%;
+  max-width: 340px;
+  padding: 28px 20px;
+  border: 1px solid #2a2a2e;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #17171a 0%, #111114 100%);
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+}
+
+.north-foco-icone {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.north-foco-categoria {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--north-accent);
+  font-weight: 600;
+  margin: 0;
+}
+
+.north-foco-titulo {
+  font-family: var(--north-font);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.north-foco-meta,
+.north-foco-desc {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--north-muted);
+  line-height: 1.45;
+}
+
+.north-cta {
+  font-family: var(--north-font);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 999px;
+  padding: 16px 28px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+
+.north-cta:active {
+  transform: scale(0.98);
+}
+
+.north-cta--primario {
+  background: var(--north-text);
+  color: var(--north-bg);
+}
+
+.north-cta--secundario {
+  background: transparent;
+  color: var(--north-muted);
+  border: 1px solid #2a2a2e;
+}
+
+.north-link {
+  background: none;
+  border: none;
+  color: var(--north-muted);
+  font-size: 0.82rem;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.north-depois {
+  font-size: 0.82rem;
+  color: var(--north-muted);
+  margin: 0;
+}
+
+.north-depois-rotulo {
+  color: #5c5a56;
+  margin-right: 4px;
+}
+
+.north-feito-titulo {
+  font-family: var(--north-font);
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.north-feito-apoio,
+.north-feito-proximo,
+.north-livre {
+  color: var(--north-muted);
+  margin: 0;
+  max-width: 28ch;
+  line-height: 1.5;
+}
+
+/* Focus mode */
+.north-focus {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: grid;
+  place-items: center;
+  background: rgba(5, 5, 6, 0.96);
+  backdrop-filter: blur(12px);
+  padding: 24px;
+}
+
+.north-focus[hidden] {
+  display: none !important;
+}
+
+.north-focus-inner {
+  width: 100%;
+  max-width: 360px;
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+  text-align: center;
+}
+
+.north-focus-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--north-muted);
+  margin: 0;
+}
+
+.north-focus-titulo {
+  font-family: var(--north-font);
+  font-size: clamp(1.5rem, 7vw, 2.2rem);
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.north-focus-timer {
+  font-family: var(--north-font);
+  font-size: clamp(2.5rem, 12vw, 4rem);
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+  letter-spacing: -0.04em;
+}
+
+.north-focus-bar {
+  width: 100%;
+  height: 3px;
+  background: #2a2a2e;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.north-focus-bar-fill {
+  display: block;
+  height: 100%;
+  width: 35%;
+  background: var(--north-accent);
+  border-radius: inherit;
+  transition: width 1s linear;
+}
+
+/* Memória hub */
+.north-memoria {
+  padding: 8px 0 24px;
+  display: grid;
+  gap: 16px;
+}
+
+.north-memoria-rotulo {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--north-muted);
+  margin: 0;
+}
+
+.north-memoria-apoio-principal {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--north-text);
+  line-height: 1.4;
+}
+
+.north-memoria-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.north-memoria-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  text-align: left;
+  padding: 16px;
+  border: 1px solid #2a2a2e;
+  border-radius: 14px;
+  background: var(--north-surface);
+  color: var(--north-text);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.north-memoria-card:hover {
+  border-color: #3a3a40;
+}
+
+.north-memoria-emoji {
+  font-size: 1.25rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.north-memoria-textos {
+  display: grid;
+  gap: 4px;
+}
+
+.north-memoria-titulo {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.north-memoria-apoio {
+  font-size: 0.82rem;
+  color: var(--north-muted);
+  line-height: 1.35;
+}
+
+body.north-focus-aberto {
+  overflow: hidden;
+}
+
+@media (max-width: 380px) {
+  .north-estado-grid {
+    gap: 8px;
+  }
+
+  .north-estado-opcao {
+    padding: 14px 8px;
+  }
+}

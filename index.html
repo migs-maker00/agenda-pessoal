@@ -7,7 +7,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <meta name="description" content="Te dá direção — corpo, mente e conhecimento, sem peso na cabeça." />
+  <meta name="description" content="Less to Think. More to Do. — seu GPS pessoal." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="North" />
@@ -19,21 +19,20 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=2.33.0" />
+  <link rel="stylesheet" href="style.css?v=2.34.0" />
+  <link rel="stylesheet" href="north-home.css?v=2.34.0" />
 </head>
 <body>
   <div class="ambiente">
-    <main class="app">
+    <main class="app app--north-gps">
       <header class="cabecalho">
         <div class="cabecalho-marca">
           <p class="marca" data-i18n="header.brand">North</p>
-          <p class="marca-tagline" data-i18n="header.tagline">
-            Te dá direção — corpo, mente e conhecimento, sem peso na cabeça.
-          </p>
-          <h1 class="titulo-dia" data-i18n="header.day">Agora</h1>
+          <p class="marca-tagline north-slogan-header" data-i18n="north.slogan">Less to Think. More to Do.</p>
+          <h1 class="titulo-dia" data-i18n="header.day">North</h1>
           <p id="data-hoje" class="data-hoje"></p>
         </div>
         <div class="cabecalho-acoes">
@@ -50,18 +49,17 @@
         </div>
       </header>
 
-      <nav class="nav-paineis" data-i18n-aria="nav.aria" aria-label="Áreas do North">
-        <button type="button" class="nav-item ativo" data-painel="hoje" data-i18n="nav.hoje">Agora</button>
-        <button type="button" class="nav-item" data-painel="guia" data-i18n="nav.guia">Guia</button>
-        <button type="button" class="nav-item" data-painel="estudo" data-i18n="nav.estudo">Conhecimento</button>
-        <button type="button" class="nav-item" data-painel="rotina" data-i18n="nav.rotina">Ritmo</button>
-        <button type="button" class="nav-item" data-painel="semana" data-i18n="nav.semana">Direção</button>
-        <button type="button" class="nav-item" data-painel="diario" data-i18n="nav.diario">Diário</button>
-        <button type="button" class="nav-item" data-painel="insights" data-i18n="nav.insights">Continuidade</button>
-        <button type="button" class="nav-item" data-painel="ajustes" data-i18n="nav.ajustes">Ajustes</button>
+      <nav class="nav-paineis nav-gps" data-i18n-aria="nav.aria" aria-label="North">
+        <button type="button" class="nav-item ativo" data-painel="hoje" data-i18n="nav.north">North</button>
+        <button type="button" class="nav-item" data-painel="memoria" data-i18n="nav.memoria">Memória</button>
       </nav>
 
       <p id="feedback-global" class="feedback-global" hidden role="status" aria-live="polite"></p>
+
+      <!-- MEMÓRIA: segundo cérebro (consultar, não agir) -->
+      <section id="painel-memoria" class="painel" aria-label="Memória" hidden>
+        <div id="north-memoria-root" class="north-memoria-root" aria-live="polite"></div>
+      </section>
 
       <!-- CHEGUEI: 2 opções só (acesso pelo Guia, Hoje ou atalho) -->
       <section id="painel-cheguei" class="painel" aria-label="E agora?" hidden>
@@ -178,8 +176,8 @@
         </details>
       </section>
 
-      <!-- AGORA: um foco — segundo cérebro -->
-      <section id="painel-hoje" class="painel ativo" aria-label="Agora">
+      <!-- NORTH: ESTADO → DIREÇÃO → EXECUÇÃO -->
+      <section id="painel-hoje" class="painel ativo" aria-label="North">
         <div id="guia-chamada" class="guia-chamada" hidden>
           <p class="guia-chamada-texto" data-i18n-html="guia.chamada.html">
             <strong>Nova aqui?</strong> O <strong>Guia</strong> tem o roteiro de 5 min para mostrar o app com confiança.
@@ -680,6 +678,8 @@
     </main>
   </div>
 
+  <div id="north-focus" class="north-focus" hidden aria-label="Modo foco"></div>
+
   <div id="migracao-github-aviso" class="migracao-github-aviso" hidden role="status">
     <p data-i18n-html="migracao.github.html">
       Nova versão com IA:
@@ -710,7 +710,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
-  <script type="module" src="js/main.js?v=2.33.0"></script>
+  <script type="module" src="js/main.js?v=2.34.0"></script>
   <script defer src="sync.js?v=6"></script>
 </body>
 </html>

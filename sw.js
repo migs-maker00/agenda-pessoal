@@ -1,7 +1,7 @@
 /* Service worker — lembretes agendados + cache offline (PWA) */
 
-const CACHE = "north-v2.33.0";
-const APP_VERSION = "2.33.0";
+const CACHE = "north-v2.34.0";
+const APP_VERSION = "2.34.0";
 
 const alarmes = new Map();
 
@@ -41,6 +41,7 @@ const LIBS = [
   "mindos-rotina",
   "mindos-semana",
   "modo-barulho",
+  "north-home",
   "north",
   "north-convite",
   "neuro-explicar",
@@ -71,6 +72,7 @@ function urlsPrecache() {
     "./",
     "./index.html",
     `./style.css?v=${APP_VERSION}`,
+    `./north-home.css?v=${APP_VERSION}`,
     "./sync.js?v=6",
     "./firebase-config.js",
     "./manifest.webmanifest",
@@ -199,6 +201,7 @@ function ehArquivoDoApp(url) {
   if (caminho.endsWith("/") || caminho.endsWith("/index.html")) return true;
   if (caminho.includes("/js/")) return true;
   if (caminho.endsWith("/style.css")) return true;
+  if (caminho.endsWith("/north-home.css")) return true;
   if (caminho.endsWith("/sync.js")) return true;
   if (caminho.endsWith("/firebase-config.js")) return true;
   return false;
