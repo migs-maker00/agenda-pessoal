@@ -88,91 +88,79 @@ async function main() {
 
     const titulo = await page.locator("h1.titulo-dia").textContent();
 
-    if (titulo?.includes("Agora") || titulo?.includes("Now")) ok("Título Agora visível", titulo.trim());
+    if (titulo?.includes("North") || titulo?.includes("Now")) ok("Título North visível", titulo.trim());
+    else fail("Título North visível", titulo || "vazio");
 
-    else fail("Título Agora visível", titulo || "vazio");
+    const mindosHoje = await page.locator(
+      "#mindos-hoje .north-home, #mindos-hoje .north-pergunta, #mindos-hoje .north-foco-card"
+    ).count();
 
+    if (mindosHoje > 0) ok("North Home renderiza");
+    else fail("North Home renderiza", "conteúdo vazio");
 
-
-    const mindosHoje = await page.locator("#mindos-hoje .mindos-saudacao, #mindos-hoje .mindos-livre, #mindos-hoje .mindos-foco-nome").count();
-
-    if (mindosHoje > 0) ok("North Agora renderiza");
-    else fail("North Agora renderiza", "conteúdo vazio");
-
-    const convite = page.locator("[data-north-convite]");
-    if ((await convite.count()) > 0) {
-      const acao = await convite.first().getAttribute("data-north-convite");
-      await convite.first().click();
-      await page.waitForTimeout(300);
-      const painelAlvo = acao === "cheguei" ? "cheguei" : acao;
-      const hidden = await page.locator(`#painel-${painelAlvo}`).getAttribute("hidden");
-      if (hidden === null) ok("Convite North abre painel", acao);
-      else fail("Convite North abre painel", acao);
-      await page.click('button.nav-item[data-painel="hoje"]');
-      await page.waitForTimeout(200);
+    const estadoBtn = page.locator('[data-north-estado="normal"]').first();
+    if ((await estadoBtn.count()) > 0) {
+      await estadoBtn.click();
+      await page.waitForTimeout(400);
+      const direcao = await page.locator(".north-home--direcao, .north-foco-card, .north-home--livre").count();
+      if (direcao > 0) ok("Estado → direção", "transição ok");
+      else fail("Estado → direção", "sem tela de foco");
     } else {
-      ok("Convite North (texto calmo)", "sem ação — ok");
+      ok("Estado GPS (já escolhido hoje)", "pulando picker");
     }
 
-
-
-    const abas = ["guia", "estudo", "rotina", "semana", "diario", "insights", "ajustes"];
-
-    for (const aba of abas) {
-
-      await page.click(`button.nav-item[data-painel="${aba}"]`);
-
+    async function abrirMemoriaPainel(painel) {
+      await page.click('button.nav-item[data-painel="memoria"]');
       await page.waitForTimeout(300);
-
-      const painel = page.locator(`#painel-${aba}`);
-
-      const hidden = await painel.getAttribute("hidden");
-
-      if (hidden === null) ok(`Aba ${aba} abre`);
-
-      else fail(`Aba ${aba} abre`, "painel ainda hidden");
-
+      await page.click(`button[data-memoria-painel="${painel}"]`);
+      await page.waitForTimeout(300);
     }
 
+    const abasMemoria = ["estudo", "rotina", "semana", "diario", "insights"];
 
+    for (const aba of abasMemoria) {
+      await abrirMemoriaPainel(aba);
+      const painel = page.locator(`#painel-${aba}`);
+      const hidden = await painel.getAttribute("hidden");
+      if (hidden === null) ok(`Memória → ${aba} abre`);
+      else fail(`Memória → ${aba} abre`, "painel ainda hidden");
+    }
 
-    await page.click('button.nav-item[data-painel="estudo"]');
+    await page.click("#botao-ajustes");
+    await page.waitForTimeout(300);
+    const ajustesHidden = await page.locator("#painel-ajustes").getAttribute("hidden");
+    if (ajustesHidden === null) ok("Ajustes abre (⚙)");
+    else fail("Ajustes abre (⚙)", "painel hidden");
+
+    await abrirMemoriaPainel("estudo");
 
     const estudoMindos = await page.locator("#mindos-estudo .mindos-sec-rotulo").textContent();
 
     if (estudoMindos?.includes("Conhecimento")) ok("North Conhecimento renderiza", estudoMindos.trim());
     else fail("North Conhecimento renderiza", estudoMindos || "vazio");
 
-
-
-    await page.click('button.nav-item[data-painel="rotina"]');
+    await abrirMemoriaPainel("rotina");
 
     const rotinaMindos = await page.locator("#mindos-rotina .mindos-sec-rotulo").textContent();
 
     if (rotinaMindos?.includes("Ritmo")) ok("North Ritmo renderiza", rotinaMindos.trim());
     else fail("North Ritmo renderiza", rotinaMindos || "vazio");
 
-
-
-    await page.click('button.nav-item[data-painel="semana"]');
+    await abrirMemoriaPainel("semana");
 
     const semanaMindos = await page.locator("#mindos-semana .mindos-sec-rotulo").textContent();
 
     if (semanaMindos?.includes("Direção")) ok("North Direção renderiza", semanaMindos.trim());
     else fail("North Direção renderiza", semanaMindos || "vazio");
 
-
-
-    await page.click('button.nav-item[data-painel="insights"]');
+    await abrirMemoriaPainel("insights");
 
     const insightsMindos = await page.locator("#mindos-insights .mindos-sec-rotulo").textContent();
 
     if (insightsMindos?.includes("Continuidade")) ok("North Continuidade renderiza", insightsMindos.trim());
     else fail("North Continuidade renderiza", insightsMindos || "vazio");
 
-
-
-    await page.click('button.nav-item[data-painel="rotina"]');
+    await abrirMemoriaPainel("rotina");
 
     await abrirDetails(page, "rotina-mais");
 
@@ -184,20 +172,19 @@ async function main() {
 
     await page.waitForTimeout(400);
 
-    await abrirDetails(page, "hoje-mais");
-    await abrirDetails(page, "hoje-mapa-ritmo");
+    const comecar = page.locator("[data-north-comecar]");
+    if ((await comecar.count()) > 0) ok("North recomenda próximo passo", "CTA visível");
+    else {
+      const estado = page.locator('[data-north-estado="normal"]').first();
+      if ((await estado.count()) > 0) {
+        await estado.click();
+        await page.waitForTimeout(400);
+      }
+      if ((await comecar.count()) > 0) ok("North recomenda próximo passo", "após estado");
+      else fail("North recomenda próximo passo", "sem CTA");
+    }
 
-    const checklist = page.locator("#lista-habitos li, #lista-habitos .habito-item, #lista-habitos button");
-
-    const count = await checklist.count();
-
-    if (count > 0) ok("Passo do ritmo aparece em Agora", `${count} item(ns)`);
-
-    else fail("Passo do ritmo aparece em Agora", "lista vazia");
-
-
-
-    await page.click('button.nav-item[data-painel="diario"]');
+    await abrirMemoriaPainel("diario");
 
     const textarea = page.locator("#diario-texto, textarea[id*='diario'], #painel-diario textarea").first();
 
@@ -217,7 +204,8 @@ async function main() {
 
 
 
-    await page.click('button.nav-item[data-painel="ajustes"]');
+    await page.click("#botao-ajustes");
+    await page.waitForTimeout(200);
 
     const temaBtn = page.locator("#botao-tema");
 
@@ -287,14 +275,14 @@ async function main() {
 
 
 
-    await page.click('button.nav-item[data-painel="rotina"]');
+    await abrirMemoriaPainel("rotina");
 
     await page.waitForTimeout(500);
 
     const rotinaVisivel = await page.locator("#painel-rotina").getAttribute("hidden");
 
-    if (rotinaVisivel === null) ok("Navegação offline (Ritmo)");
-    else fail("Navegação offline (Ritmo)");
+    if (rotinaVisivel === null) ok("Navegação offline (Ritmo via Memória)");
+    else fail("Navegação offline (Ritmo via Memória)");
 
 
 
