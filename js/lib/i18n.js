@@ -86,7 +86,8 @@ export function aplicarIdiomaHtml(raiz = document) {
   });
 
   const navMap = {
-    hoje: "nav.hoje",
+    hoje: "nav.north",
+    memoria: "nav.memoria",
     guia: "nav.guia",
     estudo: "nav.estudo",
     rotina: "nav.rotina",

@@ -79,6 +79,11 @@ body.north-app .app.app--north-gps {
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   margin-bottom: 8px;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
 }
 
 .nav-gps .nav-item {
@@ -92,12 +97,20 @@ body.north-app .app.app--north-gps {
   padding: 10px 12px;
   min-width: 0;
   flex: unset;
+  box-shadow: none !important;
+}
+
+.nav-gps .nav-item:hover {
+  border-color: #3a3a40;
+  color: var(--north-text);
+  background: color-mix(in srgb, var(--north-text) 6%, transparent);
 }
 
 .nav-gps .nav-item.ativo {
-  background: var(--north-text);
-  color: var(--north-bg);
-  border-color: var(--north-text);
+  background: var(--north-text) !important;
+  color: var(--north-bg) !important;
+  border-color: var(--north-text) !important;
+  box-shadow: none !important;
 }
 
 #painel-hoje.ativo ~ .cabecalho .titulo-dia,
@@ -203,7 +216,7 @@ body.north-app .app.app--north-gps {
   font-weight: 500;
 }
 
-/* North Core */
+/* North Core — pulso do sistema (não é botão) */
 .north-core {
   position: relative;
   width: 56px;
@@ -212,12 +225,22 @@ body.north-app .app.app--north-gps {
   margin-bottom: 4px;
 }
 
+.north-core::after {
+  content: "";
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, color-mix(in srgb, var(--north-accent) 85%, white), var(--north-accent));
+  opacity: 0.55;
+}
+
 .north-core-glow {
   position: absolute;
-  inset: 0;
+  inset: -8px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, var(--north-glow), transparent 70%);
+  background: radial-gradient(circle at 35% 35%, var(--north-glow), transparent 68%);
   animation: north-breathe 4s ease-in-out infinite;
+  filter: blur(2px);
 }
 
 .north-core--idle .north-core-glow {
@@ -718,6 +741,39 @@ body.north-focus-aberto {
   }
 }
 
+body.north-focus-aberto {
+  overflow: hidden;
+}
+
+/* Tema claro — toggle ☾/☀ funciona */
+html[data-tema="claro"].north-app,
+html[data-tema="claro"] body.north-app,
+html[data-tema="claro"] body.north-app .ambiente {
+  --north-bg: #ece8e1;
+  --north-surface: #faf8f5;
+  --north-text: #121214;
+  --north-muted: #6a6660;
+  --north-accent: #8a7355;
+  --north-glow: rgba(138, 115, 85, 0.28);
+  background-color: var(--north-bg) !important;
+}
+
+html[data-tema="claro"] .app--north-gps .nav-gps .nav-item {
+  border-color: color-mix(in srgb, var(--north-text) 12%, transparent);
+}
+
+html[data-tema="claro"] .app--north-gps .nav-gps .nav-item.ativo {
+  background: var(--north-text) !important;
+  color: var(--north-bg) !important;
+}
+
+html[data-tema="claro"] .north-foco-card,
+html[data-tema="claro"] .north-estado-opcao,
+html[data-tema="claro"] .north-memoria-card {
+  border-color: color-mix(in srgb, var(--north-text) 10%, transparent);
+  background: var(--north-surface);
+}
+
 @media (max-width: 480px) {
   html.north-app,
   body.north-app,
@@ -728,9 +784,7 @@ body.north-focus-aberto {
   body.north-app .app.app--north-gps {
     background: var(--north-bg) !important;
   }
-}
 
-@media (max-width: 380px) {
   .north-estado-grid {
     gap: 8px;
   }
