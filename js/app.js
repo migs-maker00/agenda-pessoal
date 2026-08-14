@@ -1,5 +1,5 @@
-import { APP_VERSION, hostAtual } from "./config.js?v=2.34.0";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.34.0";
+import { APP_VERSION, hostAtual } from "./config.js?v=2.34.2";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.34.2";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.34.0";
+} from "./lib/avisos-agenda.js?v=2.34.2";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.34.0";
+} from "./lib/habitos.js?v=2.34.2";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.34.0";
+} from "./lib/perfil.js?v=2.34.2";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,49 +54,49 @@ import {
   prioridadesRotina,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.34.0";
+} from "./lib/rotina-preset.js?v=2.34.2";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.34.0";
+} from "./lib/aprender.js?v=2.34.2";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.34.0";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.34.0";
+} from "./lib/estudo-hub.js?v=2.34.2";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.34.2";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.34.0";
+} from "./lib/estudo-ui.js?v=2.34.2";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.34.0";
+} from "./lib/cheguei.js?v=2.34.2";
 import {
   aplicarSugestaoIa,
   montarPayloadContextoIa,
   pedirOpcoesContexto,
-} from "./lib/contexto-ia.js?v=2.34.0";
-import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.34.0";
-import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.34.0";
+} from "./lib/contexto-ia.js?v=2.34.2";
+import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.34.2";
+import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.34.2";
 import {
   mensagemStreakGlobal,
   mensagemStreakHabito,
   rotuloStreakInsights,
-} from "./lib/streak-gentil.js?v=2.34.0";
-import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.34.0";
-import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.34.0";
-import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.34.0";
-import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.34.0";
-import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.34.0";
+} from "./lib/streak-gentil.js?v=2.34.2";
+import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.34.2";
+import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.34.2";
+import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.34.2";
+import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.34.2";
+import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.34.2";
 import {
   carregarSessaoParceiro,
   iniciarSessaoParceiro,
@@ -104,8 +104,8 @@ import {
   finalizarSessaoParceiro,
   limparSessaoParceiro,
   renderPainelParceiro,
-} from "./lib/estudo-parceiro.js?v=2.34.0";
-import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.34.0";
+} from "./lib/estudo-parceiro.js?v=2.34.2";
+import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.34.2";
 import {
   arquivarVersaoNota,
   carregarHistoricoCompleto,
@@ -116,13 +116,13 @@ import {
   mesclarNotasDoHistorico,
   restaurarVersaoHistorico,
   rotuloMotivoVersao,
-} from "./lib/diario-historico.js?v=2.34.0";
+} from "./lib/diario-historico.js?v=2.34.2";
 import {
   aplicarExplicacoesNeuro,
   carregarExplicacoesNeuro,
   mesclarExplicacoesNeuro,
-} from "./lib/neuro-explicar.js?v=2.34.0";
-import { sondarIaNeuro, iaNeuroDisponivel } from "./lib/neuro-ia.js?v=2.34.0";
+} from "./lib/neuro-explicar.js?v=2.34.2";
+import { sondarIaNeuro, iaNeuroDisponivel } from "./lib/neuro-ia.js?v=2.34.2";
 import {
   marcarGuiaVisto,
   marcarPassoGuia,
@@ -132,19 +132,19 @@ import {
   renderPainelGuia,
   resetarProgressoGuia,
   ROTEIRO_DEMO,
-} from "./lib/guia-app.js?v=2.34.0";
-import { obterDepois } from "./lib/mindos-hoje.js?v=2.34.0";
-import { carregarEstadoMental, limparEstadoMental, salvarEstadoMental } from "./lib/mindos-estado.js?v=2.34.0";
+} from "./lib/guia-app.js?v=2.34.2";
+import { obterDepois } from "./lib/mindos-hoje.js?v=2.34.2";
+import { carregarEstadoMental, limparEstadoMental, salvarEstadoMental } from "./lib/mindos-estado.js?v=2.34.2";
 import {
   htmlMemoriaHub,
   htmlNorthFocus,
   htmlNorthHome,
   parseMinutos,
-} from "./lib/north-home.js?v=2.34.0";
-import { htmlMindosRotina } from "./lib/mindos-rotina.js?v=2.34.0";
-import { htmlMindosSemana } from "./lib/mindos-semana.js?v=2.34.0";
-import { htmlMindosInsights } from "./lib/mindos-insights.js?v=2.34.0";
-import { htmlMindosEstudo } from "./lib/mindos-estudo.js?v=2.34.0";
+} from "./lib/north-home.js?v=2.34.2";
+import { htmlMindosRotina } from "./lib/mindos-rotina.js?v=2.34.2";
+import { htmlMindosSemana } from "./lib/mindos-semana.js?v=2.34.2";
+import { htmlMindosInsights } from "./lib/mindos-insights.js?v=2.34.2";
+import { htmlMindosEstudo } from "./lib/mindos-estudo.js?v=2.34.2";
 import {
   carregarCognitivo,
   concluirBlocoCognitivo,
@@ -159,42 +159,42 @@ import {
   salvarConhecimentoCognitivo,
   salvarRascunhoBloco,
   sessaoCognitivaPendente,
-} from "./lib/cognitivo-dados.js?v=2.34.0";
+} from "./lib/cognitivo-dados.js?v=2.34.2";
 import {
   htmlCognitivoAgora,
   htmlCognitivoMetricas,
   htmlCognitivoSessao,
   htmlMindosCognitivo,
   processarFormRaciocinio,
-} from "./lib/cognitivo-ui.js?v=2.34.0";
-import { escolherConviteNorth } from "./lib/north-convite.js?v=2.34.0";
-import { aplicarIdiomaHtml, definirCallbackIdioma, localeTag, setLocale, t } from "./lib/i18n.js?v=2.34.0";
+} from "./lib/cognitivo-ui.js?v=2.34.2";
+import { escolherConviteNorth } from "./lib/north-convite.js?v=2.34.2";
+import { aplicarIdiomaHtml, definirCallbackIdioma, localeTag, setLocale, t } from "./lib/i18n.js?v=2.34.2";
 import {
   esconderBannerMigracaoHost,
   ligarMigracaoHost,
   mostrarAvisoGithubParaVercel,
   mostrarBannerMigracaoHost,
   precisaConectarSyncNesteHost,
-} from "./lib/migracao-host.js?v=2.34.0";
+} from "./lib/migracao-host.js?v=2.34.2";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.34.0";
+} from "./lib/tarde.js?v=2.34.2";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.34.0";
+} from "./lib/inteligencia.js?v=2.34.2";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.34.0";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.34.0";
+} from "./lib/lembretes.js?v=2.34.2";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.34.2";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -209,12 +209,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.34.0";
+} from "./lib/foco.js?v=2.34.2";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.34.0";
+} from "./lib/rotina-local.js?v=2.34.2";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -247,7 +247,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.34.0";
+} from "./lib/tdah.js?v=2.34.2";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
