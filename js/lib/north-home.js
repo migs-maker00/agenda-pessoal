@@ -97,7 +97,7 @@ function htmlEstadoPicker(estadoAtual) {
 
   return `
     <div class="north-home north-home--estado" data-north-fase="estado">
-      <div class="north-core north-core--idle" aria-hidden="true"><span class="north-core-glow"></span></div>
+      <div class="north-core north-core--idle" aria-hidden="true" title="North Core"><span class="north-core-glow"></span></div>
       <p class="north-hora">${esc(horaAtual())}</p>
       <h2 class="north-pergunta">${esc(t("north.pergunta"))}</h2>
       <div class="north-estado-grid" role="group" aria-label="${esc(t("north.estado.aria"))}">
