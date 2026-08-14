@@ -3639,38 +3639,208 @@ body {
 
 @media (max-width: 480px) {
   .estudo-nav {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 4px;
-  }
-
-  .estudo-nav::-webkit-scrollbar {
-    display: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    flex-wrap: wrap;
+    overflow: visible;
+    gap: 6px;
+    padding-bottom: 8px;
   }
 
   .estudo-nav-item {
-    flex: 0 0 auto;
-    white-space: nowrap;
+    flex: unset;
+    min-width: 0;
+    white-space: normal;
+    line-height: 1.2;
+    text-align: center;
+    font-size: 0.68rem;
+    padding: 8px 4px;
   }
 
   .estudo-sessao-botoes {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 
   .neuro-modulos-nav {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    flex-wrap: wrap;
+    overflow: visible;
+    gap: 6px;
     padding-bottom: 4px;
   }
 
-  .neuro-modulos-nav::-webkit-scrollbar {
-    display: none;
+  .neuro-mod-chip {
+    flex: 1 1 calc(50% - 4px);
+    min-width: 0;
   }
+}
+
+@media (max-width: 768px), (max-height: 500px) and (orientation: landscape) {
+  .estudo-painel-root,
+  .mindos-sec,
+  .cognitivo-sessao-root {
+    min-width: 0;
+  }
+
+  .estudo-sugestao-btn {
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+  }
+
+  .estudo-sugestao-add {
+    white-space: normal;
+    grid-column: 2;
+    font-size: 0.75rem;
+  }
+
+  .estudo-painel-root .botao-primario,
+  .mindos-sec .botao-primario,
+  .cognitivo-sessao-root .botao-primario {
+    white-space: normal;
+    line-height: 1.25;
+  }
+
+  .estudo-player-yt iframe {
+    min-height: 0;
+    max-height: min(42vh, 220px);
+  }
+
+  .mindos-foco-card,
+  .cognitivo-card-compacto {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .mindos-foco-corpo {
+    min-width: 0;
+  }
+
+  .neuro-modulo-cab {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .neuro-modulo-titulo,
+  .estudo-link-btn,
+  .estudo-livro-titulo,
+  .estudo-sugestao-titulo {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .estudo-form-link,
+  .estudo-falar-form {
+    display: grid;
+    gap: 8px;
+  }
+
+  .parceiro-bloco {
+    padding: 12px;
+  }
+
+  .parceiro-texto {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 380px) {
+  .estudo-nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.mindos-sec-secundaria {
+  padding-top: 4px;
+  border-top: 1px solid var(--borda);
+  margin-top: 4px;
+}
+
+.cognitivo-sessao-root:not([hidden]) {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.cognitivo-motivo,
+.cognitivo-agora-motivo {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--texto-suave);
+  line-height: 1.4;
+}
+
+.cognitivo-form-inline {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.cognitivo-objetivo-form {
+  margin-top: 4px;
+}
+
+.cognitivo-problema {
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  padding: 12px;
+  margin: 0 0 10px;
+}
+
+.cognitivo-problema legend {
+  font-weight: 600;
+  padding: 0 4px;
+  line-height: 1.35;
+}
+
+.cognitivo-opcoes {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.cognitivo-opcao {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.cognitivo-conceito-card {
+  border-radius: 12px;
+  padding: 12px;
+  background: color-mix(in srgb, var(--bege) 30%, var(--superficie));
+  border: 1px solid var(--borda);
+  margin-bottom: 12px;
+}
+
+.cognitivo-conceito-titulo {
+  margin: 0 0 6px;
+  font-weight: 700;
+  font-family: var(--fonte-display);
+}
+
+.cognitivo-conceito-resumo {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--texto-suave);
+}
+
+.cognitivo-revisao-rapida {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--marca) 12%, var(--superficie));
+  font-size: 0.88rem;
+}
+
+.cognitivo-metricas {
+  margin-top: 8px;
+}
+
+.mindos-cognitivo-agora {
+  margin: 16px 0 0;
 }
 
 /* Migração GitHub → Vercel (proteção do diário) */

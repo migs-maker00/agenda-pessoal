@@ -106,7 +106,7 @@ function htmlEstadoMental(estadoAtual, ui) {
     </div>`;
 }
 
-export function htmlMindosHoje({ foco, depois, perfil, timerAtivo, timerTexto, estadoMental = "", convite = "" }) {
+export function htmlMindosHoje({ foco, depois, perfil, timerAtivo, timerTexto, estadoMental = "", convite = "", cognitivo = null }) {
   const ui = configUIEstado(estadoMental);
   const nome = nomeUsuarioPerfil(perfil);
   const saudacao = saudacaoPeriodo();
@@ -202,6 +202,7 @@ export function htmlMindosHoje({ foco, depois, perfil, timerAtivo, timerTexto, e
       </button>
     </section>
     ${depoisHtml}
+    ${cognitivo || ""}
     <p class="mindos-rodape">${rodape}</p>
     ${chegueiHtml}`;
 }

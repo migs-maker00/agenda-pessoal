@@ -1,5 +1,5 @@
-import { APP_VERSION, hostAtual } from "./config.js?v=2.32.2";
-import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.32.2";
+import { APP_VERSION, hostAtual } from "./config.js?v=2.33.0";
+import { fraseFilosoficaDoDia } from "./lib/filosofia.js?v=2.33.0";
 import {
   adicionarAviso,
   alternarAvisoFeito,
@@ -10,7 +10,7 @@ import {
   proximosAvisos,
   removerAviso,
   salvarAvisosStorage,
-} from "./lib/avisos-agenda.js?v=2.32.2";
+} from "./lib/avisos-agenda.js?v=2.33.0";
 import {
   criarHabitoAgua,
   criarSelectImportancia,
@@ -39,13 +39,13 @@ import {
   textoHorariosLembretes,
   textoPlanoB,
   todosMicroFeitos,
-} from "./lib/habitos.js?v=2.32.2";
+} from "./lib/habitos.js?v=2.33.0";
 import {
   carregarPerfil,
   marcarPerfilInicializado,
   perfilInicializado,
   salvarPerfil,
-} from "./lib/perfil.js?v=2.32.2";
+} from "./lib/perfil.js?v=2.33.0";
 import {
   correspondePreset,
   habitosRotinaCompleta,
@@ -54,49 +54,49 @@ import {
   prioridadesRotina,
   rotinaJaMontada,
   textosPlanejadorRotina,
-} from "./lib/rotina-preset.js?v=2.32.2";
+} from "./lib/rotina-preset.js?v=2.33.0";
 import {
   detectarHabitoAprender,
   MICRO_APRENDER,
   migrarHabitosAprendizado,
   PLANO_B_APRENDER,
   textoSugereAprender,
-} from "./lib/aprender.js?v=2.32.2";
+} from "./lib/aprender.js?v=2.33.0";
 import {
   carregarEstudo,
   resetSessaoSeNovoDia,
   salvarEstudo,
-} from "./lib/estudo-hub.js?v=2.32.2";
-import { iniciarVozes } from "./lib/voz-sintese.js?v=2.32.2";
+} from "./lib/estudo-hub.js?v=2.33.0";
+import { iniciarVozes } from "./lib/voz-sintese.js?v=2.33.0";
 import {
   atualizarResultadoLivros,
   ligarPainelEstudo,
   renderPainelEstudo,
   renderResumoHoje,
-} from "./lib/estudo-ui.js?v=2.32.2";
+} from "./lib/estudo-ui.js?v=2.33.0";
 import {
   montarOpcoesCheguei,
   renderChegueiFeito,
   renderChegueiInicio,
   renderChegueiOpcoes,
-} from "./lib/cheguei.js?v=2.32.2";
+} from "./lib/cheguei.js?v=2.33.0";
 import {
   aplicarSugestaoIa,
   montarPayloadContextoIa,
   pedirOpcoesContexto,
-} from "./lib/contexto-ia.js?v=2.32.2";
-import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.32.2";
-import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.32.2";
+} from "./lib/contexto-ia.js?v=2.33.0";
+import { faixaDoDia } from "./lib/contexto-tempo.js?v=2.33.0";
+import { registrarConclusao, resumoPadroesParaIA, alertaPreditivo } from "./lib/padroes.js?v=2.33.0";
 import {
   mensagemStreakGlobal,
   mensagemStreakHabito,
   rotuloStreakInsights,
-} from "./lib/streak-gentil.js?v=2.32.2";
-import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.32.2";
-import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.32.2";
-import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.32.2";
-import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.32.2";
-import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.32.2";
+} from "./lib/streak-gentil.js?v=2.33.0";
+import { modoBarulho, definirModoBarulho, filtrarModoBarulho } from "./lib/modo-barulho.js?v=2.33.0";
+import { detectarTransicao, mensagemTransicao } from "./lib/transicao-coach.js?v=2.33.0";
+import { aplicarPreparoNoite, textoPreparoManha } from "./lib/preparar-amanha.js?v=2.33.0";
+import { interpretarFala, rotuloContextoVoz } from "./lib/voz-contexto.js?v=2.33.0";
+import { pedirResumoDiario, pedirPlanoSemana } from "./lib/ia-servicos.js?v=2.33.0";
 import {
   carregarSessaoParceiro,
   iniciarSessaoParceiro,
@@ -104,8 +104,8 @@ import {
   finalizarSessaoParceiro,
   limparSessaoParceiro,
   renderPainelParceiro,
-} from "./lib/estudo-parceiro.js?v=2.32.2";
-import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.32.2";
+} from "./lib/estudo-parceiro.js?v=2.33.0";
+import { escutarDictado, pararEscuta, suportaReconhecimentoVoz } from "./lib/estudo-fala.js?v=2.33.0";
 import {
   arquivarVersaoNota,
   carregarHistoricoCompleto,
@@ -116,13 +116,13 @@ import {
   mesclarNotasDoHistorico,
   restaurarVersaoHistorico,
   rotuloMotivoVersao,
-} from "./lib/diario-historico.js?v=2.32.2";
+} from "./lib/diario-historico.js?v=2.33.0";
 import {
   aplicarExplicacoesNeuro,
   carregarExplicacoesNeuro,
   mesclarExplicacoesNeuro,
-} from "./lib/neuro-explicar.js?v=2.32.2";
-import { sondarIaNeuro, iaNeuroDisponivel } from "./lib/neuro-ia.js?v=2.32.2";
+} from "./lib/neuro-explicar.js?v=2.33.0";
+import { sondarIaNeuro, iaNeuroDisponivel } from "./lib/neuro-ia.js?v=2.33.0";
 import {
   marcarGuiaVisto,
   marcarPassoGuia,
@@ -132,41 +132,63 @@ import {
   renderPainelGuia,
   resetarProgressoGuia,
   ROTEIRO_DEMO,
-} from "./lib/guia-app.js?v=2.32.2";
-import { htmlMindosHoje, obterDepois } from "./lib/mindos-hoje.js?v=2.32.2";
-import { carregarEstadoMental, salvarEstadoMental } from "./lib/mindos-estado.js?v=2.32.2";
-import { htmlMindosRotina } from "./lib/mindos-rotina.js?v=2.32.2";
-import { htmlMindosSemana } from "./lib/mindos-semana.js?v=2.32.2";
-import { htmlMindosInsights } from "./lib/mindos-insights.js?v=2.32.2";
-import { htmlMindosEstudo } from "./lib/mindos-estudo.js?v=2.32.2";
-import { escolherConviteNorth } from "./lib/north-convite.js?v=2.32.2";
-import { aplicarIdiomaHtml, definirCallbackIdioma, localeTag, setLocale, t } from "./lib/i18n.js?v=2.32.2";
+} from "./lib/guia-app.js?v=2.33.0";
+import { htmlMindosHoje, obterDepois } from "./lib/mindos-hoje.js?v=2.33.0";
+import { carregarEstadoMental, salvarEstadoMental } from "./lib/mindos-estado.js?v=2.33.0";
+import { htmlMindosRotina } from "./lib/mindos-rotina.js?v=2.33.0";
+import { htmlMindosSemana } from "./lib/mindos-semana.js?v=2.33.0";
+import { htmlMindosInsights } from "./lib/mindos-insights.js?v=2.33.0";
+import { htmlMindosEstudo } from "./lib/mindos-estudo.js?v=2.33.0";
+import {
+  carregarCognitivo,
+  concluirBlocoCognitivo,
+  definirObjetivoCognitivo,
+  extrairObjetivoInbox,
+  iniciarBlocoCognitivo,
+  proximoPassoCognitivo,
+  registrarDesempenhoBloco,
+  resetSessaoCognitivoSeNovoDia,
+  resumoSemanalCognitivo,
+  salvarCognitivo,
+  salvarConhecimentoCognitivo,
+  salvarRascunhoBloco,
+  sessaoCognitivaPendente,
+} from "./lib/cognitivo-dados.js?v=2.33.0";
+import {
+  htmlCognitivoAgora,
+  htmlCognitivoMetricas,
+  htmlCognitivoSessao,
+  htmlMindosCognitivo,
+  processarFormRaciocinio,
+} from "./lib/cognitivo-ui.js?v=2.33.0";
+import { escolherConviteNorth } from "./lib/north-convite.js?v=2.33.0";
+import { aplicarIdiomaHtml, definirCallbackIdioma, localeTag, setLocale, t } from "./lib/i18n.js?v=2.33.0";
 import {
   esconderBannerMigracaoHost,
   ligarMigracaoHost,
   mostrarAvisoGithubParaVercel,
   mostrarBannerMigracaoHost,
   precisaConectarSyncNesteHost,
-} from "./lib/migracao-host.js?v=2.32.2";
+} from "./lib/migracao-host.js?v=2.33.0";
 import {
   ehHorarioDificil,
   mensagemTarde,
   sugestaoTarde,
-} from "./lib/tarde.js?v=2.32.2";
+} from "./lib/tarde.js?v=2.33.0";
 import {
   complementoCoachDiario,
   gerarResumoSemana,
   sugerirHabito,
   textoSugestao,
-} from "./lib/inteligencia.js?v=2.32.2";
+} from "./lib/inteligencia.js?v=2.33.0";
 import {
   iniciarVerificacaoLembretes,
   lembretesAtivos,
   pedirPermissaoLembretes,
   verificarAvisosAgenda,
   verificarLembretes,
-} from "./lib/lembretes.js?v=2.32.2";
-import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.32.2";
+} from "./lib/lembretes.js?v=2.33.0";
+import { sincronizarAgendaSW } from "./lib/agenda-notif.js?v=2.33.0";
 import {
   cancelarTimer,
   cronometroAtivo,
@@ -181,12 +203,12 @@ import {
   segundosRestantesTimer,
   textoCountdown,
   timerAtivo,
-} from "./lib/foco.js?v=2.32.2";
+} from "./lib/foco.js?v=2.33.0";
 import {
   carregarPerfilRotina,
   gerarRotina,
   salvarPerfilRotina,
-} from "./lib/rotina-local.js?v=2.32.2";
+} from "./lib/rotina-local.js?v=2.33.0";
 import {
   adicionarInbox,
   alternarPrioridade,
@@ -219,7 +241,7 @@ import {
   salvarTemaSemana,
   sincronizarPrioridadesOrfas,
   sugestaoAgora,
-} from "./lib/tdah.js?v=2.32.2";
+} from "./lib/tdah.js?v=2.33.0";
 
 // ---- Referências aos elementos da página (DOM) ----
 const entradaHabito = document.getElementById("entrada-habito");
@@ -296,6 +318,8 @@ const mindosRotinaRoot = document.getElementById("mindos-rotina");
 const mindosSemanaRoot = document.getElementById("mindos-semana");
 const mindosInsightsRoot = document.getElementById("mindos-insights");
 const mindosEstudoRoot = document.getElementById("mindos-estudo");
+const mindosCognitivoRoot = document.getElementById("mindos-cognitivo");
+const cognitivoSessaoRoot = document.getElementById("cognitivo-sessao-root");
 const estudoMais = document.getElementById("estudo-mais");
 const estudoResumoConteudo = document.getElementById("estudo-resumo-conteudo");
 const estudoPainelRoot = document.getElementById("estudo-painel-root");
@@ -363,6 +387,7 @@ let chegueiFalaTexto = "";
 let chegueiVeioDoGuia = false;
 let mindosLigado = false;
 let mindosEstudoLigado = false;
+let cognitivoLigado = false;
 let guiaDemoIndice = null;
 let agoraTraveiHabitoId = null;
 let filtroCategoria = "Todas";
@@ -377,6 +402,7 @@ const chavesPendentesHistorico = new Set();
 let sugestaoAtual = null;
 let rotinaGerada = null;
 let dadosEstudo = resetSessaoSeNovoDia(carregarEstudo(), hojeStr());
+let dadosCognitivo = resetSessaoCognitivoSeNovoDia(carregarCognitivo(), hojeStr());
 
 // ============ DATAS (funções auxiliares) ============
 function chaveData(data) {
@@ -1704,7 +1730,7 @@ function impedirArrasteNoBotao(botao) {
 function exportarDados() {
   flushNotasParaDisco();
   const dados = {
-    versao: 6,
+    versao: 7,
     habitos,
     notas,
     historicoNotas: carregarHistoricoCompleto(),
@@ -1713,6 +1739,7 @@ function exportarDados() {
     inbox: carregarInbox(),
     prioridades: carregarPrioridades(),
     revisao: carregarRevisaoNoturna(),
+    cognitivo: carregarCognitivo(),
   };
   const blob = new Blob([JSON.stringify(dados, null, 2)], {
     type: "application/json",
@@ -1754,6 +1781,10 @@ function importarDados(evento) {
       if (Array.isArray(dados.avisos)) {
         avisos = dados.avisos;
         salvarAvisosStorage(avisos);
+      }
+      if (dados.cognitivo && typeof dados.cognitivo === "object") {
+        dadosCognitivo = resetSessaoCognitivoSeNovoDia({ ...carregarCognitivo(), ...dados.cognitivo }, hojeStr());
+        salvarCognitivo(dadosCognitivo);
       }
       salvar();
       salvarNotas();
@@ -2962,6 +2993,7 @@ function desenharMindosHoje() {
     timerTexto,
     estadoMental: carregarEstadoMental(),
     convite,
+    cognitivo: htmlCognitivoParaAgora(),
   });
 }
 
@@ -2990,6 +3022,7 @@ function desenharMindosSemana() {
     feitosSemana,
     totalPossivel,
     focoNome: foco?.habito?.nome || "",
+    cognitivoResumo: resumoSemanalCognitivo(dadosCognitivo),
   });
 }
 
@@ -3009,7 +3042,151 @@ function desenharMindosInsights() {
   });
 }
 
+function sincronizarObjetivoCognitivoInbox() {
+  if (dadosCognitivo.objetivo) return;
+  const obj = extrairObjetivoInbox(carregarInbox());
+  if (obj) {
+    dadosCognitivo = definirObjetivoCognitivo(dadosCognitivo, obj);
+    salvarCognitivo(dadosCognitivo);
+  }
+}
+
+function obterPassoCognitivoAtual() {
+  dadosCognitivo = resetSessaoCognitivoSeNovoDia(dadosCognitivo, hojeStr());
+  return proximoPassoCognitivo(dadosCognitivo);
+}
+
+function htmlCognitivoParaAgora() {
+  if (!sessaoCognitivaPendente(dadosCognitivo)) return "";
+  const passo = obterPassoCognitivoAtual();
+  if (passo.tipo !== "acao") return "";
+  return htmlCognitivoAgora(passo);
+}
+
+function desenharMindosCognitivo() {
+  if (!mindosCognitivoRoot) return;
+  dadosCognitivo = resetSessaoCognitivoSeNovoDia(dadosCognitivo, hojeStr());
+  const passo = proximoPassoCognitivo(dadosCognitivo);
+  mindosCognitivoRoot.innerHTML =
+    htmlMindosCognitivo(passo, dadosCognitivo) + htmlCognitivoMetricas(dadosCognitivo);
+}
+
+function renderizarSessaoCognitiva(blocoId) {
+  if (!cognitivoSessaoRoot) return;
+  dadosCognitivo = iniciarBlocoCognitivo(dadosCognitivo, blocoId);
+  salvarCognitivo(dadosCognitivo);
+  const passo = proximoPassoCognitivo(dadosCognitivo);
+  cognitivoSessaoRoot.hidden = false;
+  cognitivoSessaoRoot.innerHTML = htmlCognitivoSessao(passo, dadosCognitivo);
+  cognitivoSessaoRoot.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function fecharSessaoCognitivaUI() {
+  if (cognitivoSessaoRoot) {
+    cognitivoSessaoRoot.hidden = true;
+    cognitivoSessaoRoot.innerHTML = "";
+  }
+}
+
+function finalizarBlocoCognitivo(blocoId, extra = {}) {
+  if (extra.acertos != null && extra.total != null) {
+    dadosCognitivo = registrarDesempenhoBloco(dadosCognitivo, blocoId, extra.acertos, extra.total);
+  }
+  if (blocoId === "explicacao" && extra.tituloConhecimento && extra.textoExplicacao) {
+    dadosCognitivo = salvarConhecimentoCognitivo(dadosCognitivo, {
+      titulo: extra.tituloConhecimento,
+      conteudo: extra.textoExplicacao,
+      perguntas: [`O que é ${extra.tituloConhecimento}?`],
+    });
+  }
+  if (blocoId === "reflexao" && extra.reflexao) {
+    const linhas = Object.values(extra.reflexao).filter(Boolean).join("\n");
+    if (linhas.trim()) salvarRascunhoBloco(dadosCognitivo, "reflexao", linhas);
+  }
+  dadosCognitivo = concluirBlocoCognitivo(dadosCognitivo, blocoId);
+  salvarCognitivo(dadosCognitivo);
+  fecharSessaoCognitivaUI();
+  desenharMindosCognitivo();
+  desenharMindosHoje();
+  desenharMindosSemana();
+  mostrarFeedback(t("cognitivo.bloco.concluir") + " ✓");
+}
+
+function ligarCognitivo() {
+  if (cognitivoLigado) return;
+  cognitivoLigado = true;
+
+  document.addEventListener("click", (evento) => {
+    const comecar = evento.target.closest("[data-cognitivo-comecar]");
+    if (comecar) {
+      evento.preventDefault();
+      ativarPainel("estudo");
+      renderizarSessaoCognitiva(comecar.dataset.cognitivoComecar);
+      return;
+    }
+
+    const okBloco = evento.target.closest("[data-cognitivo-bloco-ok]");
+    if (okBloco) {
+      const blocoId = okBloco.dataset.cognitivoBlocoOk;
+      const root = cognitivoSessaoRoot;
+      let extra = {};
+      if (blocoId === "aprendizagem") {
+        const txt = root?.querySelector("[data-cognitivo-rascunho='aprendizagem']")?.value || "";
+        salvarRascunhoBloco(dadosCognitivo, "aprendizagem", txt);
+      }
+      if (blocoId === "explicacao") {
+        extra.textoExplicacao = root?.querySelector("[data-cognitivo-rascunho='explicacao']")?.value || "";
+        extra.tituloConhecimento = root?.querySelector("[data-cognitivo-conhecimento-titulo]")?.value || "";
+      }
+      finalizarBlocoCognitivo(blocoId, extra);
+    }
+  });
+
+  document.addEventListener("submit", (evento) => {
+    const formObj = evento.target.closest("[data-cognitivo-objetivo]");
+    if (formObj) {
+      evento.preventDefault();
+      const objetivo = formObj.objetivo?.value || "";
+      const area = formObj.area?.value || dadosCognitivo.areaFoco;
+      dadosCognitivo = definirObjetivoCognitivo(dadosCognitivo, objetivo);
+      dadosCognitivo.areaFoco = area;
+      salvarCognitivo(dadosCognitivo);
+      desenharMindosCognitivo();
+      desenharMindosHoje();
+      mostrarFeedback(t("cognitivo.objetivo.salvar") + " ✓");
+      return;
+    }
+
+    const formBloco = evento.target.closest("[data-cognitivo-bloco]");
+    if (!formBloco || !cognitivoSessaoRoot?.contains(formBloco)) return;
+    evento.preventDefault();
+    const blocoId = formBloco.dataset.cognitivoBloco;
+
+    if (blocoId === "raciocinio") {
+      const { acertos, total } = processarFormRaciocinio(formBloco);
+      finalizarBlocoCognitivo("raciocinio", { acertos, total });
+      return;
+    }
+
+    if (blocoId === "reflexao") {
+      const reflexao = {};
+      formBloco.querySelectorAll("[data-cognitivo-reflexao]").forEach((el) => {
+        reflexao[el.dataset.cognitivoReflexao] = el.value;
+      });
+      finalizarBlocoCognitivo("reflexao", { reflexao });
+    }
+  });
+
+  cognitivoSessaoRoot?.addEventListener("input", (evento) => {
+    const campo = evento.target.closest("[data-cognitivo-rascunho]");
+    if (!campo) return;
+    salvarRascunhoBloco(dadosCognitivo, campo.dataset.cognitivoRascunho, campo.value);
+    salvarCognitivo(dadosCognitivo);
+  });
+}
+
 function desenharMindosEstudo() {
+  desenharMindosCognitivo();
   if (!mindosEstudoRoot) return;
   dadosEstudo = resetSessaoSeNovoDia(dadosEstudo, hojeStr());
   mindosEstudoRoot.innerHTML = htmlMindosEstudo(dadosEstudo);
@@ -4394,6 +4571,8 @@ export function initApp() {
   ligarTodosEventos();
   ligarMindosHoje();
   ligarMindosEstudo();
+  ligarCognitivo();
+  sincronizarObjetivoCognitivoInbox();
   definirCallbackIdioma(() => aplicarIdiomaApp());
   aplicarIdiomaApp();
   window.initHabitosSync?.();

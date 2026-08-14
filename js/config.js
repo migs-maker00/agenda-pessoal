@@ -1,5 +1,5 @@
 /** Versão do app — usada para cache-bust de CSS/JS no index.html */
-export const APP_VERSION = "2.32.2";
+export const APP_VERSION = "2.33.0";
 
 /** URL principal no Vercel (app + APIs de IA). */
 export const APP_URL_VERCEL = "https://projeto-1-criar.vercel.app";
