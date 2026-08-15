@@ -1,7 +1,7 @@
 /**
  * Ponto de entrada do app — expõe API para sync.js e inicializa a UI.
  */
-import { APP_VERSION } from "./config.js?v=2.34.3";
+import { APP_VERSION } from "./config.js?v=2.34.5";
 
 const CHAVE_VERSAO_LOCAL = "app-versao-carregada";
 const CHAVE_TENTOU_RECUPERAR = "app-tentou-recuperar-cache";
@@ -59,6 +59,13 @@ function ligarRecargaControladaSW() {
 
 async function configurarServiceWorker() {
   if (!("serviceWorker" in navigator)) return null;
+
+  const ehLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+  if (ehLocal) {
+    await removerServiceWorkers();
+    await limparCachesAntigos();
+    return null;
+  }
 
   ligarRecargaControladaSW();
 

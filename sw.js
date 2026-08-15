@@ -1,7 +1,7 @@
 /* Service worker — lembretes agendados + cache offline (PWA) */
 
-const CACHE = "north-v2.34.3";
-const APP_VERSION = "2.34.3";
+const CACHE = "north-v2.34.5";
+const APP_VERSION = "2.34.5";
 
 const alarmes = new Map();
 
@@ -41,6 +41,7 @@ const LIBS = [
   "mindos-rotina",
   "mindos-semana",
   "modo-barulho",
+  "north-caminho",
   "north-home",
   "north",
   "north-convite",
@@ -77,6 +78,7 @@ function urlsPrecache() {
     "./firebase-config.js",
     "./manifest.webmanifest",
     "./icon.svg",
+    "./north-mark.png",
     "./icon-192.png",
     "./icon-512.png",
     "./favicon-32.png",
@@ -129,12 +131,6 @@ async function cacheFirstComAtualizacao(request) {
 
 async function navegacaoOffline(request) {
   const indexReq = new Request(urlAbs("./index.html"));
-  const cached = (await matchCache(request)) || (await matchCache(indexReq));
-
-  if (cached) {
-    atualizarCacheEmSegundoPlano(request);
-    return cached;
-  }
 
   try {
     const response = await fetch(request);
@@ -145,6 +141,8 @@ async function navegacaoOffline(request) {
     }
     return response;
   } catch {
+    const cached = (await matchCache(request)) || (await matchCache(indexReq));
+    if (cached) return cached;
     return respostaOfflineMinima();
   }
 }

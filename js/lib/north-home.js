@@ -2,6 +2,7 @@
 
 import { t } from "./i18n.js";
 import { normalizarEstadoGps, ESTADOS_GPS } from "./mindos-estado.js";
+import { htmlCaminhoNorth } from "./north-caminho.js";
 
 function esc(s) {
   return String(s)
@@ -84,6 +85,26 @@ function classificarPasso(habito, passoCognitivo) {
   };
 }
 
+function htmlEstadoBarra(estadoAtual) {
+  const opcoes = ESTADOS_GPS.map((id) => {
+    const ativo = estadoAtual === id ? " north-estado-opcao--ativo" : "";
+    const emoji = t(`north.estado.${id}.emoji`);
+    return `
+      <button type="button" class="north-estado-opcao north-estado-opcao--barra${ativo}" data-north-estado="${id}" aria-pressed="${estadoAtual === id}">
+        <span class="north-estado-emoji" aria-hidden="true">${emoji}</span>
+        <span class="north-estado-label">${esc(t(`north.estado.${id}`))}</span>
+      </button>`;
+  }).join("");
+
+  return `
+    <div class="north-estado-barra">
+      <p class="north-estado-barra-rotulo">${esc(t("north.estado.trocar"))}</p>
+      <div class="north-estado-grid north-estado-grid--barra" role="group" aria-label="${esc(t("north.estado.aria"))}">
+        ${opcoes}
+      </div>
+    </div>`;
+}
+
 function htmlEstadoPicker(estadoAtual) {
   const opcoes = ESTADOS_GPS.map((id) => {
     const ativo = estadoAtual === id ? " north-estado-opcao--ativo" : "";
@@ -97,7 +118,6 @@ function htmlEstadoPicker(estadoAtual) {
 
   return `
     <div class="north-home north-home--estado" data-north-fase="estado">
-      <div class="north-core north-core--idle" aria-hidden="true" title="North Core"><span class="north-core-glow"></span></div>
       <p class="north-hora">${esc(horaAtual())}</p>
       <h2 class="north-pergunta">${esc(t("north.pergunta"))}</h2>
       <div class="north-estado-grid" role="group" aria-label="${esc(t("north.estado.aria"))}">
@@ -107,14 +127,15 @@ function htmlEstadoPicker(estadoAtual) {
     </div>`;
 }
 
-function htmlDirecao({ estado, passo, depois, timerAtivo, timerTexto, concluido = false }) {
+function htmlDirecao({ estado, passo, depois, timerAtivo, timerTexto, concluido = false, caminho = null }) {
   const gps = normalizarEstadoGps(estado);
-  const coreClass = `north-core north-core--${gps}`;
+  const estadoBar = htmlEstadoBarra(gps);
+  const caminhoHtml = caminho ? htmlCaminhoNorth(caminho) : "";
 
   if (concluido) {
     return `
-      <div class="north-home north-home--feito" data-north-fase="feito">
-        <div class="${coreClass}" aria-hidden="true"><span class="north-core-glow"></span></div>
+      <div class="north-home north-home--feito" data-north-fase="feito" data-north-estado-atual="${esc(gps)}">
+        ${estadoBar}
         <h2 class="north-feito-titulo">${esc(t("north.feito"))}</h2>
         <p class="north-feito-apoio">${esc(t("north.feito.apoio"))}</p>
         <p class="north-feito-proximo">${esc(t("north.feito.proximo"))}</p>
@@ -125,11 +146,12 @@ function htmlDirecao({ estado, passo, depois, timerAtivo, timerTexto, concluido 
 
   if (!passo) {
     return `
-      <div class="north-home north-home--livre" data-north-fase="livre">
-        <div class="${coreClass}" aria-hidden="true"><span class="north-core-glow"></span></div>
+      <div class="north-home north-home--livre" data-north-fase="livre" data-north-estado-atual="${esc(gps)}">
+        ${estadoBar}
+        ${caminhoHtml}
+        <p class="north-hora">${esc(horaAtual())}</p>
         <p class="north-transicao">${esc(t("north.transicao"))}</p>
         <p class="north-livre">${esc(t("north.livre"))}</p>
-        <button type="button" class="north-cta north-cta--secundario" data-north-reset-estado>${esc(t("north.estado.trocar"))}</button>
       </div>`;
   }
 
@@ -149,8 +171,9 @@ function htmlDirecao({ estado, passo, depois, timerAtivo, timerTexto, concluido 
       : `data-north-comecar="${passo.virtual ? "virtual" : passo.habitoId}" data-north-minutos="${passo.minutos}"`;
 
   return `
-    <div class="north-home north-home--direcao" data-north-fase="direcao" data-north-estado="${esc(gps)}">
-      <div class="${coreClass}" aria-hidden="true"><span class="north-core-glow"></span></div>
+    <div class="north-home north-home--direcao" data-north-fase="direcao" data-north-estado-atual="${esc(gps)}">
+      ${estadoBar}
+      ${caminhoHtml}
       <p class="north-hora">${esc(horaAtual())}</p>
       <p class="north-transicao">${esc(t("north.transicao"))}</p>
       <p class="north-foco-rotulo">${esc(t("north.foco.rotulo"))}</p>
@@ -164,7 +187,6 @@ function htmlDirecao({ estado, passo, depois, timerAtivo, timerTexto, concluido 
       ${timerHtml}
       <button type="button" class="north-cta north-cta--primario" ${dataComecar}>${esc(t("north.comecar"))}</button>
       ${depoisHtml}
-      <button type="button" class="north-link north-estado-trocar" data-north-reset-estado>${esc(t("north.estado.trocar"))}</button>
     </div>`;
 }
 
@@ -177,6 +199,7 @@ export function htmlNorthHome({
   timerTexto,
   concluido = false,
   priorizarCognitivo = true,
+  caminho = null,
 }) {
   const estado = normalizarEstadoGps(estadoMental);
 
@@ -194,6 +217,7 @@ export function htmlNorthHome({
     timerAtivo,
     timerTexto,
     concluido,
+    caminho,
   });
 }
 
@@ -215,7 +239,7 @@ export function htmlMemoriaHub() {
     { painel: "diario", emoji: "✎", titulo: "north.memoria.diario", apoio: "north.memoria.diario.apoio" },
     { painel: "semana", emoji: "→", titulo: "north.memoria.direcao", apoio: "north.memoria.direcao.apoio" },
     { painel: "insights", emoji: "◐", titulo: "north.memoria.continuidade", apoio: "north.memoria.continuidade.apoio" },
-    { painel: "rotina", emoji: "◎", titulo: "north.memoria.ritmo", apoio: "north.memoria.ritmo.apoio" },
+    { painel: "rotina", emoji: "◎", titulo: "north.memoria.cultivos", apoio: "north.memoria.cultivos.apoio" },
   ];
 
   const cards = itens

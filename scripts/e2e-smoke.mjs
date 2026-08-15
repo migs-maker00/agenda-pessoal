@@ -86,6 +86,10 @@ async function main() {
     if (marca?.includes("North")) ok("Marca North visível", marca.trim());
     else fail("Marca North visível", marca || "vazio");
 
+    const logo = await page.locator(".north-logo").count();
+    if (logo > 0) ok("Logo North no cabeçalho");
+    else fail("Logo North no cabeçalho", "img ausente");
+
     const titulo = await page.locator("h1.titulo-dia").textContent();
 
     if (titulo?.includes("North") || titulo?.includes("Now")) ok("Título North visível", titulo.trim());
@@ -98,13 +102,37 @@ async function main() {
     if (mindosHoje > 0) ok("North Home renderiza");
     else fail("North Home renderiza", "conteúdo vazio");
 
-    const estadoBtn = page.locator('[data-north-estado="normal"]').first();
+    const estadoBtn = page.locator('button[data-north-estado="normal"]').first();
     if ((await estadoBtn.count()) > 0) {
       await estadoBtn.click();
       await page.waitForTimeout(400);
       const direcao = await page.locator(".north-home--direcao, .north-foco-card, .north-home--livre").count();
       if (direcao > 0) ok("Estado → direção", "transição ok");
       else fail("Estado → direção", "sem tela de foco");
+
+      const caminho = await page.locator(".north-caminho-titulo").count();
+      if (caminho > 0) ok("Caminho inteligente renderiza", "guia visível");
+      else fail("Caminho inteligente renderiza", "sem guia");
+
+      const chipFocado = page.locator('button[data-north-estado="focado"]').first();
+      if ((await chipFocado.count()) > 0) {
+        await chipFocado.click();
+        await page.waitForTimeout(400);
+        const ativo = await page.locator(".north-estado-opcao--ativo[data-north-estado=\"focado\"]").count();
+        if (ativo > 0) ok("Trocar estado (barra)", "focado ativo");
+        else fail("Trocar estado (barra)", "estado não atualizou");
+      } else {
+        fail("Trocar estado (barra)", "grade ausente");
+      }
+
+      const comecarBtn = page.locator("[data-north-comecar]").first();
+      if ((await comecarBtn.count()) > 0) {
+        await comecarBtn.click();
+        await page.waitForTimeout(400);
+        const focus = await page.locator("#north-focus, .north-focus-inner").count();
+        if (focus > 0) ok("Começar abre foco", "CTA funciona");
+        else fail("Começar abre foco", "focus mode não abriu");
+      }
     } else {
       ok("Estado GPS (já escolhido hoje)", "pulando picker");
     }
@@ -141,10 +169,10 @@ async function main() {
 
     await abrirMemoriaPainel("rotina");
 
-    const rotinaMindos = await page.locator("#mindos-rotina .mindos-sec-rotulo").textContent();
+    const rotinaMindos = await page.locator("#mindos-rotina .north-caminho-titulo").textContent();
 
-    if (rotinaMindos?.includes("Ritmo")) ok("North Ritmo renderiza", rotinaMindos.trim());
-    else fail("North Ritmo renderiza", rotinaMindos || "vazio");
+    if (rotinaMindos?.trim()) ok("North Cultivos renderiza", rotinaMindos.trim());
+    else fail("North Cultivos renderiza", rotinaMindos || "vazio");
 
     await abrirMemoriaPainel("semana");
 
@@ -175,7 +203,7 @@ async function main() {
     const comecar = page.locator("[data-north-comecar]");
     if ((await comecar.count()) > 0) ok("North recomenda próximo passo", "CTA visível");
     else {
-      const estado = page.locator('[data-north-estado="normal"]').first();
+      const estado = page.locator('button[data-north-estado="normal"]').first();
       if ((await estado.count()) > 0) {
         await estado.click();
         await page.waitForTimeout(400);
@@ -245,6 +273,8 @@ async function main() {
 
     await page.waitForTimeout(2000);
 
+    const ehLocal = BASE.includes("localhost") || BASE.includes("127.0.0.1");
+
     const swReg = await page.evaluate(async () => {
 
       if (!("serviceWorker" in navigator)) return { supported: false };
@@ -255,38 +285,37 @@ async function main() {
 
     });
 
-    if (swReg.supported && swReg.active) ok("Service Worker ativo", swReg.scope || "");
-
+    if (ehLocal) {
+      if (!swReg.active) ok("Service Worker desligado no localhost (dev)", "arquivos sempre frescos");
+      else fail("Service Worker desligado no localhost (dev)", "SW ainda ativo");
+    } else if (swReg.supported && swReg.active) ok("Service Worker ativo", swReg.scope || "");
     else fail("Service Worker ativo", JSON.stringify(swReg));
 
+    if (ehLocal) {
+      ok("Offline (localhost)", "pulando — SW desligado em dev");
+    } else {
+      await context.setOffline(true);
 
+      await page.reload({ waitUntil: "domcontentloaded", timeout: 30000 });
 
-    await context.setOffline(true);
+      await page.waitForTimeout(1500);
 
-    await page.reload({ waitUntil: "domcontentloaded", timeout: 30000 });
+      const offlineTitulo = await page.locator("h1.titulo-dia").textContent();
 
-    await page.waitForTimeout(1500);
+      if (offlineTitulo?.trim()) ok("App funciona offline (reload)", offlineTitulo.trim());
+      else fail("App funciona offline (reload)", "página não carregou");
 
-    const offlineTitulo = await page.locator("h1.titulo-dia").textContent();
+      await abrirMemoriaPainel("rotina");
 
-    if (offlineTitulo?.trim()) ok("App funciona offline (reload)", offlineTitulo.trim());
+      await page.waitForTimeout(500);
 
-    else fail("App funciona offline (reload)", "página não carregou");
+      const rotinaVisivel = await page.locator("#painel-rotina").getAttribute("hidden");
 
+      if (rotinaVisivel === null) ok("Navegação offline (Ritmo via Memória)");
+      else fail("Navegação offline (Ritmo via Memória)");
 
-
-    await abrirMemoriaPainel("rotina");
-
-    await page.waitForTimeout(500);
-
-    const rotinaVisivel = await page.locator("#painel-rotina").getAttribute("hidden");
-
-    if (rotinaVisivel === null) ok("Navegação offline (Ritmo via Memória)");
-    else fail("Navegação offline (Ritmo via Memória)");
-
-
-
-    await context.setOffline(false);
+      await context.setOffline(false);
+    }
 
 
 

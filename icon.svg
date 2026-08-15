@@ -1,5 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="North">
-  <rect width="512" height="512" rx="112" fill="#1b365d"/>
-  <circle cx="256" cy="256" r="88" fill="#e8dfd1"/>
-  <circle cx="256" cy="256" r="36" fill="#1b365d"/>
+  <defs>
+    <radialGradient id="halo" cx="42%" cy="38%" r="52%">
+      <stop offset="0%" stop-color="#d8cfc0" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#c4b5a0" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#c4b5a0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb" cx="44%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#d4c8b8"/>
+      <stop offset="100%" stop-color="#b8a99a"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#ebe6dc"/>
+  <circle cx="256" cy="248" r="148" fill="url(#halo)"/>
+  <circle cx="256" cy="248" r="88" fill="url(#orb)"/>
 </svg>
