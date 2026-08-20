@@ -66,6 +66,21 @@ body.north-app .app.app--north-gps {
   color: var(--north-text);
 }
 
+.north-marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.north-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
 .app--north-gps .north-slogan-header {
   display: block;
   margin: 4px 0 0;
@@ -214,6 +229,170 @@ body.north-app .app.app--north-gps {
   font-family: var(--north-font);
   font-size: 0.82rem;
   font-weight: 500;
+}
+
+.north-estado-compacto {
+  display: none;
+}
+
+.north-estado-barra {
+  width: 100%;
+  max-width: 420px;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+
+.north-estado-barra-rotulo {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--north-muted);
+}
+
+.north-estado-grid--barra {
+  max-width: 100%;
+}
+
+.north-estado-opcao--barra {
+  padding: 12px 8px;
+}
+
+/* Caminho — o guia inteligente do momento */
+.north-caminho {
+  width: 100%;
+  max-width: 520px;
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  text-align: center;
+  padding: 22px 18px;
+  border: 1px solid #26262a;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #141417 0%, #0e0e10 100%);
+}
+
+.north-caminho-kicker {
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--north-accent);
+}
+
+.north-caminho-titulo {
+  margin: 0;
+  font-family: var(--north-font);
+  font-size: clamp(1.3rem, 4vw, 1.7rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--north-text);
+}
+
+.north-caminho-mensagem {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--north-text);
+  max-width: 44ch;
+}
+
+.north-caminho-convite {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--north-muted);
+  max-width: 44ch;
+}
+
+.north-caminho-cultivos {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.north-caminho-cultivo {
+  font-size: 0.72rem;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid #2e2e33;
+  color: var(--north-muted);
+}
+
+.north-caminho-cultivo--conhecimento {
+  border-color: color-mix(in srgb, var(--north-accent) 55%, transparent);
+  color: var(--north-accent);
+}
+
+.north-caminho-emocional {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--north-muted);
+}
+
+.north-caminho--acolher {
+  background: linear-gradient(180deg, #17141a 0%, #0e0e10 100%);
+}
+
+.north-caminho--descansar {
+  background: linear-gradient(180deg, #121419 0%, #0e0e10 100%);
+}
+
+.north-caminho--aprender {
+  border-color: color-mix(in srgb, var(--north-accent) 30%, #26262a);
+}
+
+.mindos-cultivos-mais {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: var(--north-muted);
+}
+
+.mindos-cultivos-mais summary {
+  cursor: pointer;
+}
+
+.north-estado-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border: 1px solid #2a2a2e;
+  border-radius: 999px;
+  background: var(--north-surface);
+  color: var(--north-muted);
+  font-family: var(--north-font);
+  font-size: 0.72rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
+}
+
+.north-estado-chip:hover {
+  border-color: #3a3a40;
+  color: var(--north-text);
+}
+
+.north-estado-chip--ativo {
+  border-color: var(--north-accent);
+  color: var(--north-text);
+  background: #1c1c1f;
+}
+
+.north-estado-chip-label {
+  display: none;
+}
+
+@media (min-width: 520px) {
+  .north-estado-chip-label {
+    display: inline;
+  }
 }
 
 /* North Core — pulso do sistema (não é botão) */
@@ -658,49 +837,19 @@ body.north-focus-aberto {
 @media (min-width: 900px) {
   .north-home--direcao {
     width: 100%;
-    max-width: 960px;
+    max-width: 720px;
     margin: 0 auto;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto auto;
-    column-gap: clamp(32px, 6vw, 80px);
-    row-gap: 12px;
-    align-items: center;
+    display: grid;
+    gap: 16px;
     justify-items: center;
   }
 
-  .north-home--direcao .north-core {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-    margin-bottom: 0;
-  }
-
-  .north-home--direcao .north-hora,
-  .north-home--direcao .north-transicao,
-  .north-home--direcao .north-foco-rotulo {
-    grid-column: 1;
-  }
-
-  .north-home--direcao .north-foco-card {
-    grid-column: 2;
-    grid-row: 1 / span 4;
-    align-self: center;
-    max-width: none;
-    width: 100%;
-  }
-
-  .north-home--direcao .north-timer-ativo {
-    grid-column: 1;
-  }
-
-  .north-home--direcao .north-cta--primario {
-    grid-column: 2;
-    grid-row: 5;
+  .north-home--direcao .north-estado-barra {
     max-width: 100%;
   }
 
-  .north-home--direcao .north-depois,
-  .north-home--direcao .north-estado-trocar {
-    grid-column: 1 / -1;
+  .north-home--direcao .north-foco-card {
+    max-width: 420px;
   }
 }
 

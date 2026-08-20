@@ -4,8 +4,8 @@
   "description": "Te dá direção — corpo, mente e conhecimento, sem peso na cabeça.",
   "start_url": "./?painel=hoje",
   "display": "standalone",
-  "background_color": "#e8dfd1",
-  "theme_color": "#1b365d",
+  "background_color": "#ebe6dc",
+  "theme_color": "#b8a99a",
   "permissions": ["notifications"],
   "icons": [
     {
