@@ -125,6 +125,20 @@ async function main() {
         fail("Trocar estado (barra)", "grade ausente");
       }
 
+      // Passo 1: memória de padrões — escolher/trocar estado deve gravar histórico local.
+      const aprende = await page.evaluate(() => {
+        try {
+          return JSON.parse(localStorage.getItem("north-aprende-v1") || "null");
+        } catch {
+          return null;
+        }
+      });
+      if (aprende?.estados && Object.keys(aprende.estados).length > 0) {
+        ok("Memória de padrões grava estado", "north-aprende-v1 populado");
+      } else {
+        fail("Memória de padrões grava estado", JSON.stringify(aprende));
+      }
+
       const comecarBtn = page.locator("[data-north-comecar]").first();
       if ((await comecarBtn.count()) > 0) {
         await comecarBtn.click();

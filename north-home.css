@@ -281,6 +281,15 @@ body.north-app .app.app--north-gps {
   color: var(--north-accent);
 }
 
+.north-caminho-reconhecimento {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--north-muted);
+  font-style: italic;
+  max-width: 42ch;
+}
+
 .north-caminho-titulo {
   margin: 0;
   font-family: var(--north-font);
