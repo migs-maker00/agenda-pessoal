@@ -1,5 +1,5 @@
 /** Versão do app — usada para cache-bust de CSS/JS no index.html */
-export const APP_VERSION = "2.36.0";
+export const APP_VERSION = "2.37.0";
 
 /** URL principal no Vercel (app + APIs de IA). */
 export const APP_URL_VERCEL = "https://projeto-1-criar.vercel.app";
@@ -12,6 +12,7 @@ export const NEURO_IA_API_URL = "/api/neuro-feedback";
 export const CONTEXTO_IA_API_URL = "/api/contexto-sugestao";
 export const DIARIO_IA_API_URL = "/api/diario-resumo";
 export const SEMANA_IA_API_URL = "/api/semana-agente";
+export const NORTH_CAMINHO_IA_API_URL = "/api/north-caminho";
 
 let iaVercelOk = null;
 
