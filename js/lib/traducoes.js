@@ -440,6 +440,9 @@ export const TRADUCOES = {
     "north.caminho.hoje.mensagem": "Estamos na {{faixa}}. Nem todo dia pede a mesma coisa.",
     "north.caminho.hoje.foco": "Agora faz sentido: {{passo}}.",
     "north.caminho.hoje.convite": "Um passo por vez — sem plano perfeito.",
+    "north.caminho.reconhecimento.diaPesado": "Esse dia costuma pesar pra você. Vamos leves.",
+    "north.caminho.reconhecimento.diaForte": "Você costuma render bem hoje. Bom momento pra avançar.",
+    "north.caminho.reconhecimento.ajusteDescanso": "A esta hora, aprender raramente cola. Melhor descansar.",
     "mindos.cultivos.rodape": "Isto não é uma rotina. É a direção que você escolheu.",
     "mindos.cultivos.mais": "Ajustar meus cultivos",
     "mindos.cultivos.mais.apoio":
@@ -1071,6 +1074,9 @@ export const TRADUCOES = {
     "north.caminho.hoje.mensagem": "We're in the {{faixa}}. Not every day asks for the same thing.",
     "north.caminho.hoje.foco": "This makes sense now: {{passo}}.",
     "north.caminho.hoje.convite": "One step at a time — no perfect plan.",
+    "north.caminho.reconhecimento.diaPesado": "This day tends to weigh on you. Let's go easy.",
+    "north.caminho.reconhecimento.diaForte": "You usually do well today. A good moment to move forward.",
+    "north.caminho.reconhecimento.ajusteDescanso": "At this hour, learning rarely sticks. Better to rest.",
     "mindos.cultivos.rodape": "This is not a routine. It's the direction you chose.",
     "mindos.cultivos.mais": "Adjust my cultivations",
     "mindos.cultivos.mais.apoio":

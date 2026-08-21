@@ -40,8 +40,50 @@ function blocoCognitivoRotulo(blocoId) {
 }
 
 /**
+ * Ajusta o caminho decidido pela regra ao seu histórico local (Passo 1).
+ * Não inventa urgência nem culpa: só evita insistir no que raramente cola e
+ * reconhece, com calma, um padrão forte do dia.
+ */
+function aplicarHistorico(base, { estado, faixa, diaSemana, historico }) {
+  if (!historico) return base;
+
+  let resultado = base;
+
+  // Desvio suave: aprender que quase nunca é concluído nesta faixa vira descansar.
+  const conclusao = historico.conclusaoPorCaminho?.[`${base.tipo}|${faixa}`];
+  if (
+    base.tipo === "aprender" &&
+    conclusao &&
+    conclusao.amostras >= 3 &&
+    conclusao.taxa <= 0.2
+  ) {
+    resultado = {
+      ...base,
+      tipo: "descansar",
+      titulo: t("north.caminho.descansar.titulo"),
+      mensagem: t("north.caminho.descansar.mensagem", { faixa: base.faixaLabel }),
+      convite: t("north.caminho.descansar.convite"),
+      reconhecimento: t("north.caminho.reconhecimento.ajusteDescanso"),
+    };
+  }
+
+  // Reconhecimento calmo quando o dia costuma chegar com o mesmo estado.
+  const tipicoHoje = historico.estadoTipicoPorDia?.[String(diaSemana)];
+  if (tipicoHoje && tipicoHoje === estado && !resultado.reconhecimento) {
+    if (estado === "sobrecarregado") {
+      resultado = { ...resultado, reconhecimento: t("north.caminho.reconhecimento.diaPesado") };
+    } else if (estado === "focado") {
+      resultado = { ...resultado, reconhecimento: t("north.caminho.reconhecimento.diaForte") };
+    }
+  }
+
+  return resultado;
+}
+
+/**
  * Decide o "caminho" do momento — aprender, descansar, mover, acolher, organizar.
- * Usa estado GPS, horário, prioridades de vida e passo cognitivo.
+ * Usa estado GPS, horário, prioridades de vida, passo cognitivo e o histórico
+ * local de padrões (quando fornecido).
  */
 export function calcularCaminhoNorth({
   estadoMental = "",
@@ -49,12 +91,15 @@ export function calcularCaminhoNorth({
   perfil = carregarPerfil(),
   passoCognitivo = null,
   focoNome = "",
+  historico = null,
 } = {}) {
   const estado = normalizarEstadoGps(estadoMental);
   const faixa = faixaDoDia(data);
+  const diaSemana = data.getDay();
   const cultivos = mapearPrioridades(perfil.prioridadesVida);
   const cultivoEmocional = escolherCultivoEmocional(estado);
   const faixaLabel = rotuloFaixa(faixa);
+  const comHistorico = (base) => aplicarHistorico(base, { estado, faixa, diaSemana, historico });
 
   if (!estado) {
     return {
@@ -70,7 +115,7 @@ export function calcularCaminhoNorth({
   }
 
   if (estado === "sobrecarregado") {
-    return {
+    return comHistorico({
       tipo: "acolher",
       titulo: t("north.caminho.acolher.titulo"),
       mensagem: t("north.caminho.acolher.mensagem"),
@@ -79,11 +124,11 @@ export function calcularCaminhoNorth({
       cultivoEmocional,
       faixa,
       faixaLabel,
-    };
+    });
   }
 
   if (faixa === "madrugada" || (faixa === "noite" && data.getHours() >= 22)) {
-    return {
+    return comHistorico({
       tipo: "descansar",
       titulo: t("north.caminho.descansar.titulo"),
       mensagem: t("north.caminho.descansar.mensagem", { faixa: faixaLabel }),
@@ -92,12 +137,12 @@ export function calcularCaminhoNorth({
       cultivoEmocional,
       faixa,
       faixaLabel,
-    };
+    });
   }
 
   if (estado === "focado" && passoCognitivo?.bloco) {
     const bloco = blocoCognitivoRotulo(passoCognitivo.bloco.id);
-    return {
+    return comHistorico({
       tipo: "aprender",
       titulo: t("north.caminho.aprender.titulo"),
       mensagem: t("north.caminho.aprender.mensagem", { bloco }),
@@ -107,12 +152,12 @@ export function calcularCaminhoNorth({
       faixa,
       faixaLabel,
       blocoId: passoCognitivo.bloco.id,
-    };
+    });
   }
 
   const cultivoConhecimento = cultivos.find((c) => c.eixo === "conhecimento");
   if ((estado === "focado" || estado === "bem") && (cultivoConhecimento || passoCognitivo)) {
-    return {
+    return comHistorico({
       tipo: "aprender",
       titulo: t("north.caminho.aprender.titulo"),
       mensagem: cultivoConhecimento
@@ -125,11 +170,11 @@ export function calcularCaminhoNorth({
       cultivoEmocional,
       faixa,
       faixaLabel,
-    };
+    });
   }
 
   if (/academia|treino|corrida|gym|jiu|corpo/i.test(focoNome)) {
-    return {
+    return comHistorico({
       tipo: "mover",
       titulo: t("north.caminho.mover.titulo"),
       mensagem: t("north.caminho.mover.mensagem"),
@@ -138,11 +183,11 @@ export function calcularCaminhoNorth({
       cultivoEmocional,
       faixa,
       faixaLabel,
-    };
+    });
   }
 
   if (estado === "normal" && faixa === "tarde") {
-    return {
+    return comHistorico({
       tipo: "organizar",
       titulo: t("north.caminho.organizar.titulo"),
       mensagem: t("north.caminho.organizar.mensagem"),
@@ -151,10 +196,10 @@ export function calcularCaminhoNorth({
       cultivoEmocional,
       faixa,
       faixaLabel,
-    };
+    });
   }
 
-  return {
+  return comHistorico({
     tipo: "organizar",
     titulo: t("north.caminho.hoje.titulo"),
     mensagem: t("north.caminho.hoje.mensagem", { faixa: faixaLabel }),
@@ -165,7 +210,7 @@ export function calcularCaminhoNorth({
     cultivoEmocional,
     faixa,
     faixaLabel,
-  };
+  });
 }
 
 export function htmlCaminhoNorth(caminho) {
@@ -188,9 +233,14 @@ export function htmlCaminhoNorth(caminho) {
         </ul>`
       : "";
 
+  const reconhecimentoHtml = caminho.reconhecimento
+    ? `<p class="north-caminho-reconhecimento">${esc(caminho.reconhecimento)}</p>`
+    : "";
+
   return `
     <section class="north-caminho north-caminho--${esc(caminho.tipo)}" aria-label="${esc(t("north.caminho.aria"))}">
       <p class="north-caminho-kicker">${esc(t("north.caminho.kicker"))}</p>
+      ${reconhecimentoHtml}
       <h2 class="north-caminho-titulo">${esc(caminho.titulo)}</h2>
       <p class="north-caminho-mensagem">${esc(caminho.mensagem)}</p>
       <p class="north-caminho-convite">${esc(caminho.convite)}</p>
