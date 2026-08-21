@@ -40,3 +40,7 @@ export async function pedirResumoDiario(texto, revisao) {
 export async function pedirPlanoSemana(stats, padroes) {
   return postApi("/api/semana-agente", { stats, padroes, perfil: perfilIa() });
 }
+
+export async function pedirCaminhoNorth(payload) {
+  return postApi("/api/north-caminho", { ...payload, perfil: perfilIa() });
+}

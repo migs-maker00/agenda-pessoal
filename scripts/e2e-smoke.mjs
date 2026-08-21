@@ -297,18 +297,19 @@ async function main() {
 
 
 
-    for (const path of ["/api/neuro-feedback", "/api/diario-resumo", "/api/semana-agente", "/api/contexto-sugestao"]) {
+    for (const path of ["/api/neuro-feedback", "/api/diario-resumo", "/api/semana-agente", "/api/contexto-sugestao", "/api/north-caminho"]) {
 
       const res = await page.evaluate(async (url) => {
-
-        const r = await fetch(url);
-
-        return { status: r.status, body: await r.json() };
-
+        try {
+          const r = await fetch(url);
+          const body = await r.json().catch(() => ({}));
+          return { status: r.status, body };
+        } catch (err) {
+          return { status: 0, body: { erro: String(err?.message || err) } };
+        }
       }, `${API}${path}`);
 
-      if (res.status === 200 && res.body?.ia === "groq") ok(`API ${path}`, "ia=groq");
-
+      if (res.status === 200 && (res.body?.ia === "groq" || res.body?.ia === "gemini")) ok(`API ${path}`, `ia=${res.body.ia}`);
       else fail(`API ${path}`, JSON.stringify(res));
 
     }
