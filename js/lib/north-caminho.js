@@ -5,6 +5,18 @@ import { normalizarEstadoGps } from "./mindos-estado.js";
 import { faixaDoDia, rotuloFaixa } from "./contexto-tempo.js";
 import { carregarPerfil } from "./perfil.js";
 import { BLOCOS } from "./cognitivo-dados.js";
+import { proximaPraticaEmocional } from "./emocional-dados.js";
+import { htmlPraticaEmocionalCard } from "./mindos-emocional.js";
+
+/** Caminhos que pedem um passo emocional em vez de uma tarefa. */
+const TIPOS_EMOCIONAIS = new Set(["acolher", "descansar"]);
+
+function anexarPraticaEmocional(caminho, estado) {
+  if (!caminho || !TIPOS_EMOCIONAIS.has(caminho.tipo)) return caminho;
+  const pratica = proximaPraticaEmocional(estado);
+  if (!pratica) return caminho;
+  return { ...caminho, praticaEmocional: pratica };
+}
 
 const TIPOS = ["aprender", "descansar", "mover", "acolher", "organizar"];
 
@@ -99,7 +111,8 @@ export function calcularCaminhoNorth({
   const cultivos = mapearPrioridades(perfil.prioridadesVida);
   const cultivoEmocional = escolherCultivoEmocional(estado);
   const faixaLabel = rotuloFaixa(faixa);
-  const comHistorico = (base) => aplicarHistorico(base, { estado, faixa, diaSemana, historico });
+  const comHistorico = (base) =>
+    anexarPraticaEmocional(aplicarHistorico(base, { estado, faixa, diaSemana, historico }), estado);
 
   if (!estado) {
     return {
@@ -237,6 +250,10 @@ export function htmlCaminhoNorth(caminho) {
     ? `<p class="north-caminho-reconhecimento">${esc(caminho.reconhecimento)}</p>`
     : "";
 
+  const praticaHtml = caminho.praticaEmocional
+    ? htmlPraticaEmocionalCard(caminho.praticaEmocional)
+    : "";
+
   return `
     <section class="north-caminho north-caminho--${esc(caminho.tipo)}" aria-label="${esc(t("north.caminho.aria"))}">
       <p class="north-caminho-kicker">${esc(t("north.caminho.kicker"))}</p>
@@ -244,6 +261,7 @@ export function htmlCaminhoNorth(caminho) {
       <h2 class="north-caminho-titulo">${esc(caminho.titulo)}</h2>
       <p class="north-caminho-mensagem">${esc(caminho.mensagem)}</p>
       <p class="north-caminho-convite">${esc(caminho.convite)}</p>
+      ${praticaHtml}
       ${cultivosHtml}
       <p class="north-caminho-emocional">${esc(caminho.cultivoEmocional)}</p>
     </section>`;

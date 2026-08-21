@@ -1,16 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="North">
   <defs>
-    <radialGradient id="halo" cx="42%" cy="38%" r="52%">
-      <stop offset="0%" stop-color="#d8cfc0" stop-opacity="0.55"/>
-      <stop offset="55%" stop-color="#c4b5a0" stop-opacity="0.28"/>
+    <linearGradient id="face" x1="20%" y1="6%" x2="86%" y2="96%">
+      <stop offset="0%" stop-color="#f6eedf"/>
+      <stop offset="32%" stop-color="#d8c8ae"/>
+      <stop offset="68%" stop-color="#b9a58c"/>
+      <stop offset="100%" stop-color="#7f6d58"/>
+    </linearGradient>
+    <linearGradient id="shade" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c4b5a0"/>
+      <stop offset="100%" stop-color="#5e4f40"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fffaf2" stop-opacity="0.95"/>
+      <stop offset="42%" stop-color="#e8dfd1" stop-opacity="0.55"/>
       <stop offset="100%" stop-color="#c4b5a0" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="orb" cx="44%" cy="40%" r="50%">
-      <stop offset="0%" stop-color="#d4c8b8"/>
-      <stop offset="100%" stop-color="#b8a99a"/>
-    </radialGradient>
   </defs>
-  <rect width="512" height="512" rx="112" fill="#ebe6dc"/>
-  <circle cx="256" cy="248" r="148" fill="url(#halo)"/>
-  <circle cx="256" cy="248" r="88" fill="url(#orb)"/>
+  <rect width="512" height="512" rx="112" fill="#0a0a0b"/>
+  <!-- left stem -->
+  <path fill="url(#face)" d="M108 96h86v320H108z"/>
+  <path fill="url(#shade)" opacity="0.45" d="M176 96h18v320h-18z"/>
+  <!-- diagonal -->
+  <path fill="url(#face)" d="M176 96h92L404 416h-92z"/>
+  <!-- right stem -->
+  <path fill="url(#face)" d="M318 96h86v320h-86z"/>
+  <path fill="url(#shade)" opacity="0.35" d="M318 96h22v320h-22z"/>
+  <!-- north star -->
+  <circle cx="404" cy="108" r="52" fill="url(#halo)"/>
+  <path fill="#fff8ee" d="M404 72l9 27 28 3-22 18 7 28-22-15-22 15 7-28-22-18 28-3z"/>
+  <circle cx="126" cy="404" r="3.5" fill="#f4ead8"/>
 </svg>
