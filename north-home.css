@@ -74,11 +74,12 @@ body.north-app .app.app--north-gps {
 }
 
 .north-logo {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   flex-shrink: 0;
   object-fit: cover;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--north-accent) 28%, transparent);
 }
 
 .app--north-gps .north-slogan-header {
@@ -288,6 +289,89 @@ body.north-app .app.app--north-gps {
   color: var(--north-muted);
   font-style: italic;
   max-width: 42ch;
+}
+
+.north-caminho-emocional-card {
+  width: 100%;
+  max-width: 420px;
+  margin: 4px auto 0;
+  padding: 16px 18px;
+  border: 1px solid #2e2e33;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--north-accent) 8%, transparent);
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  text-align: center;
+}
+
+.north-caminho-emocional-rotulo {
+  margin: 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--north-accent);
+}
+
+.north-caminho-emocional-titulo {
+  margin: 0;
+  font-family: var(--north-font);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--north-text);
+}
+
+.north-caminho-emocional-texto {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--north-muted);
+  max-width: 40ch;
+}
+
+.mindos-emocional-eixos {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.mindos-emocional-eixo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border: 1px solid #2a2a2e;
+  border-radius: 12px;
+}
+
+.mindos-emocional-eixo-nome {
+  font-weight: 500;
+}
+
+.mindos-emocional-eixo-nivel {
+  font-size: 0.8rem;
+  color: var(--north-accent);
+}
+
+.mindos-emocional-proxima {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+  margin-top: 8px;
+}
+
+.mindos-emocional-pratica-titulo {
+  margin: 0;
+  font-weight: 600;
+}
+
+.mindos-emocional-pratica-texto {
+  margin: 0;
+  color: var(--north-muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
 }
 
 .north-caminho-titulo {

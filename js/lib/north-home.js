@@ -239,6 +239,7 @@ export function htmlMemoriaHub() {
     { painel: "diario", emoji: "✎", titulo: "north.memoria.diario", apoio: "north.memoria.diario.apoio" },
     { painel: "semana", emoji: "→", titulo: "north.memoria.direcao", apoio: "north.memoria.direcao.apoio" },
     { painel: "insights", emoji: "◐", titulo: "north.memoria.continuidade", apoio: "north.memoria.continuidade.apoio" },
+    { painel: "emocional", emoji: "❤", titulo: "north.memoria.emocional", apoio: "north.memoria.emocional.apoio" },
     { painel: "rotina", emoji: "◎", titulo: "north.memoria.cultivos", apoio: "north.memoria.cultivos.apoio" },
   ];
 

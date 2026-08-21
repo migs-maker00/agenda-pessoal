@@ -171,7 +171,7 @@ async function main() {
       await page.waitForTimeout(300);
     }
 
-    const abasMemoria = ["estudo", "rotina", "semana", "diario", "insights"];
+    const abasMemoria = ["estudo", "rotina", "semana", "diario", "insights", "emocional"];
 
     for (const aba of abasMemoria) {
       await abrirMemoriaPainel(aba);
@@ -179,6 +179,25 @@ async function main() {
       const hidden = await painel.getAttribute("hidden");
       if (hidden === null) ok(`Memória → ${aba} abre`);
       else fail(`Memória → ${aba} abre`, "painel ainda hidden");
+    }
+
+    // Passo 2: trilha emocional — praticar deve registrar progresso local.
+    await abrirMemoriaPainel("emocional");
+    const praticarBtn = page.locator("#mindos-emocional [data-emocional-praticar]").first();
+    if ((await praticarBtn.count()) > 0) {
+      await praticarBtn.click();
+      await page.waitForTimeout(400);
+      const emocional = await page.evaluate(() => {
+        try {
+          return JSON.parse(localStorage.getItem("emocional-v1") || "null");
+        } catch {
+          return null;
+        }
+      });
+      if (emocional?.total > 0) ok("Trilha emocional grava prática", `total=${emocional.total}`);
+      else fail("Trilha emocional grava prática", JSON.stringify(emocional));
+    } else {
+      fail("Trilha emocional grava prática", "sem botão de prática");
     }
 
     await page.click("#botao-ajustes");
