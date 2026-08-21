@@ -78,9 +78,22 @@ async function main() {
 
     await page.goto(BASE, { waitUntil: "networkidle", timeout: 30000 });
 
+    // Em produção o app pode se auto-recarregar uma vez ao detectar versão nova (SW).
+    await page
+      .locator("#mindos-hoje .north-home")
+      .first()
+      .waitFor({ state: "attached", timeout: 30000 })
+      .catch(() => {});
+
     ok("App carrega", BASE);
 
-
+    // Navegador novo em produção mostra o convite de sync — não é o alvo deste smoke.
+    await page
+      .locator("#migracao-host")
+      .evaluate((el) => {
+        el.hidden = true;
+      })
+      .catch(() => {});
 
     const marca = await page.locator(".marca").textContent();
     if (marca?.includes("North")) ok("Marca North visível", marca.trim());
